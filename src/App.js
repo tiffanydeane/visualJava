@@ -11,23 +11,11 @@ const App = () => {
 	ReactGA.send({ hitType: 'pageview', page: 'home' });
 
 	const [loading, setLoading] = useState(true);
-	const [theme, setTheme] = useState('light');
 
 	useEffect(() => {
-		const storedTheme = Cookies.get('theme');
-		if (storedTheme) {
-			setTheme(storedTheme);
-			document.body.setAttribute('data-theme', storedTheme);
-		}
 		setLoading(false);
 	}, []);
 
-	const toggleTheme = () => {
-		const newTheme = theme === 'light' ? 'dark' : 'light';
-		setTheme(newTheme);
-		Cookies.set('theme', newTheme);
-		document.body.setAttribute('data-theme', newTheme);
-	};
 
 	if (loading) {
 		return <div>.</div>;
@@ -40,14 +28,14 @@ const App = () => {
 					exact
 					path={['/', '/about']}
 					render={props => (
-						<HomeScreen {...props} theme={theme} toggleTheme={toggleTheme} />
+						<HomeScreen {...props} />
 					)}
 				/>
-				<Route
+				{/* <Route
 					render={props => (
-						<AlgoScreen {...props} theme={theme} toggleTheme={toggleTheme} />
+						<AlgoScreen {...props} />
 					)}
-				/>
+				/> */}
 			</Switch>
 		</Router>
 	);

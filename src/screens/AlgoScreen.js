@@ -1,23 +1,22 @@
 import '../css/AlgoScreen.css';
 import '../css/App.css';
 import { BsBookHalf, BsFileEarmarkCodeFill, BsFillSunFill, BsMoonFill } from 'react-icons/bs';
+import React, { useEffect, useState } from 'react';
 import AnimationManager from '../anim/AnimationMain';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import React from 'react';
 import ReactGA from 'react-ga4';
 import { algoMap } from '../AlgoList';
 import modals from '../examples/ExampleModals';
 
-class AlgoScreen extends React.Component {
-	constructor(props) {
-		super(props);
 
-		const algoName = props.location.pathname.slice(1);
-		this.canvasRef = React.createRef();
-		this.animBarRef = React.createRef();
+function AlgoScreen(props){
+		const algoName = this.props;
+		const canvasRef = React.createRef();
+		const animBarRef = React.createRef();
+
 
 		this.state = {
 			algoName: algoName,
@@ -27,9 +26,8 @@ class AlgoScreen extends React.Component {
 			pseudocodeEnabled: true,
 		};
 		ReactGA.send({ hitType: 'pageview', page: algoName });
-	}
 
-	componentDidMount() {
+	useEffect(() => {
 		if (algoMap[this.state.algoName]) {
 			this.animManag = new AnimationManager(this.canvasRef, this.animBarRef);
 
@@ -40,18 +38,20 @@ class AlgoScreen extends React.Component {
 			);
 			window.addEventListener('resize', this.updateDimensions);
 		}
-	}
 
-	componentWillUnmount() {
-		window.removeEventListener('resize', this.updateDimensions);
-	}
+		return () => {
+			window.removeEventListener('resize', this.updateDimensions);
+		}
+	}, []);
 
-	updateDimensions = () => {
+	// componentWillUnmount = () => {
+	// 	window.removeEventListener('resize', this.updateDimensions);
+	// };
+
+	const updateDimensions = () => {
 		this.animManag.changeSize(document.body.clientWidth);
 	};
 
-	render() {
-		const algoName = this.state.algoName;
 		const theme = this.props.theme;
 		const toggleTheme = this.props.toggleTheme;
 
@@ -81,7 +81,7 @@ class AlgoScreen extends React.Component {
 		return (
 			<div className="VisualizationMainPage">
 				<div id="container">
-					<div id="header">
+					{/* <div id="header">
 						<h1>
 							<Link to="/">&#x3008;</Link>&nbsp;&nbsp;
 							{isQuickSelect ? (
@@ -109,7 +109,7 @@ class AlgoScreen extends React.Component {
 								)}
 							</div>
 						</h1>
-					</div>
+					</div> */}
 
 					<div id="mainContent">
 						<div id="algoControlSection">
@@ -152,27 +152,15 @@ class AlgoScreen extends React.Component {
 							<table id="GeneralAnimationControls" ref={this.animBarRef}></table>
 						</div>
 					</div>
-
+{/* 
 					<div id="footer">
 						<p>
 							<Link to="/">Return to Home Page</Link>
 						</p>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		);
 	}
-
-	toggleExamples = () => this.setState(state => ({ examplesEnabled: !state.examplesEnabled }));
-
-	togglePseudocode = () => {
-		this.setState(state => ({ pseudocodeEnabled: !state.pseudocodeEnabled }));
-		this.animManag.toggleLayer(32);
-	};
-}
-
-AlgoScreen.propTypes = {
-	location: PropTypes.object,
-};
 
 export default AlgoScreen;

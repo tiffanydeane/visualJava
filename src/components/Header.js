@@ -5,7 +5,6 @@ import {
 	BsInfoCircleFill,
 	BsMoonFill,
 } from 'react-icons/bs';
-import Blob from './Blob';
 import { IconContext } from 'react-icons';
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -14,12 +13,9 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 class Header extends React.Component {
 	state = {
 		menuVisible: null,
-		theme: 'light',
 	};
 
 	render() {
-		const theme = this.props.theme;
-		const toggleTheme = this.props.toggleTheme;
 		const menuClass = { null: '', true: 'show', false: 'hide' };
 
 		return (
@@ -32,28 +28,6 @@ class Header extends React.Component {
 					</div>
 					<div id="title">
 						<h1>CS 1332 Data Structures and Algorithms Visualization Tool</h1>
-					</div>
-					<div className="gimmicks">
-						<div id="blob-container">
-							<Blob />
-						</div>
-						<div id="theme">
-							{theme === 'light' ? (
-								<BsFillSunFill
-									size={31}
-									onClick={toggleTheme}
-									color="#f9c333"
-									className="rotate-effect"
-								/>
-							) : (
-								<BsMoonFill
-									size={29}
-									onClick={toggleTheme}
-									color="#d4f1f1"
-									className="rotate-effect"
-								/>
-							)}
-						</div>
 					</div>
 				</div>
 				<div className={`menu ${menuClass[this.state.menuVisible]}`}>
