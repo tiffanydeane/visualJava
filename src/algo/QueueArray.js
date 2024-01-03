@@ -258,10 +258,10 @@ export default class QueueArray extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.enqueue.bind(this), pushVal);
-			highlight(14, 700);
-			sleep(700).then(() => {highlight(15, 700)});
-			sleep(700*2).then(() => {highlight(18, 700)});
-			sleep(700*3).then(() => {highlight(19, 700)});
+			highlight(14, 500);
+			sleep(500).then(() => {highlight(15, 500)});
+			sleep(500*2).then(() => {highlight(18, 500)});
+			sleep(500*3).then(() => {highlight(19, 500)});
 		} else if (
 			this.size === this.arraySize &&
 			this.enqueueField.value !== '' &&
@@ -270,22 +270,22 @@ export default class QueueArray extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.resize.bind(this), pushVal);
-			highlight(14, 700);
-			sleep(700).then(() => {highlight(15, 700)});
-			sleep(700*2).then(() => {highlight(16, 700)});
-			sleep(700*3).then(() => {highlight(33, 700)});
-			sleep(700*4).then(() => {highlight(34, 700)});
-			sleep(700*5).then(() => {highlight(36, 700)});
+			highlight(14, 500);
+			sleep(500).then(() => {highlight(15, 500)});
+			sleep(500*2).then(() => {highlight(16, 500)});
+			sleep(500*3).then(() => {highlight(33, 500)});
+			sleep(500*4).then(() => {highlight(34, 500)});
+			sleep(500*5).then(() => {highlight(36, 500)});
 			let x = -2;
 			for (let i = 0; i < this.size; i++) {
-				sleep(700*(6+(2*i))).then(() => {highlight(37, 700)});
-				sleep(700*(7+(2*i))).then(() => {highlight(36, 700)});
+				sleep(500*(6+(2*i))).then(() => {highlight(37, 500)});
+				sleep(500*(7+(2*i))).then(() => {highlight(36, 500)});
 				x += 2;
 			}
-			sleep(700*(8 + x)).then(() => {highlight(40, 700)});
-			sleep(700*(9 + x)).then(() => {highlight(41, 700)});
-			sleep(700*(10 + x)).then(() => {highlight(18, 700)});
-			sleep(700*(11+ x)).then(() => {highlight(19, 700)});
+			sleep(500*(8 + x)).then(() => {highlight(40, 500)});
+			sleep(500*(9 + x)).then(() => {highlight(41, 500)});
+			sleep(500*(10 + x)).then(() => {highlight(18, 500)});
+			sleep(500*(11+ x)).then(() => {highlight(19, 500)});
 		} else {
 			this.shake(this.enqueueButton);
 		}
@@ -294,15 +294,15 @@ export default class QueueArray extends Algorithm {
 	dequeueCallback() {
 		if (this.size !== 0) {
 			this.implementAction(this.dequeue.bind(this));
-			highlight(22, 700);
-			sleep(700).then(() => {highlight(23, 700)});
-			sleep(700*2).then(() => {highlight(10, 700)});
-			sleep(700*3).then(() => {highlight(11, 700)});
-			sleep(700*4).then(() => {highlight(26, 700)});
-			sleep(700*5).then(() => {highlight(27, 700)});
-			sleep(700*6).then(() => {highlight(28, 700)});
-			sleep(700*7).then(() => {highlight(29, 700)});
-			sleep(700*8).then(() => {highlight(30, 700)});
+			highlight(22, 500);
+			sleep(500).then(() => {highlight(23, 500)});
+			sleep(500*2).then(() => {highlight(10, 500)});
+			sleep(500*3).then(() => {highlight(11, 500)});
+			sleep(500*4).then(() => {highlight(26, 500)});
+			sleep(500*5).then(() => {highlight(27, 500)});
+			sleep(500*6).then(() => {highlight(28, 500)});
+			sleep(500*7).then(() => {highlight(29, 500)});
+			sleep(500*8).then(() => {highlight(30, 500)});
 		} else {
 			this.shake(this.dequeueButton);
 		}

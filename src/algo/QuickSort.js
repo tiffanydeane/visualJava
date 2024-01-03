@@ -330,9 +330,9 @@ export default class QuickSort extends Algorithm {
 	}
 
 	helper(left, right) {
-		sleep(700*this.x).then(() => {highlight(32, 700)});
+		sleep(500*this.x).then(() => {highlight(32, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(34, 700)});
+		sleep(500*this.x).then(() => {highlight(34, 500)});
 		this.x++;
 		if (left > right) return;
 
@@ -355,19 +355,19 @@ export default class QuickSort extends Algorithm {
 		let pivot;
 		this.highlight(1, 0);
 		this.highlight(2, 0);
-		sleep(700*this.x).then(() => {highlight(37, 700)});
+		sleep(500*this.x).then(() => {highlight(37, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(7, 700)});
+		sleep(500*this.x).then(() => {highlight(7, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(9, 700)});
+		sleep(500*this.x).then(() => {highlight(9, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(10, 700)});
+		sleep(500*this.x).then(() => {highlight(10, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(11, 700)});
+		sleep(500*this.x).then(() => {highlight(11, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(12, 700)});
+		sleep(500*this.x).then(() => {highlight(12, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(14, 700)});
+		sleep(500*this.x).then(() => {highlight(14, 500)});
 		this.x++;
 		if (this.pivotType === 'min') {
 			let min = left;
@@ -517,7 +517,7 @@ export default class QuickSort extends Algorithm {
 				);
 				this.cmd(act.step);
 			}
-			sleep(700*this.x).then(() => {highlight(15, 700)});
+			sleep(500*this.x).then(() => {highlight(15, 500)});
 			this.x++;
 			if (i <= j) {
 				this.highlight(13, 0);
@@ -528,18 +528,18 @@ export default class QuickSort extends Algorithm {
 				j--;
 				this.movePointers(i, j);
 				this.unhighlight(14, 0);
-				sleep(700*this.x).then(() => {highlight(16, 700)});
+				sleep(500*this.x).then(() => {highlight(16, 500)});
 				this.x++;
-				sleep(700*this.x).then(() => {highlight(24, 700)});
+				sleep(500*this.x).then(() => {highlight(24, 500)});
 				this.x++;
-				sleep(700*this.x).then(() => {highlight(26, 700)});
+				sleep(500*this.x).then(() => {highlight(26, 500)});
 				this.x++;
-				sleep(700*this.x).then(() => {highlight(27, 700)});
+				sleep(500*this.x).then(() => {highlight(27, 500)});
 				this.x++;
-				sleep(700*this.x).then(() => {highlight(28, 700)});
+				sleep(500*this.x).then(() => {highlight(28, 500)});
 				this.x++;
 			}
-			sleep(700*this.x).then(() => {highlight(14, 700)});
+			sleep(500*this.x).then(() => {highlight(14, 500)});
 			this.x++;
 		}
 
@@ -547,17 +547,17 @@ export default class QuickSort extends Algorithm {
 		// Move pivot back and delete pivot pointer
 		this.swapPivot(left, j, true);
 		
-		sleep(700*this.x).then(() => {highlight(18, 700)});
+		sleep(500*this.x).then(() => {highlight(18, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(24, 700)});
+		sleep(500*this.x).then(() => {highlight(24, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(26, 700)});
+		sleep(500*this.x).then(() => {highlight(26, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(27, 700)});
+		sleep(500*this.x).then(() => {highlight(27, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(28, 700)});
+		sleep(500*this.x).then(() => {highlight(28, 500)});
 		this.x++;
-		sleep(700*this.x).then(() => {highlight(20, 700)});
+		sleep(500*this.x).then(() => {highlight(20, 500)});
 		this.x++;
 
 		// Delete i and j pointers
@@ -579,7 +579,7 @@ export default class QuickSort extends Algorithm {
 		this.cmd(act.step);
 		this.unhighlight(18, 0);
 
-		sleep(700*this.x).then(() => {highlight(41, 700)});
+		sleep(500*this.x).then(() => {highlight(41, 500)});
 		this.x++;
 		this.helper(left, j - 1);
 
@@ -587,7 +587,7 @@ export default class QuickSort extends Algorithm {
 		this.cmd(act.step);
 		this.unhighlight(19, 0);
 
-		sleep(700*this.x).then(() => {highlight(42, 700)});
+		sleep(500*this.x).then(() => {highlight(42, 500)});
 		this.x++;
 		this.helper(j + 1, right);
 	}

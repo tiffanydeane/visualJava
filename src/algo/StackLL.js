@@ -185,11 +185,11 @@ export default class StackLL extends Algorithm {
 			const pushVal = this.pushField.value;
 			this.pushField.value = '';
 			this.implementAction(this.push.bind(this), pushVal);
-			highlight(12, 700);
-			sleep(700).then(() => {highlight(13, 700)});
-			sleep(700*2).then(() => {highlight(14, 700)});
-			sleep(700*3).then(() => {highlight(15, 700)});
-			sleep(700*4).then(() => {highlight(16, 700)});
+			highlight(12, 500);
+			sleep(500).then(() => {highlight(13, 500)});
+			sleep(500*2).then(() => {highlight(14, 500)});
+			sleep(500*3).then(() => {highlight(15, 500)});
+			sleep(500*4).then(() => {highlight(16, 500)});
 		} else {
 			this.shake(this.pushButton);
 		}
@@ -198,12 +198,12 @@ export default class StackLL extends Algorithm {
 	popCallback() {
 		if (this.top > 0) {
 			this.implementAction(this.pop.bind(this));
-			highlight(19, 700);
-			sleep(700).then(() => {highlight(20, 700)});
-			sleep(700*2).then(() => {highlight(10, 700)});
-			sleep(700*3).then(() => {highlight(23, 700)});
-			sleep(700*4).then(() => {highlight(24, 700)});
-			sleep(700*5).then(() => {highlight(25, 700)});
+			highlight(19, 500);
+			sleep(500).then(() => {highlight(20, 500)});
+			sleep(500*2).then(() => {highlight(10, 500)});
+			sleep(500*3).then(() => {highlight(23, 500)});
+			sleep(500*4).then(() => {highlight(24, 500)});
+			sleep(500*5).then(() => {highlight(25, 500)});
 		} else {
 			this.shake(this.popButton);
 		}

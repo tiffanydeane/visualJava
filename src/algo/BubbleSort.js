@@ -276,10 +276,10 @@ export default class BubbleSort extends Algorithm {
 			return this.commands;
 		}
 
-		highlight(4, 500);
-		sleep(500).then(() => {highlight(6, 500)});
-		sleep(500*2).then(() => {highlight(7, 500)});
-		sleep(500*3).then(() => {highlight(8, 500)});
+		highlight(4, 400);
+		sleep(400).then(() => {highlight(6, 400)});
+		sleep(400*2).then(() => {highlight(7, 400)});
+		sleep(400*3).then(() => {highlight(8, 400)});
 
 		this.arrayID = [];
 		this.arrayData = list
@@ -348,12 +348,12 @@ export default class BubbleSort extends Algorithm {
 		do {
 			this.cmd(act.step);
 			sorted = true;
-			sleep(500*(4+x)).then(() => {highlight(9, 500)});
+			sleep(400*(4+x)).then(() => {highlight(9, 400)});
 			x++;
-			sleep(500*(4+x)).then(() => {highlight(10, 500)});
+			sleep(400*(4+x)).then(() => {highlight(10, 400)});
 			x++;
 			for (let i = 0; i < end; i++) {
-				sleep(500*(4+x)).then(() => {highlight(11, 500)});
+				sleep(400*(4+x)).then(() => {highlight(11, 400)});
 				x++;
 				this.movePointers(i, i + 1);
 				this.cmd(
@@ -366,19 +366,19 @@ export default class BubbleSort extends Algorithm {
 					this.swap(i, i + 1);
 					sorted = false;
 					lastSwapped = i;
-					sleep(500*(4+x)).then(() => {highlight(14, 500)});
+					sleep(400*(4+x)).then(() => {highlight(14, 400)});
 					x++;
-					sleep(500*(4+x)).then(() => {highlight(15, 500)});
+					sleep(400*(4+x)).then(() => {highlight(15, 400)});
 					x++;
-					sleep(500*(4+x)).then(() => {highlight(16, 500)});
+					sleep(400*(4+x)).then(() => {highlight(16, 400)});
 					x++;
-					sleep(500*(4+x)).then(() => {highlight(17, 500)});
+					sleep(400*(4+x)).then(() => {highlight(17, 400)});
 					x++;
 				}
-				sleep(500*(4+x)).then(() => {highlight(10, 500)});
+				sleep(400*(4+x)).then(() => {highlight(10, 400)});
 				x++;
 			}
-			sleep(500*(4+x)).then(() => {highlight(23, 500)});
+			sleep(400*(4+x)).then(() => {highlight(23, 400)});
 			x++;
 			if (lastSwapEnabled) {
 				end = lastSwapped;
@@ -389,11 +389,11 @@ export default class BubbleSort extends Algorithm {
 				for (let i = end + 1; i < this.arrayData.length; i++) {
 					this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
 				}
-				sleep(500*(4+x)).then(() => {highlight(8, 500)});
+				sleep(400*(4+x)).then(() => {highlight(8, 400)});
 				x++;
 			}
 			else {
-				sleep(500*(4+x)).then(() => {highlight(24, 500)});
+				sleep(400*(4+x)).then(() => {highlight(24, 400)});
 				x++;
 			}
 			this.cmd(act.step);

@@ -496,18 +496,18 @@ export default class LinkedList extends Algorithm {
 
 				if (where !== 'random'){
 					if (where === 'index') {
-						highlight(41, 700);
-						sleep(700).then(() => {highlight(46, 700)});
-						sleep(700*2).then(() => {highlight(47, 700)});
-						sleep(700*3).then(() => {highlight(17, 700)});
-						sleep(700*4).then(() => {highlight(18, 700)});
-						sleep(700*5).then(() => {highlight(19, 700)});
-						sleep(700*6).then(() => {highlight(20, 700)});
+						highlight(41, 600);
+						sleep(600).then(() => {highlight(46, 600)});
+						sleep(600*2).then(() => {highlight(47, 600)});
+						sleep(600*3).then(() => {highlight(17, 600)});
+						sleep(600*4).then(() => {highlight(18, 600)});
+						sleep(600*5).then(() => {highlight(19, 600)});
+						sleep(600*6).then(() => {highlight(20, 600)});
 					} else {
-						highlight(17, 700);
-						sleep(700).then(() => {highlight(18, 700)});
-						sleep(700*2).then(() => {highlight(19, 700)});
-						sleep(700*3).then(() => {highlight(20, 700)});
+						highlight(17, 600);
+						sleep(600).then(() => {highlight(18, 600)});
+						sleep(600*2).then(() => {highlight(19, 600)});
+						sleep(600*3).then(() => {highlight(20, 600)});
 					}
 				}
 			} else if (index === this.size) {
@@ -518,34 +518,34 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index],
 				);
 				if (where === 'back') {
-					highlight(24, 700);
-					sleep(700).then(() => {highlight(25, 700)});
-					sleep(700*2).then(() => {highlight(27, 700)});
-					sleep(700*3).then(() => {highlight(32, 700)});
-					sleep(700*4).then(() => {highlight(33, 700)});
+					highlight(24, 600);
+					sleep(600).then(() => {highlight(25, 600)});
+					sleep(600*2).then(() => {highlight(27, 600)});
+					sleep(600*3).then(() => {highlight(32, 600)});
+					sleep(600*4).then(() => {highlight(33, 600)});
 					let x = -2;
 					for (let i = 0; i < this.size - 1; i++) {
-						sleep(700*(5+(2*i))).then(() => {highlight(34, 700)});
-						sleep(700*(6+(2*i))).then(() => {highlight(33, 700)});
+						sleep(600*(5+(2*i))).then(() => {highlight(34, 600)});
+						sleep(600*(6+(2*i))).then(() => {highlight(33, 600)});
 						x +=2;
 					}
-					sleep(700*(7 + x)).then(() => {highlight(37, 700)});
+					sleep(600*(7 + x)).then(() => {highlight(37, 600)});
 				} else {
-					highlight(41, 700);
-					sleep(700).then(() => {highlight(46, 700)});
-					sleep(700*2).then(() => {highlight(48, 700)});
-					sleep(700*3).then(() => {highlight(49, 700)});
+					highlight(41, 600);
+					sleep(600).then(() => {highlight(46, 600)});
+					sleep(600*2).then(() => {highlight(48, 600)});
+					sleep(600*3).then(() => {highlight(49, 600)});
 					let x = -2;
 					for (let i = 0; i < index - 1; i++) {
-						sleep(700*(4+(2*i))).then(() => {highlight(63, 700)});
-						sleep(700*(5+(2*i))).then(() => {highlight(49, 700)});
+						sleep(600*(4+(2*i))).then(() => {highlight(63, 600)});
+						sleep(600*(5+(2*i))).then(() => {highlight(49, 600)});
 						x +=2;
 					}
-					sleep(700*(6 + x)).then(() => {highlight(50, 700)});
-					sleep(700*(7 + x)).then(() => {highlight(52, 700)});
-					sleep(700*(8 + x)).then(() => {highlight(56, 700)});
-					sleep(700*(9 + x)).then(() => {highlight(60, 700)});
-					sleep(700*(10 + x)).then(() => {highlight(61, 700)});
+					sleep(600*(6 + x)).then(() => {highlight(50, 600)});
+					sleep(600*(7 + x)).then(() => {highlight(52, 600)});
+					sleep(600*(8 + x)).then(() => {highlight(56, 600)});
+					sleep(600*(9 + x)).then(() => {highlight(60, 600)});
+					sleep(600*(10 + x)).then(() => {highlight(61, 600)});
 				}
 			} else {
 				this.cmd(
@@ -564,45 +564,45 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index + 1],
 				);
 
-				highlight(41, 700);
-				sleep(700).then(() => {highlight(46, 700)});
-				sleep(700*2).then(() => {highlight(48, 700)});
-				sleep(700*3).then(() => {highlight(49, 700)});
+				highlight(41, 600);
+				sleep(600).then(() => {highlight(46, 600)});
+				sleep(600*2).then(() => {highlight(48, 600)});
+				sleep(600*3).then(() => {highlight(49, 600)});
 				let x = -2;
 				for (let i = 0; i < index - 1; i++) {
-					sleep(700*(4+(2*i))).then(() => {highlight(63, 700)});
-					sleep(700*(5+(2*i))).then(() => {highlight(49, 700)});
+					sleep(600*(4+(2*i))).then(() => {highlight(63, 600)});
+					sleep(600*(5+(2*i))).then(() => {highlight(49, 600)});
 					x +=2;
 				}
-				sleep(700*(6 + x)).then(() => {highlight(50, 700)});
-				sleep(700*(7 + x)).then(() => {highlight(52, 700)});
-				sleep(700*(8 + x)).then(() => {highlight(56, 700)});
-				sleep(700*(9 + x)).then(() => {highlight(60, 700)});
-				sleep(700*(10 + x)).then(() => {highlight(61, 700)});
+				sleep(600*(6 + x)).then(() => {highlight(50, 600)});
+				sleep(600*(7 + x)).then(() => {highlight(52, 600)});
+				sleep(600*(8 + x)).then(() => {highlight(56, 600)});
+				sleep(600*(9 + x)).then(() => {highlight(60, 600)});
+				sleep(600*(10 + x)).then(() => {highlight(61, 600)});
 			}
 		} else {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
 			if (index === 0) {
 				if (where === 'front') {
-					highlight(17, 700);
-					sleep(700).then(() => {highlight(18, 700)});
-					sleep(700*2).then(() => {highlight(19, 700)});
-					sleep(700*3).then(() => {highlight(20, 700)});
+					highlight(17, 600);
+					sleep(600).then(() => {highlight(18, 600)});
+					sleep(600*2).then(() => {highlight(19, 600)});
+					sleep(600*3).then(() => {highlight(20, 600)});
 				} else if (where === 'back') {
-					highlight(24, 700);
-					sleep(700).then(() => {highlight(25, 700)});
-					sleep(700*2).then(() => {highlight(27, 700)});
-					sleep(700*3).then(() => {highlight(28, 700)});
-					sleep(700*4).then(() => {highlight(29, 700)});
+					highlight(24, 600);
+					sleep(600).then(() => {highlight(25, 600)});
+					sleep(600*2).then(() => {highlight(27, 600)});
+					sleep(600*3).then(() => {highlight(28, 600)});
+					sleep(600*4).then(() => {highlight(29, 600)});
 				} else if (where === 'index') {
-					highlight(41, 700);
-					sleep(700).then(() => {highlight(46, 700)});
-					sleep(700*2).then(() => {highlight(47, 700)});
-					sleep(700*3).then(() => {highlight(17, 700)});
-					sleep(700*4).then(() => {highlight(18, 700)});
-					sleep(700*5).then(() => {highlight(19, 700)});
-					sleep(700*6).then(() => {highlight(20, 700)});
+					highlight(41, 600);
+					sleep(600).then(() => {highlight(46, 600)});
+					sleep(600*2).then(() => {highlight(47, 600)});
+					sleep(600*3).then(() => {highlight(17, 600)});
+					sleep(600*4).then(() => {highlight(18, 600)});
+					sleep(600*5).then(() => {highlight(19, 600)});
+					sleep(600*6).then(() => {highlight(20, 600)});
 				}
 			}
 		}
@@ -684,71 +684,71 @@ export default class LinkedList extends Algorithm {
 
 		if (index === 0) {
 			if (where === 'index') {
-				highlight(88, 700);
-				sleep(700).then(() => {highlight(91, 700)});
-				sleep(700*2).then(() => {highlight(92, 700)});
-				sleep(700*3).then(() => {highlight(68, 700)});
-				sleep(700*4).then(() => {highlight(69, 700)});
-				sleep(700*5).then(() => {highlight(70, 700)});
+				highlight(88, 600);
+				sleep(600).then(() => {highlight(91, 600)});
+				sleep(600*2).then(() => {highlight(92, 600)});
+				sleep(600*3).then(() => {highlight(68, 600)});
+				sleep(600*4).then(() => {highlight(69, 600)});
+				sleep(600*5).then(() => {highlight(70, 600)});
 			} else if (where === 'front') {
-				highlight(68, 700);
-				sleep(700).then(() => {highlight(69, 700)});
-				sleep(700*2).then(() => {highlight(70, 700)});
+				highlight(68, 600);
+				sleep(600).then(() => {highlight(69, 600)});
+				sleep(600*2).then(() => {highlight(70, 600)});
 			} else {
-				highlight(73, 700);
-				sleep(700).then(() => {highlight(74, 700)});
-				sleep(700*2).then(() => {highlight(75, 700)});
-				sleep(700*3).then(() => {highlight(77, 700)});
+				highlight(73, 600);
+				sleep(600).then(() => {highlight(74, 600)});
+				sleep(600*2).then(() => {highlight(75, 600)});
+				sleep(600*3).then(() => {highlight(77, 600)});
 				let x = -3;
 				for (let i = 0; i < this.size - 1; i++) {
-					sleep(700*(4+(3*i))).then(() => {highlight(78, 700)});
-					sleep(700*(5+(3*i))).then(() => {highlight(79, 700)});
-					sleep(700*(6+(3*i))).then(() => {highlight(77, 700)});
+					sleep(600*(4+(3*i))).then(() => {highlight(78, 600)});
+					sleep(600*(5+(3*i))).then(() => {highlight(79, 600)});
+					sleep(600*(6+(3*i))).then(() => {highlight(77, 600)});
 					x += 3;
 				}
-				sleep(700*(7 + x)).then(() => {highlight(82, 700)});
+				sleep(600*(7 + x)).then(() => {highlight(82, 600)});
 			}
 		} else if (index === this.size - 1) {
 			if (where === 'back') {
-				highlight(73, 700);
-				sleep(700).then(() => {highlight(74, 700)});
-				sleep(700*2).then(() => {highlight(75, 700)});
-				sleep(700*3).then(() => {highlight(77, 700)});
+				highlight(73, 600);
+				sleep(600).then(() => {highlight(74, 600)});
+				sleep(600*2).then(() => {highlight(75, 600)});
+				sleep(600*3).then(() => {highlight(77, 600)});
 				let x = -3;
 				for (let i = 0; i < this.size - 1; i++) {
-					sleep(700*(4+(3*i))).then(() => {highlight(78, 700)});
-					sleep(700*(5+(3*i))).then(() => {highlight(79, 700)});
-					sleep(700*(6+(3*i))).then(() => {highlight(77, 700)});
+					sleep(600*(4+(3*i))).then(() => {highlight(78, 600)});
+					sleep(600*(5+(3*i))).then(() => {highlight(79, 600)});
+					sleep(600*(6+(3*i))).then(() => {highlight(77, 600)});
 					x += 3;
 				}
-				sleep(700*(7 + x)).then(() => {highlight(82, 700)});
+				sleep(600*(7 + x)).then(() => {highlight(82, 600)});
 			} else {
-				highlight(88, 700);
-				sleep(700).then(() => {highlight(91, 700)});
-				sleep(700*2).then(() => {highlight(96, 700)});
-				sleep(700*3).then(() => {highlight(99, 700)});
+				highlight(88, 600);
+				sleep(600).then(() => {highlight(91, 600)});
+				sleep(600*2).then(() => {highlight(96, 600)});
+				sleep(600*3).then(() => {highlight(99, 600)});
 				let x = -2;
 				for (let i = 0; i < index - 1; i++) {
-					sleep(700*(4+(2*i))).then(() => {highlight(100, 700)});
-					sleep(700*(5+(2*i))).then(() => {highlight(99, 700)});
+					sleep(600*(4+(2*i))).then(() => {highlight(100, 600)});
+					sleep(600*(5+(2*i))).then(() => {highlight(99, 600)});
 					x += 2;
 				}
-				sleep(700*(6 + x)).then(() => {highlight(104, 700)});
-				sleep(700*(7 + x)).then(() => {highlight(106, 700)});
+				sleep(600*(6 + x)).then(() => {highlight(104, 600)});
+				sleep(600*(7 + x)).then(() => {highlight(106, 600)});
 			}
 		} else {
-			highlight(88, 700);
-			sleep(700).then(() => {highlight(91, 700)});
-			sleep(700*2).then(() => {highlight(96, 700)});
-			sleep(700*3).then(() => {highlight(99, 700)});
+			highlight(88, 600);
+			sleep(600).then(() => {highlight(91, 600)});
+			sleep(600*2).then(() => {highlight(96, 600)});
+			sleep(600*3).then(() => {highlight(99, 600)});
 			let x = -2;
 			for (let i = 0; i < index - 1; i++) {
-				sleep(700*(4+(2*i))).then(() => {highlight(100, 700)});
-				sleep(700*(5+(2*i))).then(() => {highlight(99, 700)});
+				sleep(600*(4+(2*i))).then(() => {highlight(100, 600)});
+				sleep(600*(5+(2*i))).then(() => {highlight(99, 600)});
 				x += 2;
 			}
-			sleep(700*(6 + x)).then(() => {highlight(104, 700)});
-			sleep(700*(7 + x)).then(() => {highlight(106, 700)});
+			sleep(600*(6 + x)).then(() => {highlight(104, 600)});
+			sleep(600*(7 + x)).then(() => {highlight(106, 600)});
 		}
 		this.cmd(act.step);
 		this.cmd(act.delete, this.linkedListElemID[index]);

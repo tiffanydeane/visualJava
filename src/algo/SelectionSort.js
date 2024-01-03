@@ -372,14 +372,14 @@ export default class SelectionSort extends Algorithm {
 		this.highlight(2, 0);
 		this.cmd(act.step);
 		this.unhighlight(2, 0);
-		highlight(3, 800);
-		sleep(800).then(() => {highlight(5, 800)});
-		sleep(800*2).then(() => {highlight(8, 800)});
+		highlight(3, 600);
+		sleep(600).then(() => {highlight(5, 600)});
+		sleep(600*2).then(() => {highlight(8, 600)});
 		let x = 0;
 		for (let i = 0; i < this.arrayData.length - 1; i++) {
-			sleep(800*(3+x)).then(() => {highlight(11, 800)});
+			sleep(600*(3+x)).then(() => {highlight(11, 600)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(12, 800)});
+			sleep(600*(3+x)).then(() => {highlight(12, 600)});
 			x++;
 			let k = i;
 			if (!this.isMin) {
@@ -393,7 +393,7 @@ export default class SelectionSort extends Algorithm {
 			this.highlight(4, 0);
 			this.cmd(act.step);
 			for (let j = i + 1; j < this.arrayData.length; j++) {
-				sleep(800*(3+x)).then(() => {highlight(13, 800)});
+				sleep(600*(3+x)).then(() => {highlight(13, 600)});
 				x++;
 				let w = j;
 				if (!this.isMin) {
@@ -402,7 +402,7 @@ export default class SelectionSort extends Algorithm {
 
 				this.movePointers(toSwap, w);
 				if (this.compare(this.arrayData[w], this.arrayData[toSwap])) {
-					sleep(800*(3+x)).then(() => {highlight(14, 800)});
+					sleep(600*(3+x)).then(() => {highlight(14, 600)});
 					x++;
 					this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
 					this.highlight(6, 0);
@@ -413,16 +413,16 @@ export default class SelectionSort extends Algorithm {
 					this.cmd(act.step);
 					this.unhighlight(6, 0);
 				}
-				sleep(800*(3+x)).then(() => {highlight(12, 800)});
+				sleep(600*(3+x)).then(() => {highlight(12, 600)});
 				x++;
 			}
-			sleep(800*(3+x)).then(() => {highlight(19, 800)});
+			sleep(600*(3+x)).then(() => {highlight(19, 600)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(20, 800)});
+			sleep(600*(3+x)).then(() => {highlight(20, 600)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(21, 800)});
+			sleep(600*(3+x)).then(() => {highlight(21, 600)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(8, 800)});
+			sleep(600*(3+x)).then(() => {highlight(8, 600)});
 			x++;
 			this.swap(k, toSwap);
 			this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
