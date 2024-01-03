@@ -297,19 +297,19 @@ export default class InsertionSort extends Algorithm {
 		this.cmd(act.setHighlight, this.jPointerID, 1);
 		this.cmd(act.step);
 
-		highlight(4, 800);
-		sleep(800).then(() => {highlight(6, 800)});
-		sleep(800*2).then(() => {highlight(7, 800)});
+		highlight(4, 750);
+		sleep(750).then(() => {highlight(6, 750)});
+		sleep(750*2).then(() => {highlight(7, 750)});
 		let x = 0;
 
 		for (let i = 1; i < this.arrayData.length; i++) {
 			this.cmd(act.step);
 			this.cmd(act.step);
-			sleep(800*(3+x)).then(() => {highlight(8, 800)});
+			sleep(750*(3+x)).then(() => {highlight(8, 750)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(9, 800)});
+			sleep(750*(3+x)).then(() => {highlight(9, 750)});
 			x++;
-			sleep(800*(3+x)).then(() => {highlight(14, 800)});
+			sleep(750*(3+x)).then(() => {highlight(14, 750)});
 			x++;
 			for (let j = i; j >= 1; j--) {
 				this.movePointers(j - 1, j);
@@ -334,19 +334,19 @@ export default class InsertionSort extends Algorithm {
 					this.unhighlight(5, 0);
 					this.highlight(6, 0);
 					this.cmd(act.step);
-					sleep(800*(3+x)).then(() => {highlight(15, 800)});
+					sleep(750*(3+x)).then(() => {highlight(15, 750)});
 					x++;
-					sleep(800*(3+x)).then(() => {highlight(16, 800)});
+					sleep(750*(3+x)).then(() => {highlight(16, 750)});
 					x++;
-					sleep(800*(3+x)).then(() => {highlight(14, 800)});
+					sleep(750*(3+x)).then(() => {highlight(14, 750)});
 					x++;
 				} else {
-					sleep(800*(3+x)).then(() => {highlight(18, 800)});
+					sleep(750*(3+x)).then(() => {highlight(18, 750)});
 					x++;
 					break;
 				}
 			}
-			sleep(800*(3+x)).then(() => {highlight(7, 800)});
+			sleep(750*(3+x)).then(() => {highlight(7, 750)});
 			x++;
 			this.cmd(act.step);
 			this.unhighlight(3, 0);

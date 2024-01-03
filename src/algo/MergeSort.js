@@ -269,9 +269,9 @@ export default class MergeSort extends Algorithm {
 		}
 
 		this.highlight(0, 0);
-		sleep(550*this.x).then(() => {highlight(55, 550)});
+		sleep(500*this.x).then(() => {highlight(55, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(57, 550)});
+		sleep(500*this.x).then(() => {highlight(57, 500)});
 		this.x++;
 
 		this.arrayID = [];
@@ -325,18 +325,18 @@ export default class MergeSort extends Algorithm {
 			this.unhighlight(3, 0);
 			const mid = Math.ceil((this.arrayData.length - 1) / 2);
 			this.highlight(4, 0);
-			sleep(550*this.x).then(() => {highlight(60, 550)});
+			sleep(500*this.x).then(() => {highlight(60, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(63, 550)});
+			sleep(500*this.x).then(() => {highlight(63, 500)});
 			this.x++;
 			this.leftHelper(0, mid - 1, -LARGE_OFFSET, 0, 1);
 			this.unhighlight(4, 0);
 			this.highlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(64, 550)});
+			sleep(500*this.x).then(() => {highlight(64, 500)});
 			this.x++;
 			this.rightHelper(mid, this.arrayData.length - 1, LARGE_OFFSET, 0, 1);
 			this.unhighlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(67, 550)});
+			sleep(500*this.x).then(() => {highlight(67, 500)});
 			this.x++;
 			this.merge(
 				0,
@@ -358,9 +358,9 @@ export default class MergeSort extends Algorithm {
 
 	leftHelper(left, right, offset, prevOffset, row) {
 		this.cmd(act.step);
-		sleep(550*this.x).then(() => {highlight(55, 550)});
+		sleep(500*this.x).then(() => {highlight(55, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(57, 550)});
+		sleep(500*this.x).then(() => {highlight(57, 500)});
 		this.x++;
 		if (left > right) return;
 		this.unhighlight(4, 0);
@@ -379,18 +379,18 @@ export default class MergeSort extends Algorithm {
 			const mid = Math.ceil((left + right) / 2);
 			const extraOffset = row < 2 ? 2 * LARGE_OFFSET : 2 * SMALL_OFFSET;
 			this.highlight(4, 0);
-			sleep(550*this.x).then(() => {highlight(60, 550)});
+			sleep(500*this.x).then(() => {highlight(60, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(63, 550)});
+			sleep(500*this.x).then(() => {highlight(63, 500)});
 			this.x++;
 			this.leftHelper(left, mid - 1, offset - extraOffset, offset, row + 1);
 			this.unhighlight(4, 0);
 			this.highlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(64, 550)});
+			sleep(500*this.x).then(() => {highlight(64, 500)});
 			this.x++;
 			this.leftHelper(mid, right, offset, offset, row + 1);
 			this.unhighlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(67, 550)});
+			sleep(500*this.x).then(() => {highlight(67, 500)});
 			this.x++;
 			this.merge(left, right, mid, row, offset, offset - extraOffset, offset, tempArrayID);
 		} else {
@@ -401,9 +401,9 @@ export default class MergeSort extends Algorithm {
 
 	rightHelper(left, right, offset, prevOffset, row) {
 		this.cmd(act.step);
-		sleep(550*this.x).then(() => {highlight(55, 550)});
+		sleep(500*this.x).then(() => {highlight(55, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(57, 550)});
+		sleep(500*this.x).then(() => {highlight(57, 500)});
 		this.x++;
 		if (left > right) return;
 		this.unhighlight(4, 0);
@@ -422,18 +422,18 @@ export default class MergeSort extends Algorithm {
 			const mid = Math.ceil((left + right) / 2);
 			const extraOffset = row < 2 ? 2 * LARGE_OFFSET : 2 * SMALL_OFFSET;
 			this.highlight(4, 0);
-			sleep(550*this.x).then(() => {highlight(60, 550)});
+			sleep(500*this.x).then(() => {highlight(60, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(63, 550)});
+			sleep(500*this.x).then(() => {highlight(63, 500)});
 			this.x++;
 			this.rightHelper(left, mid - 1, offset, offset, row + 1);
 			this.unhighlight(4, 0);
 			this.highlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(64, 550)});
+			sleep(500*this.x).then(() => {highlight(64, 500)});
 			this.x++;
 			this.rightHelper(mid, right, offset + extraOffset, offset, row + 1);
 			this.unhighlight(5, 0);
-			sleep(550*this.x).then(() => {highlight(67, 550)});
+			sleep(500*this.x).then(() => {highlight(67, 500)});
 			this.x++;
 			this.merge(left, right, mid, row, offset, offset, offset + extraOffset, tempArrayID);
 		} else {
@@ -484,17 +484,17 @@ export default class MergeSort extends Algorithm {
 	merge(left, right, mid, row, currOffset, leftOffset, rightOffset, currArrayID) {
 		const tempArray = new Array(this.arrayData.length); // Temporary array to store data for sorting
 		const tempDisplay = new Array(this.arrayData.length);
-		sleep(550*this.x).then(() => {highlight(4, 550)});
+		sleep(500*this.x).then(() => {highlight(4, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(7, 550)});
+		sleep(500*this.x).then(() => {highlight(7, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(8, 550)});
+		sleep(500*this.x).then(() => {highlight(8, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(11, 550)});
+		sleep(500*this.x).then(() => {highlight(11, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(12, 550)});
+		sleep(500*this.x).then(() => {highlight(12, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(15, 550)});
+		sleep(500*this.x).then(() => {highlight(15, 500)});
 		this.x++;
 
 		// Copy data to temporary array
@@ -529,25 +529,25 @@ export default class MergeSort extends Algorithm {
 		let k = left;
 
 		for (let z = 0; z < mid - left; z++) {
-			sleep(550*this.x).then(() => {highlight(16, 550)});
+			sleep(500*this.x).then(() => {highlight(16, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(15, 550)});
+			sleep(500*this.x).then(() => {highlight(15, 500)});
 			this.x++;
 		}
-		sleep(550*this.x).then(() => {highlight(17, 550)});
+		sleep(500*this.x).then(() => {highlight(17, 500)});
 		this.x++;
 		for (let z = 0; z < right - mid + 1; z++) {
-			sleep(550*this.x).then(() => {highlight(18, 550)});
+			sleep(500*this.x).then(() => {highlight(18, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(17, 550)});
+			sleep(500*this.x).then(() => {highlight(17, 500)});
 			this.x++;
 		}
 
-		sleep(550*this.x).then(() => {highlight(23, 550)});
+		sleep(500*this.x).then(() => {highlight(23, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(26, 550)});
+		sleep(500*this.x).then(() => {highlight(26, 500)});
 		this.x++;
-		sleep(550*this.x).then(() => {highlight(27, 550)});
+		sleep(500*this.x).then(() => {highlight(27, 500)});
 		this.x++;
 
 		while (i < mid && j <= right) {
@@ -555,7 +555,7 @@ export default class MergeSort extends Algorithm {
 			this.highlight(8, 0);
 			this.cmd(act.step);
 			this.unhighlight(8, 0);
-			sleep(550*this.x).then(() => {highlight(28, 550)});
+			sleep(500*this.x).then(() => {highlight(28, 500)});
 			this.x++;
 			if (tempArray[i] <= tempArray[j]) {
 				this.highlight(9, 0);
@@ -570,9 +570,9 @@ export default class MergeSort extends Algorithm {
 					currArrayID[k],
 					iPointerID,
 				);
-				sleep(550*this.x).then(() => {highlight(29, 550)});
+				sleep(500*this.x).then(() => {highlight(29, 500)});
 				this.x++;
-				sleep(550*this.x).then(() => {highlight(30, 550)});
+				sleep(500*this.x).then(() => {highlight(30, 500)});
 				this.x++;
 				this.unhighlight(9, 0);
 				this.arrayData[k] = tempArray[i];
@@ -600,11 +600,11 @@ export default class MergeSort extends Algorithm {
 					currArrayID[k],
 					jPointerID,
 				);
-				sleep(550*this.x).then(() => {highlight(32, 550)});
+				sleep(500*this.x).then(() => {highlight(32, 500)});
 				this.x++;
-				sleep(550*this.x).then(() => {highlight(33, 550)});
+				sleep(500*this.x).then(() => {highlight(33, 500)});
 				this.x++;
-				sleep(550*this.x).then(() => {highlight(34, 550)});
+				sleep(500*this.x).then(() => {highlight(34, 500)});
 				this.x++;
 				this.unhighlight(12, 0);
 				this.arrayData[k] = tempArray[j];
@@ -618,20 +618,20 @@ export default class MergeSort extends Algorithm {
 
 				this.unhighlight(13, 0);
 			}
-			sleep(550*this.x).then(() => {highlight(36, 550)});
+			sleep(500*this.x).then(() => {highlight(36, 500)});
 			this.x++;
 			k++;
 			this.highlight(15, 0);
 			this.movePointer(k, row, currOffset, kPointerID);
 			this.cmd(act.step);
 			this.unhighlight(15, 0);
-			sleep(550*this.x).then(() => {highlight(27, 550)});
+			sleep(500*this.x).then(() => {highlight(27, 500)});
 			this.x++;
 		}
 		this.highlight(17, 0);
 		this.cmd(act.step);
 		this.unhighlight(17, 0);
-		sleep(550*this.x).then(() => {highlight(40, 550)});
+		sleep(500*this.x).then(() => {highlight(40, 500)});
 		this.x++;
 		while (i < mid) {
 			this.highlight(18, 0);
@@ -646,11 +646,11 @@ export default class MergeSort extends Algorithm {
 				currArrayID[k],
 				iPointerID,
 			);
-			sleep(550*this.x).then(() => {highlight(41, 550)});
+			sleep(500*this.x).then(() => {highlight(41, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(42, 550)});
+			sleep(500*this.x).then(() => {highlight(42, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(43, 550)});
+			sleep(500*this.x).then(() => {highlight(43, 500)});
 			this.x++;
 			this.unhighlight(18, 0);
 			this.highlight(19, 0);
@@ -666,13 +666,13 @@ export default class MergeSort extends Algorithm {
 			this.cmd(act.step);
 			this.unhighlight(19, 0);
 			this.unhighlight(20, 0);
-			sleep(550*this.x).then(() => {highlight(40, 550)});
+			sleep(500*this.x).then(() => {highlight(40, 500)});
 			this.x++;
 		}
 		this.highlight(22, 0);
 		this.cmd(act.step);
 		this.unhighlight(22, 0);
-		sleep(550*this.x).then(() => {highlight(47, 550)});
+		sleep(500*this.x).then(() => {highlight(47, 500)});
 		this.x++;
 		while (j <= right) {
 			this.highlight(23, 0);
@@ -687,11 +687,11 @@ export default class MergeSort extends Algorithm {
 				currArrayID[k],
 				jPointerID,
 			);
-			sleep(550*this.x).then(() => {highlight(48, 550)});
+			sleep(500*this.x).then(() => {highlight(48, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(49, 550)});
+			sleep(500*this.x).then(() => {highlight(49, 500)});
 			this.x++;
-			sleep(550*this.x).then(() => {highlight(50, 550)});
+			sleep(500*this.x).then(() => {highlight(50, 500)});
 			this.x++;
 			this.unhighlight(23, 0);
 			this.highlight(24, 0);
@@ -707,7 +707,7 @@ export default class MergeSort extends Algorithm {
 			this.cmd(act.step);
 			this.unhighlight(24, 0);
 			this.unhighlight(25, 0);
-			sleep(550*this.x).then(() => {highlight(47, 550)});
+			sleep(500*this.x).then(() => {highlight(47, 500)});
 			this.x++;
 		}
 
