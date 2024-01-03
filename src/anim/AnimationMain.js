@@ -159,15 +159,17 @@ function addDivisorToAnimationBar(animBarRef) {
 	const divisorRight = document.createElement('td');
 	divisorRight.setAttribute('class', 'divisorRight');
 
-	animBarRef.current.appendChild(divisorLeft);
-	animBarRef.current.appendChild(divisorRight);
+	// animBarRef.current.appendChild(divisorLeft);
+	// animBarRef.current.appendChild(divisorRight);
 }
 
 export default class AnimationManager extends EventListener {
+
 	constructor(canvasRef, animBarRef) {
 		super();
 
 		this.objectManager = new ObjectManager(canvasRef);
+		this.line = 0;
 		// Holder for all animated objects.
 		// All animation is done by manipulating objects in
 		// this container
@@ -215,28 +217,28 @@ export default class AnimationManager extends EventListener {
 
 		this.canvas = canvasRef;
 
-		this.skipBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Skip Back', () =>
-			this.skipBack(),
-		);
-		this.stepBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Step Back', () =>
-			this.stepBack(),
-		);
-		this.playPauseBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Pause', () =>
-			this.doPlayPause(),
-		);
-		this.playPauseBackButton.setAttribute('style', 'width: 80px');
-		this.stepForwardButton = addControlToAnimationBar(
-			animBarRef,
-			'Button',
-			'Step Forward',
-			() => this.step(),
-		);
-		this.skipForwardButton = addControlToAnimationBar(
-			animBarRef,
-			'Button',
-			'Skip Forward',
-			() => this.skipForward(),
-		);
+		// this.skipBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Skip Back', () =>
+		// 	this.skipBack(),
+		// );
+		// this.stepBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Step Back', () =>
+		// 	this.stepBack(),
+		// );
+		// this.playPauseBackButton = addControlToAnimationBar(animBarRef, 'Button', 'Pause', () =>
+		// 	this.doPlayPause(),
+		// );
+		// this.playPauseBackButton.setAttribute('style', 'width: 80px');
+		// this.stepForwardButton = addControlToAnimationBar(
+		// 	animBarRef,
+		// 	'Button',
+		// 	'Step Forward',
+		// 	() => this.step(),
+		// );
+		// this.skipForwardButton = addControlToAnimationBar(
+		// 	animBarRef,
+		// 	'Button',
+		// 	'Skip Forward',
+		// 	() => this.skipForward(),
+		// );
 
 		addDivisorToAnimationBar(animBarRef);
 
@@ -251,6 +253,7 @@ export default class AnimationManager extends EventListener {
 			speed = parseInt(speed);
 		}
 
+	
 		const slider = (
 			<Slider
 				style={{ padding: '13px 0', height: 2 }}
@@ -290,7 +293,7 @@ export default class AnimationManager extends EventListener {
 		tableEntry.appendChild(newTable);
 
 		// Append the element in page (in span)
-		controlBar.appendChild(tableEntry);
+		// controlBar.appendChild(tableEntry);
 
 		this.setSpeed(speed);
 
@@ -299,37 +302,37 @@ export default class AnimationManager extends EventListener {
 		addDivisorToAnimationBar(animBarRef);
 
 		let width = getCookie('VisualizationWidth');
-		width = width == null || width === '' ? 1500 : parseInt(width);
+
+
 
 		let height = getCookie('VisualizationHeight');
-		height = height == null || height === '' ? 555 : parseInt(height);
 
 		canvas.width = width;
 		canvas.height = height;
 
 		tableEntry = document.createElement('td');
-		txtNode = document.createTextNode('Canvas height:');
-		tableEntry.classList.add('txt-node');
-		tableEntry.appendChild(txtNode);
-		controlBar.appendChild(tableEntry);
+		// txtNode = document.createTextNode('Canvas height:');
+		// tableEntry.classList.add('txt-node');
+		// tableEntry.appendChild(txtNode);
+		// controlBar.appendChild(tableEntry);
 
-		this.heightEntry = addControlToAnimationBar(animBarRef, 'Text', canvas.height, () =>
-			returnSubmit(
-				this.heightEntry,
-				() =>
-					this.changeSize(
-						document.documentElement.clientWidth,
-						parseInt(this.heightEntry.value),
-					),
-				4,
-				true,
-			),
-		);
+		// this.heightEntry = addControlToAnimationBar(animBarRef, 'Text', canvas.height, () =>
+		// 	returnSubmit(
+		// 		this.heightEntry,
+		// 		() =>
+		// 			this.changeSize(
+		// 				document.documentElement.clientWidth,
+		// 				parseInt(this.heightEntry.value),
+		// 			),
+		// 		4,
+		// 		true,
+		// 	),
+		// );
 
-		this.heightEntry.size = 4;
-		this.sizeButton = addControlToAnimationBar(animBarRef, 'Button', 'Change Canvas Size', () =>
-			this.changeSize(),
-		);
+		// this.heightEntry.size = 4;
+		// this.sizeButton = addControlToAnimationBar(animBarRef, 'Button', 'Change Canvas Size', () =>
+		// 	this.changeSize(),
+		// );
 
 		this.addListener('AnimationStarted', this, this.animStarted);
 		this.addListener('AnimationEnded', this, this.animEnded);
@@ -342,6 +345,7 @@ export default class AnimationManager extends EventListener {
 	lerp(from, to, percent) {
 		return (to - from) * percent + from;
 	}
+
 
 	// Pause / unpause animation
 	setPaused(pausedValue) {
@@ -378,7 +382,7 @@ export default class AnimationManager extends EventListener {
 
 	changeSize(
 		width = document.documentElement.clientWidth,
-		height = parseInt(this.heightEntry.value),
+		height = document.documentElement.clientHeight,
 	) {
 		if (width > 100) {
 			canvas.width = width;
@@ -390,7 +394,6 @@ export default class AnimationManager extends EventListener {
 			this.animatedObjects.height = height;
 			setCookie('VisualizationHeight', String(height), 30);
 		}
-		this.heightEntry.value = canvas.height;
 
 		this.animatedObjects.draw();
 		this.fireEvent('CanvasSizeChanged', { width: canvas.width, height: canvas.height });
@@ -663,7 +666,6 @@ export default class AnimationManager extends EventListener {
 
 	toggleLayer(layer) {
 		this.animatedObjects.toggleLayer(layer);
-		console.log(layer);
 		this.animatedObjects.draw();
 	}
 
@@ -728,36 +730,33 @@ export default class AnimationManager extends EventListener {
 	}
 
 	animWaiting() {
-		this.stepForwardButton.disabled = false;
-		if (this.skipBackButton.disabled === false) {
-			this.stepBackButton.disabled = false;
-		}
-		this.objectManager.statusReport.setText('Animation Paused');
-		this.objectManager.statusReport.setForegroundColor('#FF0000');
+		// this.stepForwardButton.disabled = false;
+		// if (this.skipBackButton.disabled === false) {
+		// 	this.stepBackButton.disabled = false;
+		// }
+		// this.objectManager.statusReport.setText('Animation Paused');
 	}
 
 	animStarted() {
-		this.skipForwardButton.disabled = false;
-		this.skipBackButton.disabled = false;
-		this.stepForwardButton.disabled = true;
-		this.stepBackButton.disabled = true;
-		this.objectManager.statusReport.setText('Animation Running');
-		this.objectManager.statusReport.setForegroundColor('#009900');
+		// this.skipForwardButton.disabled = false;
+		// this.skipBackButton.disabled = false;
+		// this.stepForwardButton.disabled = true;
+		// this.stepBackButton.disabled = true;
+		// this.objectManager.statusReport.setText('Animation Running');
 	}
 
 	animEnded() {
-		this.skipForwardButton.disabled = true;
-		this.stepForwardButton.disabled = true;
-		if (this.skipBackButton.disabled === false && this.paused) {
-			this.stepBackButton.disabled = false;
-		}
-		this.objectManager.statusReport.setText('Animation Completed');
-		this.objectManager.statusReport.setForegroundColor('#000000');
+		// this.skipForwardButton.disabled = true;
+		// this.stepForwardButton.disabled = true;
+		// if (this.skipBackButton.disabled === false && this.paused) {
+		// 	this.stepBackButton.disabled = false;
+		// }
+		// this.objectManager.statusReport.setText('Animation Completed');
 	}
 
 	animUndoUnavailable() {
-		this.skipBackButton.disabled = true;
-		this.stepBackButton.disabled = true;
+		// this.skipBackButton.disabled = true;
+		// this.stepBackButton.disabled = true;
 	}
 
 	timeout() {
@@ -769,16 +768,16 @@ export default class AnimationManager extends EventListener {
 	}
 
 	doPlayPause() {
-		this.paused = !this.paused;
-		if (this.paused) {
-			this.playPauseBackButton.setAttribute('value', 'Play');
-			if (this.skipBackButton.disabled === false) {
-				this.stepBackButton.disabled = false;
-			}
-		} else {
-			this.playPauseBackButton.setAttribute('value', 'Pause');
-		}
-		this.setPaused(this.paused);
+		// this.paused = !this.paused;
+		// if (this.paused) {
+		// 	this.playPauseBackButton.setAttribute('value', 'Play');
+		// 	if (this.skipBackButton.disabled === false) {
+		// 		this.stepBackButton.disabled = false;
+		// 	}
+		// } else {
+		// 	this.playPauseBackButton.setAttribute('value', 'Pause');
+		// }
+		// this.setPaused(this.paused);
 	}
 
 	startTimer() {
@@ -829,7 +828,7 @@ export const act = {
 	},
 	connect(params) {
 		// fromID, toID | color, curve, directed, label, anchorPos, thickness
-		params[2] = params[2] || '#000000';
+		params[2] = params[2] || '#FFFFFF';
 		params[3] = params[3] || 0.0;
 		params[4] = params[4] !== false && params[4] !== 0;
 		params[5] = params[5] === undefined ? '' : params[5];
@@ -849,17 +848,17 @@ export const act = {
 	},
 	connectNext(params) {
 		// fromID, toID
-		this.animatedObjects.connectEdge(params[0], params[1], '#000000', 0.0, true, '', 0);
+		this.animatedObjects.connectEdge(params[0], params[1], '#FFFFFF', 0.0, true, '', 0);
 		this.undoBlock.push(new UndoConnect(params[0], params[1], false));
 	},
 	connectPrev(params) {
 		// fromID, toID
-		this.animatedObjects.connectEdge(params[0], params[1], '#000000', 0.0, true, '', 1);
+		this.animatedObjects.connectEdge(params[0], params[1], '#FFFFFF', 0.0, true, '', 1);
 		this.undoBlock.push(new UndoConnect(params[0], params[1], false));
 	},
 	connectCurve(params) {
 		// fromID, toID, curve
-		this.animatedObjects.connectEdge(params[0], params[1], '#000000', params[2], true, '', 1);
+		this.animatedObjects.connectEdge(params[0], params[1], '#FFFFFF', params[2], true, '', 1);
 		this.undoBlock.push(new UndoConnect(params[0], params[1], false));
 	},
 	connectSkipList(params) {
@@ -867,7 +866,7 @@ export const act = {
 		this.animatedObjects.connectEdge(
 			params[0],
 			params[1],
-			'#000000',
+			'#FFFFFF',
 			0.0,
 			false,
 			'',
@@ -1216,4 +1215,8 @@ export const act = {
 		);
 		this.anyAnimations = true;
 	},
+	mom(params) {
+		this.line = params[0];
+	},
 };
+

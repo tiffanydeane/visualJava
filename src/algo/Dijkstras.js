@@ -28,13 +28,16 @@ import Graph, { VERTEX_INDEX_COLOR } from './Graph.js';
 import {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
+	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { DIJKSTRAS_ADJ_LIST } from './util/GraphValues';
 import PriorityQueue from './util/PriorityQueue';
 import { act } from '../anim/AnimationMain';
 
-const PQ_DEQUEUED_COLOR = '#0000FF';
+const PQ_DEQUEUED_COLOR = '#6ef0a9';
 const VISITED_COLOR = '#99CCFF';
 
 const INFO_MSG_X = 25;
@@ -74,9 +77,10 @@ export default class Dijkstras extends Graph {
 	}
 
 	addControls() {
-		addLabelToAlgorithmBar('Start vertex: ');
-
-		this.startField = addControlToAlgorithmBar('Text', '');
+		const verticalGroup = addGroupToAlgorithmBar(false);
+		const horizontalGroup = addGroupToAlgorithmBar(true, verticalGroup);
+		addLabelToAlgorithmBar('Start vertex: ', horizontalGroup);
+		this.startField = addControlToAlgorithmBar('Text', '',horizontalGroup);
 		this.startField.style.textAlign = 'center';
 		this.startField.onkeydown = this.returnSubmit(
 			this.startField,
@@ -87,9 +91,11 @@ export default class Dijkstras extends Graph {
 		this.startField.size = 2;
 		this.controls.push(this.startField);
 
-		this.startButton = addControlToAlgorithmBar('Button', 'Run');
+		this.startButton = addControlToAlgorithmBar('Button', 'Run', horizontalGroup);
 		this.startButton.onclick = this.startCallback.bind(this);
 		this.controls.push(this.startButton);
+
+		verticalGroup.parentElement.style.alignSelf = 'center';
 
 		addDivisorToAlgorithmBar();
 
@@ -108,6 +114,7 @@ export default class Dijkstras extends Graph {
 
 		this.visited = [];
 		this.visitedID = [];
+		this.x = 0;
 
 		this.pq = new PriorityQueue();
 
@@ -126,7 +133,7 @@ export default class Dijkstras extends Graph {
 			['      PQ.enqueue((w, d1 + d2))'],
 		];
 
-		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
+		// this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		this.tableEntryHeight = this.isLarge ? LARGE_TABLE_ENTRY_HEIGHT : SMALL_TABLE_ENTRY_HEIGHT;
 		for (let i = 0; i < this.size; i++) {
@@ -194,6 +201,7 @@ export default class Dijkstras extends Graph {
 		this.messageID = [];
 		this.visitedID = [];
 		this.pq = new PriorityQueue();
+		this.x = 0;
 	}
 
 	startCallback() {
@@ -235,22 +243,46 @@ export default class Dijkstras extends Graph {
 			this.infoLabelID,
 			'Enqueueing ' + this.toStr(current) + ' with distance 0 and updating distance map',
 		);
-		this.highlight(0, 0);
-		this.highlight(1, 0);
-		this.highlight(2, 0);
-		this.highlight(3, 0);
-		this.highlight(4, 0);
+		// this.highlight(0, 0);
+		// this.highlight(1, 0);
+		// this.highlight(2, 0);
+		// this.highlight(3, 0);
+		// this.highlight(4, 0);
 		this.cmd(act.step);
-		this.unhighlight(0, 0);
-		this.unhighlight(1, 0);
-		this.unhighlight(2, 0);
-		this.unhighlight(3, 0);
-		this.unhighlight(4, 0);
+		// this.unhighlight(0, 0);
+		// this.unhighlight(1, 0);
+		// this.unhighlight(2, 0);
+		// this.unhighlight(3, 0);
+		// this.unhighlight(4, 0);
+		sleep(300*this.x).then(() => {highlight(18, 300)});
+		this.x++;
+		sleep(300*this.x).then(() => {highlight(20, 300)});
+		this.x++;
+		sleep(300*this.x).then(() => {highlight(22, 300)});
+		this.x++;
+		
+		for (let i = 0; i < this.size; i++) {
+			sleep(300*this.x).then(() => {highlight(23, 300)});
+			this.x++;
+			sleep(300*this.x).then(() => {highlight(22, 300)});
+			this.x++;
+		}
+
+		sleep(300*this.x).then(() => {highlight(26, 300)});
+		this.x++;
+		sleep(300*this.x).then(() => {highlight(29, 300)});
+		this.x++;
+		sleep(300*this.x).then(() => {highlight(31, 300)});
+		this.x++;
 
 		while (this.visited.includes(false) && this.pq.size() !== 0) {
 			//TODO: ADD HIGHLIGHTS HERE
-			this.highlight(5, 0);
-			this.highlight(6, 0);
+			// this.highlight(5, 0);
+			// this.highlight(6, 0);
+			sleep(300*this.x).then(() => {highlight(35, 300)});
+			this.x++;
+			sleep(300*this.x).then(() => {highlight(40, 300)});
+			this.x++;
 			[current, currentID] = this.pq.dequeue();
 			this.cmd(act.setText, this.infoLabelID, 'Dequeueing ' + this.toStr(current));
 			this.cmd(act.move, currentID, CURRENT_VERTEX_X, CURRENT_VERTEX_Y);
@@ -268,11 +300,15 @@ export default class Dijkstras extends Graph {
 
 			this.visitVertex(current);
 			this.cmd(act.step);
-			this.unhighlight(6, 0);
-			this.highlight(7, 0);
+			// this.unhighlight(6, 0);
+			// this.highlight(7, 0);
 
+			sleep(300*this.x).then(() => {highlight(44, 300)});
+			this.x++;
 			if (!this.visited[current]) {
-				this.highlight(8, 0);
+				// this.highlight(8, 0);
+				sleep(300*this.x).then(() => {highlight(47, 300)});
+				this.x++;
 				this.visited[current] = true;
 				this.cmd(
 					act.setText,
@@ -289,20 +325,33 @@ export default class Dijkstras extends Graph {
 				);
 				this.cmd(act.setBackgroundColor, this.circleID[current], VISITED_COLOR);
 				this.cmd(act.step);
-				this.unhighlight(8, 0);
-				this.unhighlight(7, 0);
+				// this.unhighlight(8, 0);
+				// this.unhighlight(7, 0);
 
-				this.highlight(9, 0);
-				this.highlight(10, 0);
+				// this.highlight(9, 0);
+				// this.highlight(10, 0);
 				this.cmd(
 					act.setText,
 					this.infoLabelID,
 					'Updating neighbors of vertex ' + this.toStr(current),
 				);
-
+				sleep(300*this.x).then(() => {highlight(49, 300)});
+				this.x++;
+				sleep(300*this.x).then(() => {highlight(54, 300)});
+				this.x++;
+				sleep(300*this.x).then(() => {highlight(56, 300)});
+				this.x++;
+				sleep(300*this.x).then(() => {highlight(57, 300)});
+				this.x++;
+				sleep(300*this.x).then(() => {highlight(60, 300)});
+				this.x++;
 				for (let neighbor = 0; neighbor < this.size; neighbor++) {
 					if (this.adj_matrix[current][neighbor] >= 0) {
+						sleep(300*this.x).then(() => {highlight(61, 300)});
+						this.x++;
 						this.highlightEdge(current, neighbor, 1);
+						sleep(300*this.x).then(() => {highlight(64, 300)});
+						this.x++;
 						if (this.visited[neighbor]) {
 							this.cmd(
 								act.setText,
@@ -321,6 +370,13 @@ export default class Dijkstras extends Graph {
 							const oldDist = this.distance[neighbor];
 							const oldDistStr =
 								oldDist >= 0 ? String(this.distance[neighbor]) : 'INF';
+
+							sleep(300*this.x).then(() => {highlight(65, 300)});
+							this.x++;
+							sleep(300*this.x).then(() => {highlight(66, 300)});
+							this.x++;
+							sleep(300*this.x).then(() => {highlight(69, 300)});
+							this.x++;
 
 							if (oldDist < 0 || newDist < oldDist) {
 								this.distance[neighbor] = newDist;
@@ -341,7 +397,7 @@ export default class Dijkstras extends Graph {
 									0,
 								);
 
-								this.highlight(10, 0);
+								// this.highlight(10, 0);
 								this.cmd(act.step);
 
 								this.cmd(act.setText, this.infoLabelID, 'Updating distance');
@@ -353,7 +409,7 @@ export default class Dijkstras extends Graph {
 								this.cmd(act.setHighlight, this.distanceID[current], 0);
 								this.cmd(act.setHighlight, this.distanceID[neighbor], 0);
 								this.cmd(act.step);
-								this.unhighlight(10, 0);
+								// this.unhighlight(10, 0);
 								this.cmd(act.delete, this.comparisonMessageID);
 								this.pq.enqueue(neighbor, this.nextIndex, newDist);
 								this.cmd(
@@ -374,8 +430,10 @@ export default class Dijkstras extends Graph {
 											PQ_LINE_SPACING,
 									0,
 								);
-								this.highlight(11, 0);
+								// this.highlight(11, 0);
 								this.cmd(act.step);
+								sleep(300*this.x).then(() => {highlight(70, 300)});
+								this.x++;
 
 								const newPqIDs = this.pq.getIDs();
 								if (String(pqIDs) !== String(newPqIDs.slice(0, -1))) {
@@ -392,7 +450,7 @@ export default class Dijkstras extends Graph {
 									this.cmd(act.step);
 								}
 								pqIDs = newPqIDs;
-								this.unhighlight(11, 0);
+								// this.unhighlight(11, 0);
 							} else {
 								this.cmd(
 									act.createLabel,
@@ -410,21 +468,28 @@ export default class Dijkstras extends Graph {
 									TABLE_START_Y + neighbor * this.tableEntryHeight - 5,
 									0,
 								);
-								this.highlight(5, 0);
+								// this.highlight(5, 0);
 								this.cmd(act.step);
-								this.unhighlight(5, 0);
+								// this.unhighlight(5, 0);
 								this.cmd(act.delete, this.comparisonMessageID);
 								this.cmd(act.setHighlight, this.distanceID[current], 0);
 								this.cmd(act.setHighlight, this.distanceID[neighbor], 0);
 							}
+							sleep(300*this.x).then(() => {highlight(73, 300)});
+							this.x++;
+							
 						}
 						this.highlightEdge(current, neighbor, 0);
+						sleep(300*this.x).then(() => {highlight(60, 300)});
+						this.x++;
 					}
 				}
-				this.unhighlight(10, 0);
-				this.unhighlight(9, 0);
+				// this.unhighlight(10, 0);
+				// this.unhighlight(9, 0);
 			} else {
-				this.unhighlight(7, 0);
+				// this.unhighlight(7, 0);
+				sleep(300*this.x).then(() => {highlight(45, 300)});
+				this.x++;
 				this.cmd(
 					act.setText,
 					this.infoLabelID,
@@ -434,19 +499,26 @@ export default class Dijkstras extends Graph {
 			}
 			this.leaveVertex();
 			this.cmd(act.delete, currentID);
-			this.unhighlight(5, 0);
+			// this.unhighlight(5, 0);
+			sleep(300*this.x).then(() => {highlight(31, 300)});
+			this.x++;
 		}
 
 		if (this.pq.size() > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');
 		} else {
 			this.cmd(act.setText, this.infoLabelID, 'Priority queue is empty, done');
+			sleep(300*this.x).then(() => {highlight(35, 300)});
+			this.x++;
+			sleep(300*this.x).then(() => {highlight(36, 300)});
+			this.x++;
 		}
 
 		return this.commands;
 	}
 
 	clear() {
+		this.x = 0;
 		for (let i = 0; i < this.size; i++) {
 			this.cmd(act.setBackgroundColor, this.circleID[i], '#FFFFFF');
 			this.cmd(act.setText, this.distanceID[i], 'INF');

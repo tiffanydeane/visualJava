@@ -53,13 +53,11 @@ export default class ObjectManager {
 		this.backEdges = [];
 		this.activeLayers = [];
 		this.activeLayers[0] = true;
-		this.activeLayers[32] = true; // pseudocode layer
+		this.activeLayers[32] = false; // pseudocode layer
 		this.ctx = canvasRef.current.getContext('2d');
 		this.framenum = 0;
 		this.width = 0;
 		this.height = 0;
-		this.statusReport = new AnimatedLabel(-1, 'XXX', false, 30);
-		this.statusReport.x = 30;
 	}
 
 	draw() {
@@ -67,7 +65,6 @@ export default class ObjectManager {
 		if (this.framenum > 1000) this.framenum = 0;
 
 		this.ctx.clearRect(0, 0, this.width, this.height); // clear canvas
-		this.statusReport.y = this.height - 15;
 
 		let i;
 		let j;
@@ -126,7 +123,6 @@ export default class ObjectManager {
 				}
 			}
 		}
-		this.statusReport.draw(this.ctx);
 	}
 
 	update() {}
@@ -186,7 +182,7 @@ export default class ObjectManager {
 		if (this.nodes[nodeID] != null && this.nodes[nodeID] !== undefined) {
 			return this.nodes[nodeID].getTextColor(index);
 		} else {
-			return '#000000';
+			return '#FFFFFF';
 		}
 	}
 
@@ -343,7 +339,7 @@ export default class ObjectManager {
 		if (this.nodes[objectID] != null) {
 			return this.nodes[objectID].backgroundColor;
 		} else {
-			return '#000000';
+			return '#FFFFFF';
 		}
 	}
 
@@ -351,7 +347,7 @@ export default class ObjectManager {
 		if (this.nodes[objectID] != null) {
 			return this.nodes[objectID].foregroundColor;
 		} else {
-			return '#000000';
+			return '#FFFFFF';
 		}
 	}
 
@@ -585,7 +581,7 @@ export default class ObjectManager {
 		toID,
 		color, // returns old color
 	) {
-		let oldColor = '#000000';
+		let oldColor = '#FFFFFF';
 		if (this.edges[fromID] != null && this.edges[fromID] !== undefined) {
 			const len = this.edges[fromID].length;
 			for (let i = len - 1; i >= 0; i--) {

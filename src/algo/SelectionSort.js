@@ -30,6 +30,8 @@ import Algorithm, {
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
 	addRadioButtonGroupToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -78,7 +80,7 @@ export default class SelectionSort extends Algorithm {
 		const verticalGroup = addGroupToAlgorithmBar(false);
 
 		addLabelToAlgorithmBar(
-			'Comma seperated list (e.g. "3,1,2"). Max 18 elements & no elements > 999',
+			'Comma separated list',
 			verticalGroup,
 		);
 
@@ -89,7 +91,7 @@ export default class SelectionSort extends Algorithm {
 		this.listField.onkeydown = this.returnSubmit(
 			this.listField,
 			this.sortCallback.bind(this),
-			60,
+			40,
 			false,
 		);
 		this.controls.push(this.listField);
@@ -99,6 +101,8 @@ export default class SelectionSort extends Algorithm {
 		this.sortButton.onclick = this.sortCallback.bind(this);
 		this.controls.push(this.sortButton);
 
+		verticalGroup.style.alignItems = 'center';
+		
 		addDivisorToAlgorithmBar();
 
 		const verticalGroup2 = addGroupToAlgorithmBar(false);
@@ -113,22 +117,9 @@ export default class SelectionSort extends Algorithm {
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
 
-		//Min & Max selection button
-		addDivisorToAlgorithmBar();
+		verticalGroup2.parentElement.style.alignSelf = 'center';
 
-		const minMaxButtonList = addRadioButtonGroupToAlgorithmBar(
-			['Maximum', 'Minimum'],
-			'Max/Min',
-		);
-
-		this.minButton = minMaxButtonList[1];
-		this.minButton.onclick = this.minCallback.bind(this);
-		this.controls.push(this.minButton);
-		this.maxButton = minMaxButtonList[0];
-		this.maxButton.onclick = this.maxCallback.bind(this);
-		this.controls.push(this.maxButton);
-		this.maxButton.checked = true;
-		this.isMin = false;
+		this.isMin = true;
 	}
 
 	setup() {
@@ -381,8 +372,15 @@ export default class SelectionSort extends Algorithm {
 		this.highlight(2, 0);
 		this.cmd(act.step);
 		this.unhighlight(2, 0);
+		highlight(3, 800);
+		sleep(800).then(() => {highlight(5, 800)});
+		sleep(800*2).then(() => {highlight(8, 800)});
+		let x = 0;
 		for (let i = 0; i < this.arrayData.length - 1; i++) {
-			this.highlight(3, 0);
+			sleep(800*(3+x)).then(() => {highlight(11, 800)});
+			x++;
+			sleep(800*(3+x)).then(() => {highlight(12, 800)});
+			x++;
 			let k = i;
 			if (!this.isMin) {
 				k = this.arrayData.length - 1 - i;
@@ -395,7 +393,8 @@ export default class SelectionSort extends Algorithm {
 			this.highlight(4, 0);
 			this.cmd(act.step);
 			for (let j = i + 1; j < this.arrayData.length; j++) {
-				this.unhighlight(4, 0);
+				sleep(800*(3+x)).then(() => {highlight(13, 800)});
+				x++;
 				let w = j;
 				if (!this.isMin) {
 					w = this.arrayData.length - 1 - j;
@@ -403,6 +402,8 @@ export default class SelectionSort extends Algorithm {
 
 				this.movePointers(toSwap, w);
 				if (this.compare(this.arrayData[w], this.arrayData[toSwap])) {
+					sleep(800*(3+x)).then(() => {highlight(14, 800)});
+					x++;
 					this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
 					this.highlight(6, 0);
 					this.cmd(act.step);
@@ -412,7 +413,17 @@ export default class SelectionSort extends Algorithm {
 					this.cmd(act.step);
 					this.unhighlight(6, 0);
 				}
+				sleep(800*(3+x)).then(() => {highlight(12, 800)});
+				x++;
 			}
+			sleep(800*(3+x)).then(() => {highlight(19, 800)});
+			x++;
+			sleep(800*(3+x)).then(() => {highlight(20, 800)});
+			x++;
+			sleep(800*(3+x)).then(() => {highlight(21, 800)});
+			x++;
+			sleep(800*(3+x)).then(() => {highlight(8, 800)});
+			x++;
 			this.swap(k, toSwap);
 			this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
 			this.cmd(act.step);

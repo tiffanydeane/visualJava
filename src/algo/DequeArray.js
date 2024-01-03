@@ -27,6 +27,7 @@
 import Algorithm, {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
+	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
 } from './Algorithm';
 import { act } from '../anim/AnimationMain';
@@ -61,7 +62,7 @@ const QUEUE_RESIZE_LABEL_Y = 60;
 
 const FRONT_LABEL_OFFSET = -40;
 
-const INDEX_COLOR = '#0000FF';
+const INDEX_COLOR = '#6ef0a9';
 
 const CODE_START_X = 450;
 const CODE_START_Y = 20;
@@ -82,47 +83,55 @@ export default class DequeArray extends Algorithm {
 	addControls() {
 		this.controls = [];
 
+		const addVerticalGroup = addGroupToAlgorithmBar(false);
+		const addTopHorizontalGroup = addGroupToAlgorithmBar(true, addVerticalGroup);
+
+		addLabelToAlgorithmBar('Add', addTopHorizontalGroup);
+
 		// Add's value text field
-		this.addField = addControlToAlgorithmBar('Text', '');
+		this.addField = addControlToAlgorithmBar('Text', '', addTopHorizontalGroup);
 		this.addField.style.textAlign = 'center';
 		this.addField.onkeydown = this.returnSubmit(this.addField, null, 4, true);
 		this.controls.push(this.addField);
 
 		// Add first button
-		this.addFirstButton = addControlToAlgorithmBar('Button', 'Add First');
+		this.addFirstButton = addControlToAlgorithmBar('Button', 'first', addTopHorizontalGroup);
 		this.addFirstButton.onclick = this.addFirstCallBack.bind(this);
 		this.controls.push(this.addFirstButton);
 
-		addLabelToAlgorithmBar('or');
+		addLabelToAlgorithmBar('or', addTopHorizontalGroup);
 
 		// Add last button
-		this.addLastButton = addControlToAlgorithmBar('Button', 'Add Last');
+		this.addLastButton = addControlToAlgorithmBar('Button', 'last', addTopHorizontalGroup);
 		this.addLastButton.onclick = this.addLastCallback.bind(this);
 		this.controls.push(this.addLastButton);
 
-		addDivisorToAlgorithmBar();
+		const removeTopHorizontalGroup = addGroupToAlgorithmBar(true, addVerticalGroup);
+		
+		addLabelToAlgorithmBar('Remove', removeTopHorizontalGroup);
 
 		// Remove first button
-		this.removeFirstButton = addControlToAlgorithmBar('Button', 'Remove First');
+		this.removeFirstButton = addControlToAlgorithmBar('Button', 'first', removeTopHorizontalGroup);
 		this.removeFirstButton.onclick = this.removeFirstCallback.bind(this);
 		this.controls.push(this.removeFirstButton);
 
-		addLabelToAlgorithmBar('or');
+		addLabelToAlgorithmBar('or', removeTopHorizontalGroup);
 
 		// Remove last button
-		this.removeLastButton = addControlToAlgorithmBar('Button', 'Remove Last');
+		this.removeLastButton = addControlToAlgorithmBar('Button', 'last', removeTopHorizontalGroup);
 		this.removeLastButton.onclick = this.removeLastCallback.bind(this);
 		this.controls.push(this.removeLastButton);
 
+		removeTopHorizontalGroup.style.justifyContent = 'start';
+
 		addDivisorToAlgorithmBar();
 
-		this.randomButton = addControlToAlgorithmBar('Button', 'Random');
+		const verticalGroup2 = addGroupToAlgorithmBar(false);
+		this.randomButton = addControlToAlgorithmBar('Button', 'Random', verticalGroup2);
 		this.randomButton.onclick = this.randomCallback.bind(this);
 		this.controls.push(this.randomButton);
 
-		addDivisorToAlgorithmBar();
-
-		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
+		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', verticalGroup2);
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
 	}
@@ -813,7 +822,7 @@ export default class DequeArray extends Algorithm {
 				ypos,
 			);
 			this.cmd(act.createLabel, this.arrayLabelIDNew[i], i, xpos, ypos + ARRAY_ELEM_HEIGHT);
-			this.cmd(act.setForegroundColor, this.arrayLabelIDNew[i], '#0000FF');
+			this.cmd(act.setForegroundColor, this.arrayLabelIDNew[i], '#6ef0a9');
 		}
 		this.cmd(act.step);
 

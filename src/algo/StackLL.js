@@ -24,7 +24,7 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar } from './Algorithm.js';
+import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar, highlight, sleep } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
 const LINKED_LIST_START_X = 100;
@@ -69,7 +69,8 @@ export default class StackLL extends Algorithm {
 
 	addControls() {
 		this.controls = [];
-		this.pushField = addControlToAlgorithmBar('Text', '');
+		const addTopHorizontalGroup = addGroupToAlgorithmBar(true);
+		this.pushField = addControlToAlgorithmBar('Text', '', addTopHorizontalGroup);
 		this.pushField.style.textAlign = 'center';
 		this.pushField.onkeydown = this.returnSubmit(
 			this.pushField,
@@ -78,26 +79,26 @@ export default class StackLL extends Algorithm {
 			true,
 		);
 
-		this.pushButton = addControlToAlgorithmBar('Button', 'Push');
+		this.pushButton = addControlToAlgorithmBar('Button', 'Push', addTopHorizontalGroup);
 		this.pushButton.onclick = this.pushCallback.bind(this);
 		this.controls.push(this.pushField);
 		this.controls.push(this.pushButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.popButton = addControlToAlgorithmBar('Button', 'Pop');
+		this.popButton = addControlToAlgorithmBar('Button', 'Pop', addTopHorizontalGroup);
 		this.popButton.onclick = this.popCallback.bind(this);
 		this.controls.push(this.popButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.randomButton = addControlToAlgorithmBar('Button', 'Random');
+		this.randomButton = addControlToAlgorithmBar('Button', 'Random', addTopHorizontalGroup);
 		this.randomButton.onclick = this.randomCallback.bind(this);
 		this.controls.push(this.randomButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
+		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', addTopHorizontalGroup);
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
 	}
@@ -184,6 +185,11 @@ export default class StackLL extends Algorithm {
 			const pushVal = this.pushField.value;
 			this.pushField.value = '';
 			this.implementAction(this.push.bind(this), pushVal);
+			highlight(12, 700);
+			sleep(700).then(() => {highlight(13, 700)});
+			sleep(700*2).then(() => {highlight(14, 700)});
+			sleep(700*3).then(() => {highlight(15, 700)});
+			sleep(700*4).then(() => {highlight(16, 700)});
 		} else {
 			this.shake(this.pushButton);
 		}
@@ -192,6 +198,12 @@ export default class StackLL extends Algorithm {
 	popCallback() {
 		if (this.top > 0) {
 			this.implementAction(this.pop.bind(this));
+			highlight(19, 700);
+			sleep(700).then(() => {highlight(20, 700)});
+			sleep(700*2).then(() => {highlight(10, 700)});
+			sleep(700*3).then(() => {highlight(23, 700)});
+			sleep(700*4).then(() => {highlight(24, 700)});
+			sleep(700*5).then(() => {highlight(25, 700)});
 		} else {
 			this.shake(this.popButton);
 		}

@@ -29,6 +29,8 @@ import Algorithm, {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -62,7 +64,7 @@ export default class InsertionSort extends Algorithm {
 		const verticalGroup = addGroupToAlgorithmBar(false);
 
 		addLabelToAlgorithmBar(
-			'Comma seperated list (e.g. "3,1,2"). Max 18 elements & no elements > 999',
+			'Comma separated list',
 			verticalGroup,
 		);
 
@@ -73,7 +75,7 @@ export default class InsertionSort extends Algorithm {
 		this.listField.onkeydown = this.returnSubmit(
 			this.listField,
 			this.sortCallback.bind(this),
-			60,
+			40,
 			false,
 		);
 		this.controls.push(this.listField);
@@ -82,6 +84,8 @@ export default class InsertionSort extends Algorithm {
 		this.sortButton = addControlToAlgorithmBar('Button', 'Sort', horizontalGroup);
 		this.sortButton.onclick = this.sortCallback.bind(this);
 		this.controls.push(this.sortButton);
+
+		verticalGroup.style.alignItems = 'center';
 
 		addDivisorToAlgorithmBar();
 
@@ -291,18 +295,22 @@ export default class InsertionSort extends Algorithm {
 			ARRAY_START_Y,
 		);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
-		this.highlight(0, 0);
 		this.cmd(act.step);
-		this.unhighlight(0, 0);
-		this.highlight(2, 0);
+
+		highlight(4, 1000);
+		sleep(1000).then(() => {highlight(6, 1000)});
+		sleep(1000*2).then(() => {highlight(7, 1000)});
+		let x = 0;
 
 		for (let i = 1; i < this.arrayData.length; i++) {
 			this.cmd(act.step);
-			this.unhighlight(2, 0);
-			this.highlight(3, 0);
 			this.cmd(act.step);
-			this.unhighlight(3, 0);
-			this.highlight(4, 0);
+			sleep(1000*(3+x)).then(() => {highlight(8, 1000)});
+			x++;
+			sleep(1000*(3+x)).then(() => {highlight(9, 1000)});
+			x++;
+			sleep(1000*(3+x)).then(() => {highlight(14, 1000)});
+			x++;
 			for (let j = i; j >= 1; j--) {
 				this.movePointers(j - 1, j);
 				this.unhighlight(3, 0);
@@ -326,10 +334,20 @@ export default class InsertionSort extends Algorithm {
 					this.unhighlight(5, 0);
 					this.highlight(6, 0);
 					this.cmd(act.step);
+					sleep(1000*(3+x)).then(() => {highlight(15, 1000)});
+					x++;
+					sleep(1000*(3+x)).then(() => {highlight(16, 1000)});
+					x++;
+					sleep(1000*(3+x)).then(() => {highlight(14, 1000)});
+					x++;
 				} else {
+					sleep(1000*(3+x)).then(() => {highlight(18, 1000)});
+					x++;
 					break;
 				}
 			}
+			sleep(1000*(3+x)).then(() => {highlight(7, 1000)});
+			x++;
 			this.cmd(act.step);
 			this.unhighlight(3, 0);
 			this.unhighlight(4, 0);

@@ -24,7 +24,8 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar } from './Algorithm.js';
+import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar,
+highlight, sleep } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
 const LINKED_LIST_START_X = 100;
@@ -74,7 +75,8 @@ export default class QueueLL extends Algorithm {
 
 	addControls() {
 		this.controls = [];
-		this.enqueueField = addControlToAlgorithmBar('Text', '');
+		const addTopHorizontalGroup = addGroupToAlgorithmBar(true);
+		this.enqueueField = addControlToAlgorithmBar('Text', '', addTopHorizontalGroup);
 		this.enqueueField.style.textAlign = 'center';
 		this.enqueueField.onkeydown = this.returnSubmit(
 			this.enqueueField,
@@ -83,26 +85,26 @@ export default class QueueLL extends Algorithm {
 			true,
 		);
 
-		this.enqueueButton = addControlToAlgorithmBar('Button', 'Enqueue');
+		this.enqueueButton = addControlToAlgorithmBar('Button', 'Enqueue', addTopHorizontalGroup);
 		this.enqueueButton.onclick = this.enqueueCallback.bind(this);
 		this.controls.push(this.enqueueField);
 		this.controls.push(this.enqueueButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.dequeueButton = addControlToAlgorithmBar('Button', 'Dequeue');
+		this.dequeueButton = addControlToAlgorithmBar('Button', 'Dequeue', addTopHorizontalGroup);
 		this.dequeueButton.onclick = this.dequeueCallback.bind(this);
 		this.controls.push(this.dequeueButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.randomButton = addControlToAlgorithmBar('Button', 'Random');
+		this.randomButton = addControlToAlgorithmBar('Button', 'Random', addTopHorizontalGroup);
 		this.randomButton.onclick = this.randomCallback.bind(this);
 		this.controls.push(this.randomButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
+		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', addTopHorizontalGroup);
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
 	}
@@ -222,6 +224,26 @@ export default class QueueLL extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.enqueue.bind(this), pushVal);
+			if (this.top === 1) {
+				highlight(12, 500);
+				sleep(500).then(() => {highlight(13, 500)});
+				sleep(500*2).then(() => {highlight(14, 500)});
+				sleep(500*3).then(() => {highlight(15, 500)});
+				sleep(500*4).then(() => {highlight(16, 500)});
+				sleep(500*5).then(() => {highlight(17, 500)});
+				sleep(500*6).then(() => {highlight(10, 500)});
+				sleep(500*7).then(() => {highlight(18, 500)});
+			} else {
+				highlight(12, 500);
+				sleep(500).then(() => {highlight(13, 500)});
+				sleep(500*2).then(() => {highlight(14, 500)});
+				sleep(500*3).then(() => {highlight(15, 500)});
+				sleep(500*4).then(() => {highlight(16, 500)});
+				sleep(500*5).then(() => {highlight(17, 500)});
+				sleep(500*6).then(() => {highlight(10, 500)});
+				sleep(500*7).then(() => {highlight(19, 500)});
+				sleep(500*8).then(() => {highlight(20, 500)});
+			}
 		} else {
 			this.shake(this.enqueueButton);
 		}
@@ -230,6 +252,19 @@ export default class QueueLL extends Algorithm {
 	dequeueCallback() {
 		if (this.top > 0) {
 			this.implementAction(this.dequeue.bind(this));
+			highlight(23, 500);
+			sleep(500).then(() => {highlight(24, 500)});
+			sleep(500*2).then(() => {highlight(10, 500)});
+			sleep(500*3).then(() => {highlight(27, 500)});
+			sleep(500*4).then(() => {highlight(28, 500)});
+			sleep(500*5).then(() => {highlight(29, 500)});
+			sleep(500*6).then(() => {highlight(10, 500)});
+			let x = -1;
+			if (this.top === 0) {
+				sleep(500*7).then(() => {highlight(30, 500)});
+				x++;
+			}
+			sleep(500*(8+x)).then(() => {highlight(31, 500)});
 		} else {
 			this.shake(this.dequeueButton);
 		}

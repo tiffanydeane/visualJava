@@ -1,45 +1,22 @@
 [data-theme='light'] {
-	--primary: #282828;
-	--control: #f2f2f2;
-	--border: #282828;
-	--button: #f2f2f2;
-	--header: #012f57;
+	--primary: #ffffff;
+	--control: hsl(0, 0%, 12%);
+	--border: #1E1E1E;
+	--button: #383f4e;
+	--header: #1E1E1E;
 	--filter: brightness(85%);
 	--shadow: rgba(0, 0, 0, 0.75);
 	--slider: #f9c333;
 }
-
-[data-theme='dark'] {
-	--primary: #f2f2f2;
-	--control: #282828;
-	--border: #f2f2f2;
-	--button: #282828;
-	--header: #282828;
-	--filter: brightness(185%);
-	--shadow: rgba(242, 242, 242, 0.1);
-	--slider: #d4f1f1;
-}
-
 * {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 }
 
 .VisualizationMainPage body {
-	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
+	/* font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif; */
 }
 
-.VisualizationMainPage #mainContent {
-	/* padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
-	background: #ffffff;
-	font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-
-.VisualizationMainPage #container {
-	background: #ffffff;
-	/* margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
-	text-align: left; /* this overrides the text-align: center on the body element. */
-}
 
 .VisualizationMainPage #toggle {
 	margin-top: 8px;
@@ -57,11 +34,12 @@
 	background: var(--control);
 	color: #000000;
 	display: flex;
-	justify-content: space-between;
+	justify-content:center;
 	align-items: center;
 	border-bottom: var(--border) 2px solid;
 	transition: all 0.4s ease 0s;
 	padding: 5px 5px;
+	height: 22.5%;
 }
 
 .VisualizationMainPage #toggles * {
@@ -75,10 +53,15 @@
 	transition: all 0.4s ease 0s;
 	vertical-align: middle;
 	padding: 5px 5px;
+	display:flex;
+	justify-content: center;
+	width: 100%;
+	overflow: hidden;
 }
 
 .VisualizationMainPage .viewport {
 	position: relative;
+	height: 68%;
 }
 
 .VisualizationMainPage #generalAnimationControlSection {
@@ -93,12 +76,15 @@
 
 .VisualizationMainPage #header {
 	background: var(--header);
-	border-bottom: 1.5px var(--border) solid;
-	color: #fffff0;
-	padding: 0 10px 0 5px;
+	color: #ffffff;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 	transition: all 0.4s ease 0s;
-	font-family: 'Cabin', 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
+	/* font-family: 'Cabin', 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif; */
 	font-weight: 400;
+	height: 7%;
+	display: flex;
 }
 
 .VisualizationMainPage #header a:visited {
@@ -111,8 +97,8 @@
 }
 
 .VisualizationMainPage #header h1 {
-	margin: 0;
-	padding: 10px 0;
+	margin: auto;
+	font-size: 1.2vw;
 }
 
 .VisualizationMainPage #header a:link {
@@ -121,7 +107,7 @@
 }
 
 .VisualizationMainPage #container {
-	background: #ffffff;
+	/* background: var(--border); */
 	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
 	text-align: left; /* this overrides the text-align: center on the body element. */
 }
@@ -186,13 +172,13 @@ em {
 .pseudocode-toggle {
 	cursor: pointer;
 }
-.VisualizationMainPage .modal {
+/* .VisualizationMainPage .modal {
 	position: absolute;
 	right: 20px;
 	top: 10px;
 	width: 350px;
 	height: 500px;
-}
+} */
 
 .VisualizationMainPage .modal-content {
 	padding: 15px 30px 0px 0px;
@@ -242,6 +228,11 @@ em {
 	width: 15px;
 }
 
+hr {
+	height: 15px !important;
+	color: white !important;
+}
+
 .VisualizationMainPage .divisorRight {
 	border-left: 2px var(--border) solid;
 	width: 15px;
@@ -277,6 +268,7 @@ em {
 
 .VisualizationMainPage input[type='text'] {
 	background: white;
+	color: #000000;
 	border: var(--border) 1px solid;
 	border-radius: 5px;
 	padding: 6px;
@@ -356,4 +348,44 @@ input[type='checkbox'] {
 	60% {
 		transform: translate3d(4px, 0, 0);
 	}
+}
+
+.ace-tomorrow-night-eighties {
+	background: #1E1E1E;
+}
+.ace-tomorrow-night-eighties .ace_gutter {
+	background: #1E1E1E;
+	color: #cccccc70;
+}
+
+.ace_scrollbar::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-track
+{
+    background-color: #252525;
+    border-radius: 10px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(159, 159, 159, 0.482);
+    border-radius: 10px;
+}
+
+.myMarker {
+	position:absolute;
+	background:#834f4f;
+	/* z-index:20; */
+  }
+
+  #editor {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative;
+}
+
+.viz {
+	height: 90%;
 }

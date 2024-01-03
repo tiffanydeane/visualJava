@@ -1,22 +1,32 @@
+/* eslint-disable sort-imports */
 import '../css/AlgoScreen.css';
 import '../css/App.css';
 import { BsBookHalf, BsFileEarmarkCodeFill, BsFillSunFill, BsMoonFill } from 'react-icons/bs';
-import React, { useEffect, useState } from 'react';
 import AnimationManager from '../anim/AnimationMain';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React from 'react';
 import ReactGA from 'react-ga4';
-import { algoMap } from '../AlgoList';
+import { algoMap, citeMap, codeMap } from '../AlgoList';
 import modals from '../examples/ExampleModals';
+import ReactFlow, { Background } from 'reactflow';
+import 'reactflow/dist/style.css';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
+import "ace-builds/src-noconflict/ext-language_tools";
+import { MdInfoOutline } from "react-icons/md";
+import { Tooltip } from "react-tooltip";
 
+class AlgoScreen extends React.Component {
+	constructor(props) {
+		super(props);
 
-function AlgoScreen(props){
-		const algoName = this.props;
-		const canvasRef = React.createRef();
-		const animBarRef = React.createRef();
-
+		const algoName = this.props.name;
+		this.canvasRef = React.createRef();
+		this.animBarRef = React.createRef();
 
 		this.state = {
 			algoName: algoName,
@@ -24,10 +34,12 @@ function AlgoScreen(props){
 			width: 0,
 			theme: 'light',
 			pseudocodeEnabled: true,
+			line: null,
 		};
 		ReactGA.send({ hitType: 'pageview', page: algoName });
+	}
 
-	useEffect(() => {
+	componentDidMount() {
 		if (algoMap[this.state.algoName]) {
 			this.animManag = new AnimationManager(this.canvasRef, this.animBarRef);
 
@@ -36,24 +48,22 @@ function AlgoScreen(props){
 				this.canvasRef.current.width,
 				this.canvasRef.current.height,
 			);
+
 			window.addEventListener('resize', this.updateDimensions);
 		}
+	}
 
-		return () => {
-			window.removeEventListener('resize', this.updateDimensions);
-		}
-	}, []);
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateDimensions);
+	}
 
-	// componentWillUnmount = () => {
-	// 	window.removeEventListener('resize', this.updateDimensions);
-	// };
-
-	const updateDimensions = () => {
-		this.animManag.changeSize(document.body.clientWidth);
+	updateDimensions = () => {
+		this.animManag.changeSize(document.getElementById('viewport').clientWidth,
+		document.getElementById('viewport').clientHeight);
 	};
 
-		const theme = this.props.theme;
-		const toggleTheme = this.props.toggleTheme;
+	render() {
+		const algoName = this.state.algoName;
 
 		if (!algoMap[algoName]) {
 			return (
@@ -77,13 +87,21 @@ function AlgoScreen(props){
 
 		// check for verbose name in algoMap
 		const header = algoMap[algoName][3] ? algoMap[algoName][3] : algoMap[algoName][0];
+		const proOptions = { hideAttribution: true };
+
+		const styles = {
+			background: '#1E1E1E',
+			width: '100%',
+		  };
 
 		return (
-			<div className="VisualizationMainPage">
-				<div id="container">
-					{/* <div id="header">
+			<div className="grid grid-cols-6 w-full">
+			<div className="col-start-1 col-span-4 justify-start items-center pl-4 pr-2 pb-4 viz">
+			<div className="VisualizationMainPage h-full">
+				<div id="container" className='h-full flex-col'>
+					<div id="header" className='mb-2'>
 						<h1>
-							<Link to="/">&#x3008;</Link>&nbsp;&nbsp;
+							{/* <Link to="/">&#x3008;</Link>&nbsp;&nbsp; */}
 							{isQuickSelect ? (
 								<>
 									QuickSelect / k<sup>th</sup> Select
@@ -91,76 +109,68 @@ function AlgoScreen(props){
 							) : (
 								<>{header}</>
 							)}
-							<div id="toggle">
-								{theme === 'light' ? (
-									<BsFillSunFill
-										size={31}
-										onClick={toggleTheme}
-										color="#f9c333"
-										className="rotate-effect"
-									/>
-								) : (
-									<BsMoonFill
-										size={29}
-										onClick={toggleTheme}
-										color="#d4f1f1"
-										className="rotate-effect"
-									/>
-								)}
-							</div>
 						</h1>
-					</div> */}
+					</div>
+
+						<div className="viewport mb-2" id="viewport">
+							<ReactFlow
+							panOnDrag={false}
+							proOptions={proOptions}
+							zoomOnPinch={false}
+							zoomOnDoubleClick={false}
+							preventScrolling={false}
+							style={styles}>
+								
+							<Background/>
+							<canvas
+								id="canvas"
+								ref={this.canvasRef}
+							></canvas>
+							</ReactFlow>
+
+						</div>
 
 					<div id="mainContent">
 						<div id="algoControlSection">
 							<table id="AlgorithmSpecificControls"></table>
-							<div id="toggles">
-								{algoMap[algoName][2] && (
-									<BsFileEarmarkCodeFill
-										className="pseudocode-toggle"
-										size={32}
-										onClick={this.togglePseudocode}
-										opacity={this.state.pseudocodeEnabled ? '100%' : '40%'}
-									/>
-								)}
-								{modals[algoName] && (
-									<BsBookHalf
-										className="menu-modal"
-										size={30}
-										onClick={this.toggleExamples}
-										opacity={this.state.examplesEnabled ? '100%' : '40%'}
-									/>
-								)}
-							</div>
-						</div>
 
-						<div className="viewport">
-							<canvas
-								id="canvas"
-								width={this.state.width}
-								height="505"
-								ref={this.canvasRef}
-							></canvas>
-							{this.state.examplesEnabled && (
-								<div className="modal">
-									<div className="modal-content">{modals[algoName]}</div>
-								</div>
-							)}
 						</div>
 
 						<div id="generalAnimationControlSection">
 							<table id="GeneralAnimationControls" ref={this.animBarRef}></table>
 						</div>
 					</div>
-{/* 
-					<div id="footer">
-						<p>
-							<Link to="/">Return to Home Page</Link>
-						</p>
-					</div> */}
 				</div>
 			</div>
+		</div>
+		<div className="flex col-start-5 col-span-2 w-full viz justify-start pr-2 pl-2 pb-4">
+		<AceEditor
+			mode="java"
+			theme="tomorrow_night_eighties"
+			name="editor"
+			value = {codeMap[algoName][0]}
+			editorProps={{ $blockScrolling: true }}
+			className="overlay overflow-hidden"
+			setOptions={{
+				readOnly: true,
+				highlightActiveLine: false, 
+				highlightGutterLine: false,
+				tabSize: 3
+				
+			}}
+		/>
+		<MdInfoOutline id="my-tooltip" style = {{position: 'absolute'}}/>	
+		</div>
+		<Tooltip 
+			anchorSelect="#my-tooltip" 
+			content={citeMap[algoName][0]} 
+			place='top' 
+			style = {{position: 'absolute', zIndex: '99'}}
+		/>
+		</div>
 		);
 	}
+
+}
 
 export default AlgoScreen;

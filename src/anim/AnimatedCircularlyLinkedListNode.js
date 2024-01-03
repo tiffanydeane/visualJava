@@ -27,6 +27,7 @@
 import AnimatedObject from './AnimatedObject.js';
 import { UndoBlock } from './UndoFunctions.js';
 
+
 export default class AnimatedCircularlyLinkedListNode extends AnimatedObject {
 	constructor(objectID, label, w, h, linkPercent, backgroundColor, foregroundColor) {
 		super();

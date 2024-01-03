@@ -36,7 +36,7 @@ export default class AnimatedLabel extends AnimatedObject {
 		this.textWidth = initialWidth || 0;
 
 		this.label = label;
-		this.labelColor = '#000000';
+		this.labelColor = '#FFFFFF';
 		this.highlighted = false;
 		this.centered = centered;
 		this.isCode = isCode;

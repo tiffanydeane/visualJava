@@ -25,12 +25,17 @@
 // or implied, of the University of San Francisco
 
 import Algorithm, {
+	// AddHighlight,
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm';
+
 import { act } from '../anim/AnimationMain';
+
 
 const INFO_MSG_X = 25;
 const INFO_MSG_Y = 15;
@@ -78,7 +83,7 @@ export default class DoublyLinkedList extends Algorithm {
 		this.setup();
 		this.initialIndex = this.nextIndex;
 	}
-
+	
 	addControls() {
 		this.controls = [];
 
@@ -99,7 +104,34 @@ export default class DoublyLinkedList extends Algorithm {
 		);
 		this.controls.push(this.addValueField);
 
-		addLabelToAlgorithmBar('at index', addTopHorizontalGroup);
+		// Add to front button
+		this.addFrontButton = addControlToAlgorithmBar(
+			'Button',
+			'to front',
+			addTopHorizontalGroup,
+		);
+		this.addFrontButton.onclick = this.addFrontCallback.bind(this);
+		this.controls.push(this.addFrontButton);
+
+		// Add to back button
+		this.addBackButton = addControlToAlgorithmBar(
+			'Button',
+			'to back',
+			addTopHorizontalGroup,
+		);
+		this.addBackButton.onclick = () => this.addBackCallback();
+		this.controls.push(this.addBackButton);
+
+		addLabelToAlgorithmBar('or', addTopHorizontalGroup);
+
+		// Add at index button
+		this.addIndexButton = addControlToAlgorithmBar(
+			'Button',
+			'at index',
+			addTopHorizontalGroup,
+		);
+		this.addIndexButton.onclick = this.addIndexCallback.bind(this);
+		this.controls.push(this.addIndexButton);
 
 		// Add's index text field
 		this.addIndexField = addControlToAlgorithmBar('Text', '', addTopHorizontalGroup);
@@ -112,42 +144,40 @@ export default class DoublyLinkedList extends Algorithm {
 		);
 		this.controls.push(this.addIndexField);
 
-		// Add to front button
-		this.addFrontButton = addControlToAlgorithmBar(
-			'Button',
-			'Add to Front',
-			addBottomHorizontalGroup,
-		);
-		this.addFrontButton.onclick = this.addFrontCallback.bind(this);
-		this.controls.push(this.addFrontButton);
-
-		// Add to back button
-		this.addBackButton = addControlToAlgorithmBar(
-			'Button',
-			'Add to Back',
-			addBottomHorizontalGroup,
-		);
-		this.addBackButton.onclick = () => this.addBackCallback();
-		this.controls.push(this.addBackButton);
-
-		addLabelToAlgorithmBar('or', addBottomHorizontalGroup);
-
-		// Add at index button
-		this.addIndexButton = addControlToAlgorithmBar(
-			'Button',
-			'Add at Index',
-			addBottomHorizontalGroup,
-		);
-		this.addIndexButton.onclick = this.addIndexCallback.bind(this);
-		this.controls.push(this.addIndexButton);
-
-		addDivisorToAlgorithmBar();
-
 		const removeVerticalGroup = addGroupToAlgorithmBar(false);
-		const removeTopHorizontalGroup = addGroupToAlgorithmBar(true, removeVerticalGroup);
-		const removeBottomHorizontalGroup = addGroupToAlgorithmBar(true, removeVerticalGroup);
+		const removeTopHorizontalGroup = addGroupToAlgorithmBar(true, addVerticalGroup);
+		const removeBottomHorizontalGroup = addGroupToAlgorithmBar(true, addVerticalGroup);
 
-		addLabelToAlgorithmBar('Index', removeTopHorizontalGroup);
+		addLabelToAlgorithmBar('Remove', removeTopHorizontalGroup);
+
+		// Remove from front button
+		this.removeFrontButton = addControlToAlgorithmBar(
+			'Button',
+			'from front',
+			removeTopHorizontalGroup,
+		);
+		this.removeFrontButton.onclick = () => this.removeFrontCallback();
+		this.controls.push(this.removeFrontButton);
+
+		// Remove from back button
+		this.removeBackButton = addControlToAlgorithmBar(
+			'Button',
+			'from back',
+			removeTopHorizontalGroup,
+		);
+		this.removeBackButton.onclick = () => this.removeBackCallback();
+		this.controls.push(this.removeBackButton);
+
+		addLabelToAlgorithmBar('or', removeTopHorizontalGroup);
+
+		// Remove from index button
+		this.removeIndexButton = addControlToAlgorithmBar(
+			'Button',
+			'from index',
+			removeTopHorizontalGroup,
+		);
+		this.removeIndexButton.onclick = () => this.removeIndexCallback();
+		this.controls.push(this.removeIndexButton);
 
 		// Remove's index text field
 		this.removeField = addControlToAlgorithmBar('Text', '', removeTopHorizontalGroup);
@@ -159,35 +189,10 @@ export default class DoublyLinkedList extends Algorithm {
 			true,
 		);
 		this.controls.push(this.removeField);
-
-		// Remove from index button
-		this.removeIndexButton = addControlToAlgorithmBar(
-			'Button',
-			'Remove from Index',
-			removeTopHorizontalGroup,
-		);
-		this.removeIndexButton.onclick = () => this.removeIndexCallback();
-		this.controls.push(this.removeIndexButton);
-
-		addLabelToAlgorithmBar('or', removeBottomHorizontalGroup);
-
-		// Remove from front button
-		this.removeFrontButton = addControlToAlgorithmBar(
-			'Button',
-			'Remove from Front',
-			removeBottomHorizontalGroup,
-		);
-		this.removeFrontButton.onclick = () => this.removeFrontCallback();
-		this.controls.push(this.removeFrontButton);
-
-		// Remove from back button
-		this.removeBackButton = addControlToAlgorithmBar(
-			'Button',
-			'Remove from Back',
-			removeBottomHorizontalGroup,
-		);
-		this.removeBackButton.onclick = () => this.removeBackCallback();
-		this.controls.push(this.removeBackButton);
+		
+				
+		
+				
 
 		// Get's index text field
 		// this.getField = addControlToAlgorithmBar("Text", "");
@@ -200,6 +205,11 @@ export default class DoublyLinkedList extends Algorithm {
 		// this.controls.push(this.getButton);
 
 		addDivisorToAlgorithmBar();
+
+		// this.tailCheckbox = addCheckboxToAlgorithmBar('Tail pointer', false);
+		// this.tailCheckbox.onclick = this.toggleTailPointer.bind(this);
+		// this.controls.push(this.tailCheckbox);
+
 
 		const verticalGroup2 = addGroupToAlgorithmBar(false);
 
@@ -580,6 +590,9 @@ export default class DoublyLinkedList extends Algorithm {
 
 		if (isAddFront) {
 			this.highlight(0, 0, this.addFrontCodeID);
+			highlight(18);
+			sleep(8000).then(() => {highlight(19)});
+			
 		} else if (isAddBack) {
 			this.highlight(0, 0, this.addBackCodeID);
 		} else if (isAddIndex) {
@@ -588,8 +601,11 @@ export default class DoublyLinkedList extends Algorithm {
 
 		if (isAddIndex && index === 0) {
 			this.highlight(1, 0, this.addIndexCodeID);
+
 			this.highlight(2, 0, this.addIndexCodeID);
+
 			this.highlight(0, 0, this.addFrontCodeID);
+
 		} else if (isAddIndex && index === this.size) {
 			this.highlight(3, 0, this.addIndexCodeID);
 			this.highlight(4, 0, this.addIndexCodeID);
@@ -632,6 +648,7 @@ export default class DoublyLinkedList extends Algorithm {
 
 		if ((isAddFront || (isAddIndex && index === 0)) && this.size === 0) {
 			this.highlight(1, 0, this.addFrontCodeID);
+			this.cmd(act.mom, 2);
 		} else if (isAddFront || (isAddIndex && index === 0)) {
 			this.highlight(4, 0, this.addFrontCodeID);
 		} else if (isAddIndex && index === 0) {

@@ -30,6 +30,8 @@ import Algorithm, {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -65,7 +67,7 @@ export default class BubbleSort extends Algorithm {
 		const verticalGroup = addGroupToAlgorithmBar(false);
 
 		addLabelToAlgorithmBar(
-			'Comma seperated list (e.g. "3,1,2"). Max 18 elements & no elements > 999',
+			'Comma separated list',
 			verticalGroup,
 		);
 
@@ -76,7 +78,7 @@ export default class BubbleSort extends Algorithm {
 		this.listField.onkeydown = this.returnSubmit(
 			this.listField,
 			this.sortCallback.bind(this),
-			60,
+			40,
 			false,
 		);
 		this.controls.push(this.listField);
@@ -85,6 +87,8 @@ export default class BubbleSort extends Algorithm {
 		this.sortButton = addControlToAlgorithmBar('Button', 'Sort', horizontalGroup);
 		this.sortButton.onclick = this.sortCallback.bind(this);
 		this.controls.push(this.sortButton);
+
+		verticalGroup.style.alignItems = 'center';
 
 		addDivisorToAlgorithmBar();
 
@@ -99,13 +103,6 @@ export default class BubbleSort extends Algorithm {
 		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', verticalGroup2);
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
-
-		addDivisorToAlgorithmBar();
-
-		// Last swap optimization toggle
-		this.lastSwapCheckbox = addCheckboxToAlgorithmBar('Enable last swap optimization', true);
-		this.lastSwapCheckbox.onclick = this.toggleLastSwap.bind(this);
-		this.controls.push(this.lastSwapCheckbox);
 	}
 
 	setup() {
@@ -279,7 +276,10 @@ export default class BubbleSort extends Algorithm {
 			return this.commands;
 		}
 
-		this.highlight(0, 0);
+		highlight(4, 500);
+		sleep(500).then(() => {highlight(6, 500)});
+		sleep(500*2).then(() => {highlight(7, 500)});
+		sleep(500*3).then(() => {highlight(8, 500)});
 
 		this.arrayID = [];
 		this.arrayData = list
@@ -344,32 +344,42 @@ export default class BubbleSort extends Algorithm {
 		let lastSwapped = 0;
 		this.highlight(4, 0);
 		this.cmd(act.step);
+		let x = 0;
 		do {
-			this.unhighlight(4, 0);
-			this.highlight(5, 0);
 			this.cmd(act.step);
-			this.unhighlight(5, 0);
 			sorted = true;
-			this.highlight(6, 0);
+			sleep(500*(4+x)).then(() => {highlight(9, 500)});
+			x++;
+			sleep(500*(4+x)).then(() => {highlight(10, 500)});
+			x++;
 			for (let i = 0; i < end; i++) {
+				sleep(500*(4+x)).then(() => {highlight(11, 500)});
+				x++;
 				this.movePointers(i, i + 1);
-				this.highlight(7, 0);
-				this.unhighlight(6, 0);
 				this.cmd(
 					act.setText,
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.cmd(act.step);
-				this.unhighlight(7, 0);
 				if (this.arrayData[i] > this.arrayData[i + 1]) {
 					this.swap(i, i + 1);
 					sorted = false;
 					lastSwapped = i;
+					sleep(500*(4+x)).then(() => {highlight(14, 500)});
+					x++;
+					sleep(500*(4+x)).then(() => {highlight(15, 500)});
+					x++;
+					sleep(500*(4+x)).then(() => {highlight(16, 500)});
+					x++;
+					sleep(500*(4+x)).then(() => {highlight(17, 500)});
+					x++;
 				}
+				sleep(500*(4+x)).then(() => {highlight(10, 500)});
+				x++;
 			}
-			this.unhighlight(6, 0);
-			this.highlight(12, 0);
+			sleep(500*(4+x)).then(() => {highlight(23, 500)});
+			x++;
 			if (lastSwapEnabled) {
 				end = lastSwapped;
 			} else {
@@ -379,11 +389,15 @@ export default class BubbleSort extends Algorithm {
 				for (let i = end + 1; i < this.arrayData.length; i++) {
 					this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
 				}
+				sleep(500*(4+x)).then(() => {highlight(8, 500)});
+				x++;
+			}
+			else {
+				sleep(500*(4+x)).then(() => {highlight(24, 500)});
+				x++;
 			}
 			this.cmd(act.step);
-			this.unhighlight(12, 0);
 		} while (!sorted);
-		this.highlight(4, 0);
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);

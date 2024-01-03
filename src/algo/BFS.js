@@ -27,13 +27,16 @@
 import {
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
+	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { BFS_DFS_ADJ_LIST } from './util/GraphValues';
 import Graph from './Graph.js';
 import { act } from '../anim/AnimationMain';
 
-const BFS_QUEUE_HEAD_COLOR = '#0000FF';
+const BFS_QUEUE_HEAD_COLOR = '#6ef0a9';
 const VISITED_COLOR = '#99CCFF';
 
 const INFO_MSG_X = 25;
@@ -65,8 +68,10 @@ export default class BFS extends Graph {
 	}
 
 	addControls() {
-		addLabelToAlgorithmBar('Start vertex: ');
-		this.startField = addControlToAlgorithmBar('Text', '');
+		const verticalGroup = addGroupToAlgorithmBar(false);
+		const horizontalGroup = addGroupToAlgorithmBar(true, verticalGroup);
+		addLabelToAlgorithmBar('Start vertex: ', horizontalGroup);
+		this.startField = addControlToAlgorithmBar('Text', '',horizontalGroup);
 		this.startField.style.textAlign = 'center';
 		this.startField.onkeydown = this.returnSubmit(
 			this.startField,
@@ -77,11 +82,13 @@ export default class BFS extends Graph {
 		this.startField.size = 2;
 		this.controls.push(this.startField);
 
-		this.startButton = addControlToAlgorithmBar('Button', 'Run');
+		this.startButton = addControlToAlgorithmBar('Button', 'Run', horizontalGroup);
 		this.startButton.onclick = this.startCallback.bind(this);
 		this.controls.push(this.startButton);
 
 		addDivisorToAlgorithmBar();
+
+		verticalGroup.parentElement.style.alignSelf = 'center';
 
 		super.addControls();
 	}
@@ -90,6 +97,7 @@ export default class BFS extends Graph {
 		super.setup(adjMatrix);
 		this.commands = [];
 		this.messageID = [];
+		this.x = 0;
 
 		this.visited = [];
 
@@ -148,7 +156,7 @@ export default class BFS extends Graph {
 			0,
 		);
 
-		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
+		// this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		this.animationManager.setAllLayers([0, 32, this.currentLayer]);
 		this.animationManager.startNewAnimation(this.commands);
@@ -162,6 +170,7 @@ export default class BFS extends Graph {
 		this.listID = [];
 		this.messageID = [];
 		this.visitedID = [];
+		this.x = 0;
 	}
 
 	startCallback() {
@@ -219,20 +228,34 @@ export default class BFS extends Graph {
 			QUEUE_START_X,
 			QUEUE_START_Y,
 		);
-		this.highlight(1, 0);
-		this.highlight(2, 0);
-		this.highlight(3, 0);
-		this.highlight(4, 0);
+		// this.highlight(1, 0);
+		// this.highlight(2, 0);
+		// this.highlight(3, 0);
+		// this.highlight(4, 0);
 		this.cmd(act.step);
-		this.unhighlight(1, 0);
-		this.unhighlight(2, 0);
-		this.unhighlight(3, 0);
-		this.unhighlight(4, 0);
-		this.highlight(5, 0);
+		// this.unhighlight(1, 0);
+		// this.unhighlight(2, 0);
+		// this.unhighlight(3, 0);
+		// this.unhighlight(4, 0);
+		// this.highlight(5, 0);
+		sleep(325*this.x).then(() => {highlight(22, 325)});
+		this.x++;
+		sleep(325*this.x).then(() => {highlight(26, 325)});
+		this.x++;
+		sleep(325*this.x).then(() => {highlight(29, 325)});
+		this.x++;
+		sleep(325*this.x).then(() => {highlight(32, 325)});
+		this.x++;
+		sleep(325*this.x).then(() => {highlight(33, 325)});
+		this.x++;
+		sleep(325*this.x).then(() => {highlight(35, 325)});
+		this.x++;
 		while (this.queue.length > 0 && this.listID.length < this.size) {
+			sleep(325*this.x).then(() => {highlight(38, 325)});
+			this.x++;
 			vertex = this.queue.shift();
-			this.highlight(6, 0);
-			this.highlight(7, 0);
+			// this.highlight(6, 0);
+			// this.highlight(7, 0);
 			this.cmd(
 				act.setText,
 				this.infoLabelID,
@@ -261,19 +284,33 @@ export default class BFS extends Graph {
 
 			this.visitVertex(vertex);
 			this.cmd(act.step);
-			this.unhighlight(6, 0);
-			this.unhighlight(7, 0);
-			this.highlight(8, 0);
+			// this.unhighlight(6, 0);
+			// this.unhighlight(7, 0);
+			// this.highlight(8, 0);
+
+			sleep(325*this.x).then(() => {highlight(44, 325)});
+			this.x++;
+			sleep(325*this.x).then(() => {highlight(45, 325)});
+			this.x++;
 
 			for (let neighbor = 0; neighbor < this.size; neighbor++) {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
+					sleep(325*this.x).then(() => {highlight(46, 325)});
+					this.x++;
 					this.highlightEdge(vertex, neighbor, 1);
-					this.highlight(9, 0);
+					// this.highlight(9, 0);
 					this.cmd(act.step);
+					sleep(325*this.x).then(() => {highlight(47, 325)});
+					this.x++;
 					if (!this.visited[neighbor]) {
-						this.unhighlight(9, 0);
-						this.highlight(10, 0);
-						this.highlight(11, 0);
+						console.log(neighbor);
+						// this.unhighlight(9, 0);
+						// this.highlight(10, 0);
+						// this.highlight(11, 0);
+						sleep(325*this.x).then(() => {highlight(48, 325)});
+						this.x++;
+						sleep(325*this.x).then(() => {highlight(49, 325)});
+						this.x++;
 						this.visited[neighbor] = true;
 						this.visitedID.push(this.nextIndex);
 						this.cmd(
@@ -300,7 +337,7 @@ export default class BFS extends Graph {
 							QUEUE_START_Y,
 						);
 					} else {
-						this.unhighlight(9, 0);
+						// this.unhighlight(9, 0);
 						this.cmd(
 							act.setText,
 							this.infoLabelID,
@@ -308,18 +345,22 @@ export default class BFS extends Graph {
 						);
 					}
 					this.cmd(act.step);
-					this.unhighlight(10, 0);
-					this.unhighlight(11, 0);
+					// this.unhighlight(10, 0);
+					// this.unhighlight(11, 0);
 					this.highlightEdge(vertex, neighbor, 0);
+					sleep(325*this.x).then(() => {highlight(45, 325)});
+					this.x++;
 				}
 			}
-			this.unhighlight(8, 0);
+			// this.unhighlight(8, 0);
 
 			this.cmd(act.delete, this.queueID.shift());
 
 			this.leaveVertex();
+			sleep(325*this.x).then(() => {highlight(35, 325)});
+			this.x++;
 		}
-		this.unhighlight(5, 0);
+		// this.unhighlight(5, 0);
 
 		if (this.queue.length > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');
@@ -331,6 +372,7 @@ export default class BFS extends Graph {
 	}
 
 	clear() {
+		this.x = 0;
 		for (let i = 0; i < this.size; i++) {
 			this.cmd(act.setBackgroundColor, this.circleID[i], '#FFFFFF');
 			this.visited[i] = false;

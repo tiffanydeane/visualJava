@@ -1,62 +1,37 @@
-import {
-	BsFillHouseFill,
-	BsFillSunFill,
-	BsGithub,
-	BsInfoCircleFill,
-	BsMoonFill,
-} from 'react-icons/bs';
-import { IconContext } from 'react-icons';
-import { Link } from 'react-router-dom';
-import React from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
+import { React, useState } from "react";
+import logo from "../img/iw design.png";
 
-class Header extends React.Component {
-	state = {
-		menuVisible: null,
-	};
+export const navLinks = [
+  {
+    id: "home",
+    title: "Home",
+  },
+];
 
-	render() {
-		const menuClass = { null: '', true: 'show', false: 'hide' };
+const Header = () => {
+  const [active, setActive] = useState("Home");
 
-		return (
-			<React.Fragment>
-				<div className="header">
-					<div id="menu">
-						<IconContext.Provider value={{ className: 'menu-bar' }}>
-							<RxHamburgerMenu onClick={this.toggleMenu} />
-						</IconContext.Provider>
-					</div>
-					<div id="title">
-						<h1>CS 1332 Data Structures and Algorithms Visualization Tool</h1>
-					</div>
-				</div>
-				<div className={`menu ${menuClass[this.state.menuVisible]}`}>
-					<ul>
-						<li>
-							<Link to="/" onClick={this.toggleMenu}>
-								<BsFillHouseFill size={20} />
-								&nbsp;&nbsp;Home
-							</Link>
-						</li>
-						<li>
-							<Link to="/about" onClick={this.toggleMenu}>
-								<BsInfoCircleFill size={20} />
-								&nbsp;&nbsp;About
-							</Link>
-						</li>
-						<li>
-							<a href="https://github.com/RodrigoDLPontes/visualization-tool">
-								<BsGithub size={20} />
-								&nbsp;&nbsp;Source Code
-							</a>
-						</li>
-					</ul>
-				</div>
-			</React.Fragment>
-		);
-	}
-
-	toggleMenu = () => this.setState(state => ({ menuVisible: !state.menuVisible }));
-}
+  return (
+    <nav className="header w-full flex py-4 pl-5 justify-between items-center navbar">
+      {/* Logo */}
+      <img src={logo} alt="logo" width={100}/>
+      
+      {/* Desktop Navigation */}
+      <ul className="list-none sm:flex hidden pl-10 justify-start items-center flex-1">
+        {navLinks.map((nav, index) => (
+          <li
+            key={nav.id}
+            className={`font-bold cursor-pointer text-[16px] ${
+              active === nav.title ? "text-white" : "text-dimWhite"
+            } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
+            onClick={() => setActive(nav.title)}
+          >
+            <a href={`#${nav.id}`}>{nav.title}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 export default Header;

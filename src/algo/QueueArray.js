@@ -24,7 +24,7 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar } from './Algorithm.js';
+import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar, highlight, sleep } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
 const ARRAY_START_X = 100;
@@ -60,7 +60,7 @@ const RESIZE_ARRAY_START_Y = 345;
 const QUEUE_RESIZE_LABEL_X = 60;
 const QUEUE_RESIZE_LABEL_Y = 60;
 
-const INDEX_COLOR = '#0000FF';
+const INDEX_COLOR = '#6ef0a9';
 
 const FRONT_LABEL_OFFSET = -40;
 
@@ -83,7 +83,8 @@ export default class QueueArray extends Algorithm {
 
 	addControls() {
 		this.controls = [];
-		this.enqueueField = addControlToAlgorithmBar('Text', '');
+		const addTopHorizontalGroup = addGroupToAlgorithmBar(true);
+		this.enqueueField = addControlToAlgorithmBar('Text', '', addTopHorizontalGroup);
 		this.enqueueField.style.textAlign = 'center';
 		this.enqueueField.onkeydown = this.returnSubmit(
 			this.enqueueField,
@@ -92,26 +93,26 @@ export default class QueueArray extends Algorithm {
 			true,
 		);
 
-		this.enqueueButton = addControlToAlgorithmBar('Button', 'Enqueue');
+		this.enqueueButton = addControlToAlgorithmBar('Button', 'Enqueue', addTopHorizontalGroup);
 		this.enqueueButton.onclick = this.enqueueCallback.bind(this);
 		this.controls.push(this.enqueueField);
 		this.controls.push(this.enqueueButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.dequeueButton = addControlToAlgorithmBar('Button', 'Dequeue');
+		this.dequeueButton = addControlToAlgorithmBar('Button', 'Dequeue', addTopHorizontalGroup);
 		this.dequeueButton.onclick = this.dequeueCallback.bind(this);
 		this.controls.push(this.dequeueButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.randomButton = addControlToAlgorithmBar('Button', 'Random');
+		this.randomButton = addControlToAlgorithmBar('Button', 'Random', addTopHorizontalGroup);
 		this.randomButton.onclick = this.randomCallback.bind(this);
 		this.controls.push(this.randomButton);
 
-		addDivisorToAlgorithmBar();
+		addDivisorToAlgorithmBar(addTopHorizontalGroup);
 
-		this.clearButton = addControlToAlgorithmBar('Button', 'Clear');
+		this.clearButton = addControlToAlgorithmBar('Button', 'Clear', addTopHorizontalGroup);
 		this.clearButton.onclick = this.clearCallback.bind(this);
 		this.controls.push(this.clearButton);
 	}
@@ -257,6 +258,10 @@ export default class QueueArray extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.enqueue.bind(this), pushVal);
+			highlight(14, 700);
+			sleep(700).then(() => {highlight(15, 700)});
+			sleep(700*2).then(() => {highlight(18, 700)});
+			sleep(700*3).then(() => {highlight(19, 700)});
 		} else if (
 			this.size === this.arraySize &&
 			this.enqueueField.value !== '' &&
@@ -265,6 +270,22 @@ export default class QueueArray extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.resize.bind(this), pushVal);
+			highlight(14, 700);
+			sleep(700).then(() => {highlight(15, 700)});
+			sleep(700*2).then(() => {highlight(16, 700)});
+			sleep(700*3).then(() => {highlight(33, 700)});
+			sleep(700*4).then(() => {highlight(34, 700)});
+			sleep(700*5).then(() => {highlight(36, 700)});
+			let x = -2;
+			for (let i = 0; i < this.size; i++) {
+				sleep(700*(6+(2*i))).then(() => {highlight(37, 700)});
+				sleep(700*(7+(2*i))).then(() => {highlight(36, 700)});
+				x += 2;
+			}
+			sleep(700*(8 + x)).then(() => {highlight(40, 700)});
+			sleep(700*(9 + x)).then(() => {highlight(41, 700)});
+			sleep(700*(10 + x)).then(() => {highlight(18, 700)});
+			sleep(700*(11+ x)).then(() => {highlight(19, 700)});
 		} else {
 			this.shake(this.enqueueButton);
 		}
@@ -273,6 +294,15 @@ export default class QueueArray extends Algorithm {
 	dequeueCallback() {
 		if (this.size !== 0) {
 			this.implementAction(this.dequeue.bind(this));
+			highlight(22, 700);
+			sleep(700).then(() => {highlight(23, 700)});
+			sleep(700*2).then(() => {highlight(10, 700)});
+			sleep(700*3).then(() => {highlight(11, 700)});
+			sleep(700*4).then(() => {highlight(26, 700)});
+			sleep(700*5).then(() => {highlight(27, 700)});
+			sleep(700*6).then(() => {highlight(28, 700)});
+			sleep(700*7).then(() => {highlight(29, 700)});
+			sleep(700*8).then(() => {highlight(30, 700)});
 		} else {
 			this.shake(this.dequeueButton);
 		}
@@ -512,7 +542,7 @@ export default class QueueArray extends Algorithm {
 				ypos,
 			);
 			this.cmd(act.createLabel, this.arrayLabelIDNew[i], i, xpos, ypos + ARRAY_ELEM_HEIGHT);
-			this.cmd(act.setForegroundColor, this.arrayLabelIDNew[i], '#0000FF');
+			this.cmd(act.setForegroundColor, this.arrayLabelIDNew[i], '#6ef0a9');
 		}
 		this.cmd(act.step);
 

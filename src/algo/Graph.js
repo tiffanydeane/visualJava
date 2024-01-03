@@ -78,8 +78,8 @@ const LARGE_ADJ_LIST_WIDTH = 20;
 const LARGE_ADJ_LIST_SPACING_AFTER_LIST = 25;
 const LARGE_ADJ_LIST_SPACING_BETWEEN_NODES = 15;
 
-export const VERTEX_INDEX_COLOR = '#0000FF';
-export const EDGE_COLOR = '#000000';
+export const VERTEX_INDEX_COLOR = '#000000';
+export const EDGE_COLOR = '#FFFFFF';
 
 const HIGHLIGHT_CIRCLE_COLOR = '#000000';
 
@@ -112,25 +112,12 @@ export default class Graph extends Algorithm {
 			addDirection = true;
 		}
 
-		const verticalGroup = addGroupToAlgorithmBar(false);
-		this.newGraphButton = addControlToAlgorithmBar('Button', 'New Graph', verticalGroup);
-		this.newGraphButton.onclick = this.newGraphCallback.bind(this);
-		this.controls.push(this.newGraphButton);
-		this.defaultGraphButton = addControlToAlgorithmBar(
-			'Button',
-			'Default Graph',
-			verticalGroup,
-		);
-		this.defaultGraphButton.onclick = this.defaultGraphCallback.bind(this);
-		this.defaultGraphButton.disabled = true;
-		this.controls.push(this.defaultGraphButton);
-
-		addDivisorToAlgorithmBar();
-
 		if (addDirection) {
+			const verticalGroup2 = addGroupToAlgorithmBar(false);
 			const radioButtonList = addRadioButtonGroupToAlgorithmBar(
 				['Undirected Graph', 'Directed Graph'],
 				'GraphType',
+				verticalGroup2
 			);
 
 			this.undirectedGraphButton = radioButtonList[0];
@@ -143,45 +130,60 @@ export default class Graph extends Algorithm {
 			this.directedGraphButton.checked = this.directed;
 			this.controls.push(this.directedGraphButton);
 
+			verticalGroup2.parentElement.style.alignSelf = 'center';
+
 			addDivisorToAlgorithmBar();
 		}
 
-		let radioButtonList = addRadioButtonGroupToAlgorithmBar(
-			['Small Graph', 'Large Graph'],
-			'GraphSize',
+		const verticalGroup = addGroupToAlgorithmBar(false);
+		this.newGraphButton = addControlToAlgorithmBar('Button', 'New Graph', verticalGroup);
+		this.newGraphButton.onclick = this.newGraphCallback.bind(this);
+		this.controls.push(this.newGraphButton);
+		this.defaultGraphButton = addControlToAlgorithmBar(
+			'Button',
+			'Default Graph',
+			verticalGroup,
 		);
+		this.defaultGraphButton.onclick = this.defaultGraphCallback.bind(this);
+		this.defaultGraphButton.disabled = true;
+		this.controls.push(this.defaultGraphButton);
+		
+		// let radioButtonList = addRadioButtonGroupToAlgorithmBar(
+		// 	['Small Graph', 'Large Graph'],
+		// 	'GraphSize',
+		// );
 
-		this.smallGraphButton = radioButtonList[0];
-		this.smallGraphButton.onclick = this.smallGraphCallback.bind(this);
-		this.smallGraphButton.checked = true;
-		this.controls.push(this.smallGraphButton);
+		// this.smallGraphButton = radioButtonList[0];
+		// this.smallGraphButton.onclick = this.smallGraphCallback.bind(this);
+		// this.smallGraphButton.checked = true;
+		// this.controls.push(this.smallGraphButton);
 
-		this.largeGraphButton = radioButtonList[1];
-		this.largeGraphButton.onclick = this.largeGraphCallback.bind(this);
-		this.controls.push(this.largeGraphButton);
+		// this.largeGraphButton = radioButtonList[1];
+		// this.largeGraphButton.onclick = this.largeGraphCallback.bind(this);
+		// this.controls.push(this.largeGraphButton);
 
-		addDivisorToAlgorithmBar();
+		// addDivisorToAlgorithmBar();
 
 		// We are explicitly not adding the buttons below to this.controls
 		// since we don't want them to be disabled
-		radioButtonList = addRadioButtonGroupToAlgorithmBar(
-			[
-				'Logical Representation',
-				'Adjacency List Representation',
-				'Adjacency Matrix Representation',
-			],
-			'GraphRepresentation',
-		);
+		// radioButtonList = addRadioButtonGroupToAlgorithmBar(
+		// 	[
+		// 		'Logical Representation',
+		// 		'Adjacency List Representation',
+		// 		'Adjacency Matrix Representation',
+		// 	],
+		// 	'GraphRepresentation',
+		// );
 
-		this.logicalButton = radioButtonList[0];
-		this.logicalButton.onclick = this.graphRepChangedCallback.bind(this, 1);
+		// this.logicalButton = radioButtonList[0];
+		// this.logicalButton.onclick = this.graphRepChangedCallback.bind(this, 1);
 
-		this.adjacencyListButton = radioButtonList[1];
-		this.adjacencyListButton.onclick = this.graphRepChangedCallback.bind(this, 2);
+		// this.adjacencyListButton = radioButtonList[1];
+		// this.adjacencyListButton.onclick = this.graphRepChangedCallback.bind(this, 2);
 
-		this.adjacencyMatrixButton = radioButtonList[2];
-		this.adjacencyMatrixButton.onclick = this.graphRepChangedCallback.bind(this, 3);
-		this.logicalButton.checked = true;
+		// this.adjacencyMatrixButton = radioButtonList[2];
+		// this.adjacencyMatrixButton.onclick = this.graphRepChangedCallback.bind(this, 3);
+		// this.logicalButton.checked = true;
 	}
 
 	directedGraphCallback(newDirected) {

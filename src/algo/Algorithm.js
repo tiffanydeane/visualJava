@@ -23,7 +23,7 @@
 // The views and conclusions contained in the software and documentation are those of the
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
-
+import * as ace from 'ace-builds/src-noconflict/ace';
 import { act } from '../anim/AnimationMain';
 
 export function addLabelToAlgorithmBar(labelName, group) {
@@ -128,6 +128,8 @@ export function addRadioButtonGroupToAlgorithmBar(buttonNames, groupName, group)
 		buttonList.push(button);
 	}
 
+	newTable.style.whiteSpace = "nowrap";
+
 	if (!group) {
 		const topLevelTableEntry = document.createElement('td');
 		topLevelTableEntry.appendChild(newTable);
@@ -162,16 +164,21 @@ export function addControlToAlgorithmBar(type, value, group) {
 	return element;
 }
 
-export function addDivisorToAlgorithmBar() {
+export function addDivisorToAlgorithmBar(parentGroup) {
 	const divisorLeft = document.createElement('td');
 	divisorLeft.setAttribute('class', 'divisorLeft');
 
 	const divisorRight = document.createElement('td');
 	divisorRight.setAttribute('class', 'divisorRight');
 
-	const controlBar = document.getElementById('AlgorithmSpecificControls');
-	controlBar.appendChild(divisorLeft);
-	controlBar.appendChild(divisorRight);
+	if (!parentGroup) {
+		const controlBar = document.getElementById('AlgorithmSpecificControls');
+		controlBar.appendChild(divisorLeft);
+		controlBar.appendChild(divisorRight);
+	} else {
+		parentGroup.appendChild(divisorLeft);
+		parentGroup.appendChild(divisorRight);
+	}
 }
 
 export function addGroupToAlgorithmBar(horizontal, parentGroup) {
@@ -192,11 +199,33 @@ export function addGroupToAlgorithmBar(horizontal, parentGroup) {
 	return group;
 }
 
+export function highlight(line, time) {
+	const editor = ace.edit("editor");
+	editor.scrollToLine(line, true, true, function () {});
+	// const prevMarkers = editor.session.getMarkers();
+	// if (prevMarkers) {
+	// 	const prevMarkersArr = Object.keys(prevMarkers);
+	// 	for (const item of prevMarkersArr) {
+	// 		editor.session.removeMarker(prevMarkers[item].id);
+	// 	}
+	// }
+	const Range = ace.require('ace/range').Range;
+	const highlighted = editor.session.addMarker(new Range(line - 1, 0, line - 1, 1), "myMarker", "fullLine");
+	setTimeout(() => {
+		editor.getSession().removeMarker(highlighted);
+	  }, time)
+}
+
+export function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const CODE_LINE_HEIGHT = 15;
 const CODE_HIGHLIGHT_COLOR = '#FF0000';
-const CODE_STANDARD_COLOR = '#000000';
+const CODE_STANDARD_COLOR = '#FFFFFF';
 
 export default class Algorithm {
+	
 	constructor(am, w, h) {
 		if (am == null) {
 			return;

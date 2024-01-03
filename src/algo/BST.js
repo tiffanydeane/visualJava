@@ -29,6 +29,8 @@ import Algorithm, {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addRadioButtonGroupToAlgorithmBar,
+	highlight,
+	sleep
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -190,12 +192,16 @@ export default class BST extends Algorithm {
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
 		this.animationManager.clearHistory();
+		this.x = 0;
 	}
 
 	addControls() {
 		this.controls = [];
 
-		this.insertField = addControlToAlgorithmBar('Text', '');
+		const verticalGroup = addGroupToAlgorithmBar(false);
+		const horizontalGroup = addGroupToAlgorithmBar(true, verticalGroup);
+
+		this.insertField = addControlToAlgorithmBar('Text', '', horizontalGroup);
 		this.insertField.style.textAlign = 'center';
 		this.insertField.onkeydown = this.returnSubmit(
 			this.insertField,
@@ -205,13 +211,12 @@ export default class BST extends Algorithm {
 		);
 		this.controls.push(this.insertField);
 
-		this.insertButton = addControlToAlgorithmBar('Button', 'Insert');
+		this.insertButton = addControlToAlgorithmBar('Button', 'Insert', horizontalGroup);
 		this.insertButton.onclick = this.insertCallback.bind(this);
 		this.controls.push(this.insertButton);
 
-		addDivisorToAlgorithmBar();
 
-		this.deleteField = addControlToAlgorithmBar('Text', '');
+		this.deleteField = addControlToAlgorithmBar('Text', '', horizontalGroup);
 		this.deleteField.style.textAlign = 'center';
 		this.deleteField.onkeydown = this.returnSubmit(
 			this.deleteField,
@@ -221,13 +226,12 @@ export default class BST extends Algorithm {
 		);
 		this.controls.push(this.deleteField);
 
-		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete');
+		this.deleteButton = addControlToAlgorithmBar('Button', 'Delete', horizontalGroup);
 		this.deleteButton.onclick = this.deleteCallback.bind(this);
 		this.controls.push(this.deleteButton);
 
-		addDivisorToAlgorithmBar();
 
-		this.findField = addControlToAlgorithmBar('Text', '');
+		this.findField = addControlToAlgorithmBar('Text', '', horizontalGroup);
 		this.findField.style.textAlign = 'center';
 		this.findField.onkeydown = this.returnSubmit(
 			this.findField,
@@ -237,35 +241,17 @@ export default class BST extends Algorithm {
 		);
 		this.controls.push(this.findField);
 
-		this.findButton = addControlToAlgorithmBar('Button', 'Find');
+		this.findButton = addControlToAlgorithmBar('Button', 'Find', horizontalGroup);
 		this.findButton.onclick = this.findCallback.bind(this);
 		this.controls.push(this.findButton);
 
-		addDivisorToAlgorithmBar();
+		this.traversal = 'in';
 
-		const traversalButtonList = addRadioButtonGroupToAlgorithmBar(
-			['Pre-order', 'In-order', 'Post-order', 'Level order'],
-			'Traversals',
-		);
-
-		this.preOrderSelect = traversalButtonList[0];
-		this.inOrderSelect = traversalButtonList[1];
-		this.postOrderSelect = traversalButtonList[2];
-		this.levelOrderSelect = traversalButtonList[3];
-		this.preOrderSelect.onclick = () => (this.traversal = 'pre');
-		this.inOrderSelect.onclick = () => (this.traversal = 'in');
-		this.postOrderSelect.onclick = () => (this.traversal = 'post');
-		this.levelOrderSelect.onclick = () => (this.traversal = 'level');
-		this.preOrderSelect.checked = true;
-		this.traversal = 'pre';
-
-		this.traverseButton = addControlToAlgorithmBar('Button', 'Traverse');
-		this.traverseButton.onclick = this.traverseCallback.bind(this);
-		this.controls.push(this.traverseButton);
-
-		addDivisorToAlgorithmBar();
+		verticalGroup.parentElement.style.alignSelf = 'center';
 
 		const verticalGroup2 = addGroupToAlgorithmBar(false);
+
+		addDivisorToAlgorithmBar(horizontalGroup);
 
 		// Random data button
 		this.randomButton = addControlToAlgorithmBar('Button', 'Random', verticalGroup2);
@@ -277,18 +263,6 @@ export default class BST extends Algorithm {
 		this.clearButton.onclick = () => this.clearCallback();
 		this.controls.push(this.clearButton);
 
-		addDivisorToAlgorithmBar();
-
-		const predSuccButtonList = addRadioButtonGroupToAlgorithmBar(
-			['Predecessor', 'Successor'],
-			'Predecessor/Successor',
-		);
-
-		this.predButton = predSuccButtonList[0];
-		this.succButton = predSuccButtonList[1];
-		this.predButton.onclick = () => (this.predSucc = 'pred');
-		this.succButton.onclick = () => (this.predSucc = 'succ');
-		this.succButton.checked = true;
 		this.predSucc = 'succ';
 	}
 
@@ -297,15 +271,17 @@ export default class BST extends Algorithm {
 		this.treeRoot = null;
 		this.edges = [];
 		this.toClear = [];
+		this.x = 0;
 	}
 
 	insertCallback() {
 		const insertedValue = this.insertField.value;
+		this.x = 0;
 		// Get text value
 		if (insertedValue !== '') {
 			// set text value
 			this.insertField.value = '';
-			this.implementAction(this.add.bind(this), parseInt(insertedValue));
+			this.implementAction(this.add.bind(this), parseInt(insertedValue), 'insert');
 		} else {
 			this.shake(this.insertButton);
 		}
@@ -313,6 +289,7 @@ export default class BST extends Algorithm {
 
 	deleteCallback() {
 		const deletedValue = this.deleteField.value;
+		this.x = 0;
 		if (deletedValue !== '' && this.treeRoot) {
 			this.deleteField.value = '';
 			this.implementAction(this.remove.bind(this), parseInt(deletedValue));
@@ -323,6 +300,7 @@ export default class BST extends Algorithm {
 
 	findCallback() {
 		const findValue = this.findField.value;
+		this.x = 0;
 		if (findValue !== '' && this.treeRoot) {
 			this.findField.value = '';
 			this.implementAction(this.findElement.bind(this), parseInt(findValue));
@@ -708,11 +686,17 @@ export default class BST extends Algorithm {
 
 	doFind(tree, value) {
 		this.cmd(act.setText, 0, 'Searching for ' + value);
+		sleep(400*this.x).then(() => {highlight(97, 400)});
+		this.x++;
+		sleep(400*this.x).then(() => {highlight(99, 400)});
+		this.x++;
 		if (tree != null) {
 			this.cmd(act.setHighlight, tree.graphicID, 1);
 			if (tree.data === value) {
 				this.highlight(11, 0);
 				this.highlight(12, 0);
+				sleep(400*this.x).then(() => {highlight(100, 400)});
+				this.x++;
 				this.cmd(
 					act.setText,
 					0,
@@ -724,10 +708,15 @@ export default class BST extends Algorithm {
 				this.unhighlight(12, 0);
 				this.cmd(act.setText, 0, 'Found: ' + value);
 				this.cmd(act.setHighlight, tree.graphicID, 0);
-			} else {
+			} 
+			else {
+				sleep(400*this.x).then(() => {highlight(103, 400)});
+				this.x++;
 				if (tree.data > value) {
 					this.highlight(7, 0);
 					this.highlight(8, 0);
+					sleep(400*this.x).then(() => {highlight(107, 400)});
+					this.x++;
 					this.cmd(
 						act.setText,
 						0,
@@ -760,6 +749,8 @@ export default class BST extends Algorithm {
 				} else {
 					this.highlight(9, 0);
 					this.highlight(10, 0);
+					sleep(400*this.x).then(() => {highlight(104, 400)});
+					this.x++;
 					this.cmd(
 						act.setText,
 						0,
@@ -793,6 +784,8 @@ export default class BST extends Algorithm {
 		} else {
 			this.highlight(5, 0);
 			this.highlight(6, 0);
+			sleep(400*this.x).then(() => {highlight(100, 400)});
+			this.x++;
 			this.cmd(act.setText, 0, 'Searching for ' + value + ' :  (Element not found)');
 			this.cmd(act.step);
 
@@ -819,7 +812,7 @@ export default class BST extends Algorithm {
 		this.toClear = [];
 	}
 
-	add(data) {
+	add(data, where) {
 		this.commands = [];
 		this.clearOldObjects();
 
@@ -832,10 +825,19 @@ export default class BST extends Algorithm {
 		this.highlight(4, 0);
 		this.cmd(act.setText, 0, 'Inserting ' + data);
 		this.cmd(act.step);
-
-		this.treeRoot = this.addH(data, this.treeRoot);
+		if (where === 'insert') {
+			sleep(400*this.x).then(() => {highlight(20, 400)});
+			this.x++;
+			sleep(400*this.x).then(() => {highlight(21, 400)});
+			this.x++;
+		}
+		this.treeRoot = this.addH(data, this.treeRoot, where);
 
 		this.resizeTree();
+		if (where === 'insert') {
+			sleep(400*this.x).then(() => {highlight(21, 400)});
+			this.x++;
+		}
 
 		this.unhighlight(0, 0);
 		this.unhighlight(1, 0);
@@ -844,11 +846,17 @@ export default class BST extends Algorithm {
 		this.unhighlight(6, 0);
 		this.unhighlight(7, 0);
 		this.unhighlight(12, 0);
-
+		
 		return this.commands;
 	}
 
-	addH(data, curr) {
+	addH(data, curr, where) {
+		if (where === 'insert') {
+			sleep(400*this.x).then(() => {highlight(25, 400)});
+			this.x++;
+			sleep(400*this.x).then(() => {highlight(28, 400)});
+			this.x++;
+		}
 		if (curr == null) {
 			this.highlight(5, 0);
 			this.highlight(6, 0);
@@ -861,9 +869,19 @@ export default class BST extends Algorithm {
 			this.cmd(act.step);
 
 			this.cmd(act.setText, 0, '');
+			if (where === 'insert') {
+				sleep(400*this.x).then(() => {highlight(29, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(30, 400)});
+				this.x++;
+			}
 			return new BSTNode(data, treeNodeID, 0, 0);
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
+		if (where === 'insert') {
+			sleep(400*this.x).then(() => {highlight(34, 400)});
+			this.x++;
+		}
 		if (data < curr.data) {
 			this.highlight(8, 0);
 			this.highlight(9, 0);
@@ -872,7 +890,11 @@ export default class BST extends Algorithm {
 
 			this.unhighlight(8, 0);
 			this.unhighlight(9, 0);
-			curr.left = this.addH(data, curr.left);
+			if (where === 'insert') {
+				sleep(400*this.x).then(() => {highlight(35, 400)});
+				this.x++;
+			}
+			curr.left = this.addH(data, curr.left, where);
 			curr.left.parent = curr;
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.left.graphicID);
@@ -884,12 +906,22 @@ export default class BST extends Algorithm {
 			this.cmd(act.step);
 			this.unhighlight(10, 0);
 			this.unhighlight(11, 0);
-			curr.right = this.addH(data, curr.right);
+			if (where === 'insert') {
+				sleep(400*this.x).then(() => {highlight(36, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(37, 400)});
+				this.x++;
+			}
+			curr.right = this.addH(data, curr.right, where);
 			curr.right.parent = curr;
 			this.resizeTree();
 			const connected = this.connectSmart(curr.graphicID, curr.right.graphicID);
 			connected && this.cmd(act.step);
 		} else {
+			if (where === 'insert') {
+				sleep(400*this.x).then(() => {highlight(36, 400)});
+				this.x++;
+			}
 			this.highlight(12, 0);
 			this.cmd(act.setText, 0, `${data} == ${curr.data}. Ignoring duplicate!`);
 			this.cmd(act.step);
@@ -901,6 +933,10 @@ export default class BST extends Algorithm {
 		this.highlight(12, 0);
 		this.cmd(act.setHighlight, curr.graphicID, 0);
 		this.cmd(act.setText, 0, '');
+		if (where === 'insert') {
+			sleep(400*this.x).then(() => {highlight(39, 400)});
+			this.x++;
+		}
 		return curr;
 	}
 
@@ -948,14 +984,22 @@ export default class BST extends Algorithm {
 	}
 
 	removeH(curr, data) {
+		sleep(400*this.x).then(() => {highlight(44, 400)});
+		this.x++;
+		sleep(400*this.x).then(() => {highlight(46, 400)});
+		this.x++;
 		if (curr == null) {
 			this.highlight(5, 0);
 			this.highlight(6, 0);
 			this.cmd(act.setText, 0, `${data} not found in the tree`);
 			this.cmd(act.step);
+			sleep(400*this.x).then(() => {highlight(47, 400)});
+			this.x++;
 			return;
 		}
 		this.cmd(act.setHighlight, curr.graphicID, 1);
+		sleep(400*this.x).then(() => {highlight(51, 400)});
+		this.x++;
 		if (data < curr.data) {
 			this.highlight(7, 0);
 			this.highlight(8, 0);
@@ -964,13 +1008,19 @@ export default class BST extends Algorithm {
 
 			this.unhighlight(7, 0);
 			this.unhighlight(8, 0);
+			sleep(400*this.x).then(() => {highlight(52, 400)});
+			this.x++;
 			curr.left = this.removeH(curr.left, data);
+			sleep(400*this.x).then(() => {highlight(53, 400)});
+			this.x++;
 			if (curr.left != null) {
 				curr.left.parent = curr;
 				this.connectSmart(curr.graphicID, curr.left.graphicID);
 				this.resizeTree();
 			}
 		} else if (data > curr.data) {
+			sleep(400*this.x).then(() => {highlight(54, 400)});
+			this.x++;
 			this.highlight(9, 0);
 			this.highlight(10, 0);
 			this.cmd(act.setText, 0, `${data} > ${curr.data}. Looking right`);
@@ -978,24 +1028,36 @@ export default class BST extends Algorithm {
 
 			this.unhighlight(9, 0);
 			this.unhighlight(10, 0);
+			sleep(400*this.x).then(() => {highlight(55, 400)});
+			this.x++;
 			curr.right = this.removeH(curr.right, data);
+			sleep(400*this.x).then(() => {highlight(56, 400)});
+			this.x++;
 			if (curr.right != null) {
 				curr.right.parent = curr;
 				this.connectSmart(curr.graphicID, curr.right.graphicID);
 				this.resizeTree();
 			}
 		} else {
+			sleep(400*this.x).then(() => {highlight(54, 400)});
+			this.x++;
 			this.cmd(act.setText, 0, `Found node with data ${data}`);
 			this.highlight(11, 0);
 			this.highlight(12, 0);
 			this.cmd(act.step);
 
 			this.unhighlight(12, 0);
+			sleep(400*this.x).then(() => {highlight(63, 400)});
+			this.x++;
 			if (curr.left == null && curr.right == null) {
 				this.highlight(13, 0);
 				this.highlight(14, 0);
 				this.cmd(act.setText, 0, 'Element to delete is a leaf node');
 				this.cmd(act.step);
+				sleep(400*this.x).then(() => {highlight(64, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(65, 400)});
+				this.x++;
 
 				this.deleteNode(curr);
 				this.cmd(act.step);
@@ -1010,6 +1072,11 @@ export default class BST extends Algorithm {
 				this.cmd(act.setText, 0, `One-child case, replace with right child`);
 				this.cmd(act.step);
 
+				sleep(400*this.x).then(() => {highlight(64, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(65, 400)});
+				this.x++;
+
 				this.deleteNode(curr);
 				this.cmd(act.step);
 
@@ -1018,10 +1085,16 @@ export default class BST extends Algorithm {
 				this.unhighlight(16, 0);
 				return curr.right;
 			} else if (curr.right == null) {
+				sleep(400*this.x).then(() => {highlight(66, 400)});
+				this.x++;
 				this.highlight(17, 0);
 				this.highlight(18, 0);
 				this.cmd(act.setText, 0, `One-child case, replace with left child`);
 				this.cmd(act.step);
+				sleep(400*this.x).then(() => {highlight(67, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(68, 400)});
+				this.x++;
 
 				this.deleteNode(curr);
 				this.cmd(act.step);
@@ -1033,7 +1106,17 @@ export default class BST extends Algorithm {
 			} else {
 				this.highlight(19, 0);
 				this.highlight(20, 0);
+				sleep(400*this.x).then(() => {highlight(66, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(72, 400)});
+				this.x++;
 				const dummy = [];
+				sleep(400*this.x).then(() => {highlight(74, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(77, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(78, 400)});
+				this.x++;
 				if (this.predSucc === 'succ') {
 					this.cmd(act.setText, 0, `Two-child case, replace data with successor`);
 					this.cmd(act.step);
@@ -1054,6 +1137,10 @@ export default class BST extends Algorithm {
 				curr.data = dummy[0];
 				this.cmd(act.setText, curr.graphicID, curr.data);
 				this.cmd(act.step);
+				sleep(400*this.x).then(() => {highlight(90, 400)});
+				this.x++;
+				sleep(400*this.x).then(() => {highlight(92, 400)});
+				this.x++;
 			}
 		}
 		this.unhighlight(5, 0);
@@ -1081,7 +1168,11 @@ export default class BST extends Algorithm {
 
 			dummy.push(curr.data);
 			this.highlight(26, 0);
+			sleep(400*this.x).then(() => {highlight(84, 400)});
+			this.x++;
 			this.deleteNode(curr);
+			sleep(400*this.x).then(() => {highlight(85, 400)});
+			this.x++;
 			this.cmd(act.step);
 
 			this.unhighlight(25, 0);
@@ -1094,10 +1185,22 @@ export default class BST extends Algorithm {
 		this.cmd(act.setText, 0, 'Left child exists, look left');
 		this.cmd(act.step);
 
+		sleep(400*this.x).then(() => {highlight(79, 400)});
+		this.x++;
+		sleep(400*this.x).then(() => {highlight(80, 400)});
+		this.x++;
+		sleep(400*this.x).then(() => {highlight(78, 400)});
+		this.x++;
 		curr.left = this.removeSucc(curr.left, dummy);
 		if (curr.left != null) {
 			curr.left.parent = curr;
 			this.connectSmart(curr.graphicID, curr.left.graphicID);
+			sleep(400*this.x).then(() => {highlight(84, 400)});
+			this.x++;
+			sleep(400*this.x).then(() => {highlight(86, 400)});
+			this.x++;
+			sleep(400*this.x).then(() => {highlight(87, 400)});
+			this.x++;
 			this.resizeTree();
 		}
 		this.highlight(29, 0);
@@ -1201,6 +1304,7 @@ export default class BST extends Algorithm {
 		this.findField.value = '';
 		this.commands = [];
 		this.clearOldObjects();
+		this.x = 0;
 
 		this.recClear(this.treeRoot);
 		this.treeRoot = null;
@@ -1244,14 +1348,14 @@ class BSTNode {
 // BST.HIGHLIGHT_LABEL_COLOR = '#FF0000';
 // BST.HIGHLIGHT_LINK_COLOR = '#FF0000';
 
-BST.HIGHLIGHT_COLOR = '#007700';
-BST.HEIGHT_LABEL_COLOR = '#007700';
+BST.HIGHLIGHT_COLOR = '#007400';
+BST.HEIGHT_LABEL_COLOR = '#007400';
 
-BST.LINK_COLOR = '#000000';
-BST.HIGHLIGHT_CIRCLE_COLOR = '#007700';
+BST.LINK_COLOR = '#FFFFFF';
+BST.HIGHLIGHT_CIRCLE_COLOR = '#007400';
 BST.FOREGROUND_COLOR = '#000000';
 BST.BACKGROUND_COLOR = '#FFFFFF';
-BST.PRINT_COLOR = '#007700';
+BST.PRINT_COLOR = '#007400';
 
 BST.WIDTH_DELTA = 50;
 BST.HEIGHT_DELTA = 50;
