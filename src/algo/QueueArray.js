@@ -257,11 +257,11 @@ export default class QueueArray extends Algorithm {
 		if (this.size < this.arraySize && this.enqueueField.value !== '') {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
-			this.implementAction(this.enqueue.bind(this), pushVal);
-			highlight(14, 500);
-			sleep(500).then(() => {highlight(15, 500)});
-			sleep(500*2).then(() => {highlight(18, 500)});
-			sleep(500*3).then(() => {highlight(19, 500)});
+			this.implementAction(this.enqueue.bind(this), pushVal, false);
+			// highlight(14, 500);
+			// sleep(500).then(() => {highlight(15, 500)});
+			// sleep(500*2).then(() => {highlight(18, 500)});
+			// sleep(500*3).then(() => {highlight(19, 500)});
 		} else if (
 			this.size === this.arraySize &&
 			this.enqueueField.value !== '' &&
@@ -270,22 +270,22 @@ export default class QueueArray extends Algorithm {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
 			this.implementAction(this.resize.bind(this), pushVal);
-			highlight(14, 500);
-			sleep(500).then(() => {highlight(15, 500)});
-			sleep(500*2).then(() => {highlight(16, 500)});
-			sleep(500*3).then(() => {highlight(33, 500)});
-			sleep(500*4).then(() => {highlight(34, 500)});
-			sleep(500*5).then(() => {highlight(36, 500)});
-			let x = -2;
-			for (let i = 0; i < this.size; i++) {
-				sleep(500*(6+(2*i))).then(() => {highlight(37, 500)});
-				sleep(500*(7+(2*i))).then(() => {highlight(36, 500)});
-				x += 2;
-			}
-			sleep(500*(8 + x)).then(() => {highlight(40, 500)});
-			sleep(500*(9 + x)).then(() => {highlight(41, 500)});
-			sleep(500*(10 + x)).then(() => {highlight(18, 500)});
-			sleep(500*(11+ x)).then(() => {highlight(19, 500)});
+			// highlight(14, 500);
+			// sleep(500).then(() => {highlight(15, 500)});
+			// sleep(500*2).then(() => {highlight(16, 500)});
+			// sleep(500*3).then(() => {highlight(33, 500)});
+			// sleep(500*4).then(() => {highlight(34, 500)});
+			// sleep(500*5).then(() => {highlight(36, 500)});
+			// let x = -2;
+			// for (let i = 0; i < this.size; i++) {
+			// 	sleep(500*(6+(2*i))).then(() => {highlight(37, 500)});
+			// 	sleep(500*(7+(2*i))).then(() => {highlight(36, 500)});
+			// 	x += 2;
+			// }
+			// sleep(500*(8 + x)).then(() => {highlight(40, 500)});
+			// sleep(500*(9 + x)).then(() => {highlight(41, 500)});
+			// sleep(500*(10 + x)).then(() => {highlight(18, 500)});
+			// sleep(500*(11+ x)).then(() => {highlight(19, 500)});
 		} else {
 			this.shake(this.enqueueButton);
 		}
@@ -294,15 +294,6 @@ export default class QueueArray extends Algorithm {
 	dequeueCallback() {
 		if (this.size !== 0) {
 			this.implementAction(this.dequeue.bind(this));
-			highlight(22, 500);
-			sleep(500).then(() => {highlight(23, 500)});
-			sleep(500*2).then(() => {highlight(10, 500)});
-			sleep(500*3).then(() => {highlight(11, 500)});
-			sleep(500*4).then(() => {highlight(26, 500)});
-			sleep(500*5).then(() => {highlight(27, 500)});
-			sleep(500*6).then(() => {highlight(28, 500)});
-			sleep(500*7).then(() => {highlight(29, 500)});
-			sleep(500*8).then(() => {highlight(30, 500)});
 		} else {
 			this.shake(this.dequeueButton);
 		}
@@ -325,7 +316,7 @@ export default class QueueArray extends Algorithm {
 				i--;
 			} else {
 				set.add(val);
-				this.implementAction(this.enqueue.bind(this), val);
+				this.implementAction(this.enqueue.bind(this), val, true);
 			}
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();
@@ -336,7 +327,7 @@ export default class QueueArray extends Algorithm {
 		this.implementAction(this.clearAll.bind(this));
 	}
 
-	enqueue(elemToEnqueue) {
+	enqueue(elemToEnqueue, rand) {
 		this.commands = [];
 
 		const labEnqueueID = this.nextIndex++;
@@ -349,7 +340,8 @@ export default class QueueArray extends Algorithm {
 		this.highlight(0, 0, this.enqueueCodeID);
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
-		this.cmd(act.step);
+		this.cmd(act.step, 14, rand);
+		this.cmd(act.step, 15, rand);
 
 		this.highlight(7, 0, this.enqueueCodeID);
 		this.cmd(act.createLabel, labEnqueueID, 'Enqueuing Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
@@ -363,39 +355,39 @@ export default class QueueArray extends Algorithm {
 		);
 		this.cmd(act.createLabel, labIndexValID, newTail, QUEUE_INDEXVAL_X, QUEUE_INDEXVAL_Y);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 18, rand);
 		this.cmd(act.createHighlightCircle, this.highlight1ID, INDEX_COLOR, SIZE_POS_X, SIZE_POS_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		const xpos = (newTail % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		const ypos =
 			Math.floor(newTail / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
 
 		this.cmd(act.move, this.highlight1ID, QUEUE_INDEXVAL_X, QUEUE_INDEXVAL_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.cmd(act.move, this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT);
 		this.cmd(act.move, labIndexValID, xpos, ypos + ARRAY_ELEM_HEIGHT);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.cmd(act.move, labEnqueueValID, xpos, ypos);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.cmd(act.setText, this.arrayID[newTail], elemToEnqueue);
 		this.cmd(act.delete, labEnqueueValID);
 		this.cmd(act.delete, labIndexValID);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.cmd(act.delete, this.highlight1ID);
 
 		this.unhighlight(7, 0, this.enqueueCodeID);
 		this.highlight(8, 0, this.enqueueCodeID);
 		this.cmd(act.setHighlight, this.sizeID, 1);
-		this.cmd(act.step);
+		this.cmd(act.step, 19, rand);
 
 		this.size = this.size + 1;
 		this.cmd(act.setText, this.sizeID, this.size);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.unhighlight(8, 0, this.enqueueCodeID);
 		this.unhighlight(0, 0, this.enqueueCodeID);
@@ -417,7 +409,10 @@ export default class QueueArray extends Algorithm {
 		this.highlight(0, 0, this.dequeueCodeID);
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
-		this.cmd(act.step);
+		this.cmd(act.step, 22, false);
+		this.cmd(act.step, 23, false);
+		this.cmd(act.step, 10, false);
+		this.cmd(act.step, 11, false);
 
 		this.highlight(1, 0, this.dequeueCodeID);
 		this.cmd(act.createLabel, labDequeueID, 'Dequeued Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
@@ -428,14 +423,14 @@ export default class QueueArray extends Algorithm {
 			FRONT_POS_X,
 			FRONT_POS_Y,
 		);
-		this.cmd(act.step);
+		this.cmd(act.step, 26, false);
 
 		const xpos = (this.front % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		const ypos =
 			Math.floor(this.front / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
 
 		this.cmd(act.move, this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT);
-		this.cmd(act.step);
+		this.cmd(act.step, 27, false);
 
 		this.unhighlight(1, 0, this.dequeueCodeID);
 		this.highlight(2, 0, this.dequeueCodeID);
@@ -445,13 +440,13 @@ export default class QueueArray extends Algorithm {
 		this.cmd(act.createLabel, labDequeueValID, dequeuedVal, xpos, ypos);
 		this.cmd(act.setText, this.arrayID[this.front], '');
 		this.cmd(act.move, labDequeueValID, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.unhighlight(2, 0, this.dequeueCodeID);
 		this.highlight(3, 0, this.dequeueCodeID);
 		this.cmd(act.setHighlight, this.frontID, 1);
 		this.cmd(act.setHighlight, this.frontPointerID, 1);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.front = (this.front + 1) % this.arraySize;
 		const frontxpos = (this.front % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -461,7 +456,7 @@ export default class QueueArray extends Algorithm {
 			FRONT_LABEL_OFFSET;
 		this.cmd(act.move, this.frontPointerID, frontxpos, frontypos);
 		this.cmd(act.setText, this.frontID, this.front);
-		this.cmd(act.step);
+		this.cmd(act.step, 28, false);
 
 		this.cmd(act.setHighlight, this.frontID, 0);
 		this.cmd(act.setHighlight, this.frontPointerID, 0);
@@ -471,15 +466,15 @@ export default class QueueArray extends Algorithm {
 
 		this.cmd(act.delete, labDequeueID);
 		this.cmd(act.delete, labDequeueValID);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.highlight(4, 0, this.dequeueCodeID);
 		this.cmd(act.setHighlight, this.sizeID, 1);
-		this.cmd(act.step);
+		this.cmd(act.step, 29, false);
 
 		this.size = this.size - 1;
 		this.cmd(act.setText, this.sizeID, this.size);
-		this.cmd(act.step);
+		this.cmd(act.step, 30, false);
 
 		this.unhighlight(4, 0, this.dequeueCodeID);
 		this.unhighlight(0, 0, this.dequeueCodeID);
@@ -511,10 +506,12 @@ export default class QueueArray extends Algorithm {
 
 		this.arrayDataNew[this.size] = elemToEnqueue;
 
+		this.cmd(act.step, 14, false);
+
 		this.highlight(0, 0, this.enqueueCodeID);
 		this.cmd(act.createLabel, labEnqueueID, 'Enqueuing Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
 		this.cmd(act.createLabel, labEnqueueValID, elemToEnqueue, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, 15, false);
 
 		this.highlight(1, 0, this.enqueueCodeID);
 		this.cmd(
@@ -524,7 +521,7 @@ export default class QueueArray extends Algorithm {
 			QUEUE_RESIZE_LABEL_X,
 			QUEUE_RESIZE_LABEL_Y,
 		);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		//Create new array
 		this.highlight(2, 0, this.enqueueCodeID);
@@ -544,7 +541,7 @@ export default class QueueArray extends Algorithm {
 			this.cmd(act.createLabel, this.arrayLabelIDNew[i], i, xpos, ypos + ARRAY_ELEM_HEIGHT);
 			this.cmd(act.setForegroundColor, this.arrayLabelIDNew[i], '#6ef0a9');
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, 16, false);
 
 		this.highlight1ID = this.nextIndex++;
 		this.arrayMoveID = new Array(this.size);
@@ -578,14 +575,18 @@ export default class QueueArray extends Algorithm {
 			this.cmd(act.move, this.arrayMoveID[i], xpos, ypos);
 			this.cmd(act.step);
 		}
-		// this.cmd(act.step);
+		this.cmd(act.step, 33, false);
+		this.cmd(act.step, 34, false);
+		this.cmd(act.step, 36, false);
 
 		//Delete movement objects and set text
 		for (let i = 0; i < this.size; i++) {
 			this.cmd(act.delete, this.arrayMoveID[i]);
 			this.cmd(act.setText, this.arrayIDNew[i], this.arrayDataNew[i]);
+			this.cmd(act.step, 37, false);
+			this.cmd(act.step, 36, false);
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		//Delete old array
 		for (let i = 0; i < this.size; i++) {
@@ -605,7 +606,7 @@ export default class QueueArray extends Algorithm {
 			this.cmd(act.move, this.arrayIDNew[i], xpos, ypos);
 			this.cmd(act.move, this.arrayLabelIDNew[i], xpos, ypos + ARRAY_ELEM_HEIGHT);
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, 40, false);
 
 		this.front = 0;
 		this.arrayID = this.arrayIDNew;
@@ -617,11 +618,11 @@ export default class QueueArray extends Algorithm {
 
 		this.cmd(act.setHighlight, this.frontID, 1);
 		this.cmd(act.setHighlight, this.frontPointerID, 1);
-		this.cmd(act.step);
+		this.cmd(act.step, 41, false);
 
 		this.cmd(act.setText, this.frontID, this.front);
 		this.cmd(act.move, this.frontPointerID, ARRAY_START_X, ARRAY_START_Y + FRONT_LABEL_OFFSET);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.setHighlight, this.frontID, 0);
 		this.cmd(act.setHighlight, this.frontPointerID, 0);
@@ -657,7 +658,7 @@ export default class QueueArray extends Algorithm {
 		);
 		this.cmd(act.createLabel, labIndexValID, newTail, QUEUE_INDEXVAL_X, QUEUE_INDEXVAL_Y);
 		this.cmd(act.createHighlightCircle, this.highlight1ID, INDEX_COLOR, SIZE_POS_X, SIZE_POS_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, 18, false);
 
 		//Enqueue 'elemToEnqueue'
 		const xpos = (newTail % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -665,31 +666,31 @@ export default class QueueArray extends Algorithm {
 			Math.floor(newTail / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
 
 		this.cmd(act.move, this.highlight1ID, QUEUE_INDEXVAL_X, QUEUE_INDEXVAL_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.move, this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT);
 		this.cmd(act.move, labIndexValID, xpos, ypos + ARRAY_ELEM_HEIGHT);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.move, labEnqueueValIDNew, xpos, ypos);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.setText, this.arrayID[newTail], elemToEnqueue);
 		this.cmd(act.delete, labEnqueueValIDNew);
 		this.cmd(act.delete, labIndexValID);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.delete, this.highlight1ID);
 
 		this.cmd(act.setHighlight, this.sizeID, 1);
 		this.unhighlight(7, 0, this.enqueueCodeID);
 		this.highlight(8, 0, this.enqueueCodeID);
-		this.cmd(act.step);
+		this.cmd(act.step, 19, false);
 
 		this.size++;
 
 		this.cmd(act.setText, this.sizeID, this.size);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		this.unhighlight(8, 0, this.enqueueCodeID);
 		this.unhighlight(0, 0, this.enqueueCodeID);
