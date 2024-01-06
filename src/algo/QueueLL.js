@@ -223,27 +223,7 @@ export default class QueueLL extends Algorithm {
 		if (this.top < SIZE && this.enqueueField.value !== '') {
 			const pushVal = this.enqueueField.value;
 			this.enqueueField.value = '';
-			this.implementAction(this.enqueue.bind(this), pushVal);
-			if (this.top === 1) {
-				highlight(12, 500);
-				sleep(500).then(() => {highlight(13, 500)});
-				sleep(500*2).then(() => {highlight(14, 500)});
-				sleep(500*3).then(() => {highlight(15, 500)});
-				sleep(500*4).then(() => {highlight(16, 500)});
-				sleep(500*5).then(() => {highlight(17, 500)});
-				sleep(500*6).then(() => {highlight(10, 500)});
-				sleep(500*7).then(() => {highlight(18, 500)});
-			} else {
-				highlight(12, 500);
-				sleep(500).then(() => {highlight(13, 500)});
-				sleep(500*2).then(() => {highlight(14, 500)});
-				sleep(500*3).then(() => {highlight(15, 500)});
-				sleep(500*4).then(() => {highlight(16, 500)});
-				sleep(500*5).then(() => {highlight(17, 500)});
-				sleep(500*6).then(() => {highlight(10, 500)});
-				sleep(500*7).then(() => {highlight(19, 500)});
-				sleep(500*8).then(() => {highlight(20, 500)});
-			}
+			this.implementAction(this.enqueue.bind(this), pushVal, false);
 		} else {
 			this.shake(this.enqueueButton);
 		}
@@ -252,19 +232,6 @@ export default class QueueLL extends Algorithm {
 	dequeueCallback() {
 		if (this.top > 0) {
 			this.implementAction(this.dequeue.bind(this));
-			highlight(23, 500);
-			sleep(500).then(() => {highlight(24, 500)});
-			sleep(500*2).then(() => {highlight(10, 500)});
-			sleep(500*3).then(() => {highlight(27, 500)});
-			sleep(500*4).then(() => {highlight(28, 500)});
-			sleep(500*5).then(() => {highlight(29, 500)});
-			sleep(500*6).then(() => {highlight(10, 500)});
-			let x = -1;
-			if (this.top === 0) {
-				sleep(500*7).then(() => {highlight(30, 500)});
-				x++;
-			}
-			sleep(500*(8+x)).then(() => {highlight(31, 500)});
 		} else {
 			this.shake(this.dequeueButton);
 		}
@@ -286,7 +253,7 @@ export default class QueueLL extends Algorithm {
 				i--;
 			} else {
 				set.add(val);
-				this.implementAction(this.enqueue.bind(this), val);
+				this.implementAction(this.enqueue.bind(this), val, true);
 			}
 
 			this.animationManager.skipForward();
@@ -298,7 +265,7 @@ export default class QueueLL extends Algorithm {
 		this.implementAction(this.clearAll.bind(this));
 	}
 
-	enqueue(elemToPush) {
+	enqueue(elemToPush, rand) {
 		this.commands = [];
 
 		this.arrayData[this.top] = elemToPush;
@@ -306,7 +273,7 @@ export default class QueueLL extends Algorithm {
 		this.highlight(0, 0, this.enqueueCodeID);
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
-		this.cmd(act.step);
+		this.cmd(act.step, 12, rand);
 
 		for (let i = this.top; i > 0; i--) {
 			this.arrayData[i] = this.arrayData[i - 1];
@@ -318,6 +285,7 @@ export default class QueueLL extends Algorithm {
 		const labPushID = this.nextIndex++;
 		const labPushValID = this.nextIndex++;
 		this.highlight(1, 0, this.enqueueCodeID);
+		this.cmd(act.step, 13, rand);
 		this.cmd(
 			act.createLinkedListNode,
 			this.linkedListElemID[0],
@@ -330,16 +298,20 @@ export default class QueueLL extends Algorithm {
 			0,
 			1,
 		);
+		
 
 		this.cmd(act.setNull, this.linkedListElemID[0], 1);
 		this.cmd(act.createLabel, labPushID, 'Enqueuing Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
 		this.cmd(act.createLabel, labPushValID, elemToPush, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, 14, rand);
 
 		this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
 		this.cmd(act.setText, this.linkedListElemID[0], elemToPush);
 		this.cmd(act.delete, labPushValID);
-		this.cmd(act.step);
+		this.cmd(act.step, 15, rand);
+		this.cmd(act.step, 16, rand);
+		this.cmd(act.step, 17, rand);
+		this.cmd(act.step, 10, rand);
 
 		this.unhighlight(1, 0, this.enqueueCodeID);
 		if (this.top === 0) {
@@ -350,13 +322,14 @@ export default class QueueLL extends Algorithm {
 			this.cmd(act.setNull, this.tailID, 0);
 			this.cmd(act.connect, this.headID, this.linkedListElemID[this.top]);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[this.top]);
-			this.cmd(act.step);
+			this.cmd(act.step, 18, rand);
 		} else {
 			this.highlight(4, 0, this.enqueueCodeID);
 			this.highlight(5, 0, this.enqueueCodeID);
 			this.cmd(act.setNull, this.linkedListElemID[1], 0);
 			this.cmd(act.connect, this.linkedListElemID[1], this.linkedListElemID[0]);
-			this.cmd(act.step);
+			this.cmd(act.step, 19, rand);
+			this.cmd(act.step, 20, rand);
 		}
 
 		this.top = this.top + 1;
@@ -367,7 +340,7 @@ export default class QueueLL extends Algorithm {
 			this.highlight(7, 0, this.enqueueCodeID);
 		}
 		this.resetLinkedListPositions();
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.unhighlight(4, 0, this.enqueueCodeID);
 		this.unhighlight(5, 0, this.enqueueCodeID);
@@ -376,7 +349,7 @@ export default class QueueLL extends Algorithm {
 		}
 		this.cmd(act.disconnect, this.tailID, this.linkedListElemID[1]);
 		this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		this.unhighlight(7, 0, this.enqueueCodeID);
 		this.unhighlight(6, 0, this.enqueueCodeID);
@@ -394,7 +367,10 @@ export default class QueueLL extends Algorithm {
 
 		this.highlight(0, 0, this.dequeueCodeID);
 		this.cmd(act.setText, this.leftoverLabelID, '');
-		this.cmd(act.step);
+
+		this.cmd(act.step, 23, null);
+		this.cmd(act.step, 24, null);
+		this.cmd(act.step, 10, null);
 
 		this.highlight(1, 0, this.dequeueCodeID);
 		this.cmd(act.createLabel, labPopID, 'Dequeued Value: ', QUEUE_LABEL_X, QUEUE_LABEL_Y);
@@ -407,10 +383,13 @@ export default class QueueLL extends Algorithm {
 		);
 
 		this.cmd(act.move, labPopValID, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, 27, null);
 
 		this.unhighlight(1, 0, this.dequeueCodeID);
 		this.cmd(act.disconnect, this.headID, this.linkedListElemID[this.top - 1]);
+		this.cmd(act.step, 28, null);
+		this.cmd(act.step, 29, null);
+		this.cmd(act.step, 10, null);
 
 		if (this.top === 1) {
 			this.highlight(2, 0, this.dequeueCodeID);
@@ -419,12 +398,13 @@ export default class QueueLL extends Algorithm {
 			this.cmd(act.setNull, this.headID, 1);
 			this.cmd(act.setNull, this.tailID, 1);
 			this.cmd(act.disconnect, this.tailID, this.linkedListElemID[this.top - 1]);
+			this.cmd(act.step, 30, null);
 		} else {
 			this.highlight(5, 0, this.dequeueCodeID);
 			this.highlight(6, 0, this.dequeueCodeID);
 			this.cmd(act.connect, this.headID, this.linkedListElemID[this.top - 2]);
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, 31, null);
 
 		this.unhighlight(2, 0, this.dequeueCodeID);
 		this.unhighlight(3, 0, this.dequeueCodeID);
@@ -435,7 +415,7 @@ export default class QueueLL extends Algorithm {
 		this.cmd(act.delete, this.linkedListElemID[this.top - 1]);
 		this.top = this.top - 1;
 		this.resetLinkedListPositions();
-		this.cmd(act.step);
+		this.cmd(act.step, null, null);
 
 		this.unhighlight(7, 0, this.dequeueCodeID);
 		this.unhighlight(0, 0, this.dequeueCodeID);

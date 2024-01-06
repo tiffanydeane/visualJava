@@ -204,6 +204,10 @@ export default class BFS extends Graph {
 
 		this.rebuildEdges();
 
+		this.cmd(act.step, 22, null);
+		this.cmd(act.step, 26, null);
+		this.cmd(act.step, 29, null);
+
 		this.cmd(
 			act.setText,
 			this.infoLabelID,
@@ -218,6 +222,7 @@ export default class BFS extends Graph {
 			VISITED_START_X,
 			VISITED_START_Y,
 		);
+		this.cmd(act.step, 32, null);
 		this.cmd(act.setBackgroundColor, this.circleID[vertex], VISITED_COLOR);
 		this.queue.push(vertex);
 		this.queueID.push(this.nextIndex);
@@ -228,30 +233,18 @@ export default class BFS extends Graph {
 			QUEUE_START_X,
 			QUEUE_START_Y,
 		);
+		this.cmd(act.step, 33, null);
 		// this.highlight(1, 0);
 		// this.highlight(2, 0);
 		// this.highlight(3, 0);
 		// this.highlight(4, 0);
-		this.cmd(act.step);
+		this.cmd(act.step, 35, null);
 		// this.unhighlight(1, 0);
 		// this.unhighlight(2, 0);
 		// this.unhighlight(3, 0);
 		// this.unhighlight(4, 0);
 		// this.highlight(5, 0);
-		sleep(325*this.x).then(() => {highlight(22, 325)});
-		this.x++;
-		sleep(325*this.x).then(() => {highlight(26, 325)});
-		this.x++;
-		sleep(325*this.x).then(() => {highlight(29, 325)});
-		this.x++;
-		sleep(325*this.x).then(() => {highlight(32, 325)});
-		this.x++;
-		sleep(325*this.x).then(() => {highlight(33, 325)});
-		this.x++;
-		sleep(325*this.x).then(() => {highlight(35, 325)});
-		this.x++;
 		while (this.queue.length > 0 && this.listID.length < this.size) {
-			sleep(325*this.x).then(() => {highlight(38, 325)});
 			this.x++;
 			vertex = this.queue.shift();
 			// this.highlight(6, 0);
@@ -261,6 +254,7 @@ export default class BFS extends Graph {
 				this.infoLabelID,
 				'Dequeueing ' + this.toStr(vertex) + ' and adding to list',
 			);
+			this.cmd(act.step, 38, null);
 
 			this.cmd(act.setTextColor, this.queueID[0], BFS_QUEUE_HEAD_COLOR);
 			this.cmd(act.move, this.queueID[0], CURRENT_VERTEX_X, CURRENT_VERTEX_Y);
@@ -283,34 +277,23 @@ export default class BFS extends Graph {
 			);
 
 			this.visitVertex(vertex);
-			this.cmd(act.step);
+			this.cmd(act.step, 44, null);
+			this.cmd(act.step, 45, null);
 			// this.unhighlight(6, 0);
 			// this.unhighlight(7, 0);
 			// this.highlight(8, 0);
 
-			sleep(325*this.x).then(() => {highlight(44, 325)});
-			this.x++;
-			sleep(325*this.x).then(() => {highlight(45, 325)});
-			this.x++;
-
 			for (let neighbor = 0; neighbor < this.size; neighbor++) {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
-					sleep(325*this.x).then(() => {highlight(46, 325)});
-					this.x++;
 					this.highlightEdge(vertex, neighbor, 1);
 					// this.highlight(9, 0);
-					this.cmd(act.step);
-					sleep(325*this.x).then(() => {highlight(47, 325)});
-					this.x++;
+					this.cmd(act.step, 46, null);
+					this.cmd(act.step, 47, null);
 					if (!this.visited[neighbor]) {
 						console.log(neighbor);
 						// this.unhighlight(9, 0);
 						// this.highlight(10, 0);
 						// this.highlight(11, 0);
-						sleep(325*this.x).then(() => {highlight(48, 325)});
-						this.x++;
-						sleep(325*this.x).then(() => {highlight(49, 325)});
-						this.x++;
 						this.visited[neighbor] = true;
 						this.visitedID.push(this.nextIndex);
 						this.cmd(
@@ -326,6 +309,7 @@ export default class BFS extends Graph {
 							VISITED_START_X + (this.visitedID.length - 1) * LIST_SPACING,
 							VISITED_START_Y,
 						);
+						this.cmd(act.step, 48, null);
 						this.cmd(act.setBackgroundColor, this.circleID[neighbor], VISITED_COLOR);
 						this.queue.push(neighbor);
 						this.queueID.push(this.nextIndex);
@@ -336,6 +320,7 @@ export default class BFS extends Graph {
 							QUEUE_START_X + (this.queue.length - 1) * QUEUE_SPACING,
 							QUEUE_START_Y,
 						);
+						this.cmd(act.step, 49, null);
 					} else {
 						// this.unhighlight(9, 0);
 						this.cmd(
@@ -344,21 +329,19 @@ export default class BFS extends Graph {
 							this.toStr(neighbor) + ' has already been visited, skipping',
 						);
 					}
-					this.cmd(act.step);
+					this.cmd(act.step, 45, null);
 					// this.unhighlight(10, 0);
 					// this.unhighlight(11, 0);
 					this.highlightEdge(vertex, neighbor, 0);
-					sleep(325*this.x).then(() => {highlight(45, 325)});
-					this.x++;
 				}
 			}
 			// this.unhighlight(8, 0);
 
 			this.cmd(act.delete, this.queueID.shift());
+			this.cmd(act.step, 35, null);
 
 			this.leaveVertex();
-			sleep(325*this.x).then(() => {highlight(35, 325)});
-			this.x++;
+			
 		}
 		// this.unhighlight(5, 0);
 

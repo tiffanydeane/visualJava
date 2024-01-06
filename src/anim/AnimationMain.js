@@ -28,7 +28,7 @@
 //  TODO:  Make this an instance variable of Animation Manager.
 
 /* global canvas */
-
+import * as ace from 'ace-builds/src-noconflict/ace';
 import {
 	UndoCreate,
 	UndoHighlight,
@@ -500,6 +500,23 @@ export default class AnimationManager extends EventListener {
 		}
 	}
 
+	highlight(line) {
+		const editor = ace.edit("editor");
+		editor.scrollToLine(line, true, true, function () {});
+		// const prevMarkers = editor.session.getMarkers();
+		// if (prevMarkers) {
+		// 	const prevMarkersArr = Object.keys(prevMarkers);
+		// 	for (const item of prevMarkersArr) {
+		// 		editor.session.removeMarker(prevMarkers[item].id);
+		// 	}
+		// }
+		const Range = ace.require('ace/range').Range;
+		const highlighted = editor.session.addMarker(new Range(line - 1, 0, line - 1, 1), "myMarker", "fullLine");
+		setTimeout(() => {
+			editor.getSession().removeMarker(highlighted);
+		  }, ANIMATION_SPEED_DEFAULT*10)
+	}
+
 	/// WARNING:  Could be dangerous to call while an animation is running ...
 	clearHistory() {
 		this.undoStack = [];
@@ -790,8 +807,10 @@ export default class AnimationManager extends EventListener {
 }
 
 export const act = {
-	step() {
+	step(params) {
 		this.foundBreak = true;
+		if (!params[1])
+			this.highlight(params[0]);
 	},
 	move(params) {
 		// id, x, y
