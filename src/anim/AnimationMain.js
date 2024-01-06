@@ -82,7 +82,7 @@ function setCookie(cookieName, value, expireDays) {
 	document.cookie = cookieName + '=' + value;
 }
 
-const ANIMATION_SPEED_DEFAULT = 75;
+const ANIMATION_SPEED_DEFAULT = 30;
 
 // TODO:  Move these out of global space into animation manager?
 
@@ -246,12 +246,13 @@ export default class AnimationManager extends EventListener {
 		element.setAttribute('display', 'inline-block');
 		element.setAttribute('float', 'left');
 
-		let speed = getCookie('VisualizationSpeed');
-		if (speed == null || speed === '') {
-			speed = ANIMATION_SPEED_DEFAULT;
-		} else {
-			speed = parseInt(speed);
-		}
+		// let speed = getCookie('VisualizationSpeed');
+		let speed = ANIMATION_SPEED_DEFAULT;
+		// if (speed == null || speed === '') {
+		// 	speed = ANIMATION_SPEED_DEFAULT;
+		// } else {
+		// 	speed = parseInt(speed);
+		// }
 
 	
 		const slider = (
@@ -514,7 +515,7 @@ export default class AnimationManager extends EventListener {
 		const highlighted = editor.session.addMarker(new Range(line - 1, 0, line - 1, 1), "myMarker", "fullLine");
 		setTimeout(() => {
 			editor.getSession().removeMarker(highlighted);
-		  }, ANIMATION_SPEED_DEFAULT*10)
+		  }, this.animationBlockLength*30)
 	}
 
 	/// WARNING:  Could be dangerous to call while an animation is running ...

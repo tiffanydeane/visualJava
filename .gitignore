@@ -28,3 +28,6 @@ contrib.txt
 
 # ide settings
 .vscode/
+
+# Local Netlify folder
+.netlify
