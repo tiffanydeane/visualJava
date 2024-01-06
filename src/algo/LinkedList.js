@@ -318,7 +318,7 @@ export default class LinkedList extends Algorithm {
 			if (index >= 0 && index <= this.size) {
 				this.addValueField.value = '';
 				this.addIndexField.value = '';
-				this.implementAction(this.add.bind(this), addVal, index, 'index');
+				this.implementAction(this.add.bind(this), addVal, index, 'index', false);
 			} else {
 				this.implementAction(
 					this.setInfoText.bind(this),
@@ -338,7 +338,7 @@ export default class LinkedList extends Algorithm {
 		if (this.addValueField.value !== '') {
 			const addVal = parseInt(this.addValueField.value);
 			this.addValueField.value = '';
-			this.implementAction(this.add.bind(this), addVal, 0, 'front');
+			this.implementAction(this.add.bind(this), addVal, 0, 'front', false);
 		} else {
 			this.implementAction(this.setInfoText.bind(this), 'Missing input data.');
 			this.shake(this.addFrontButton);
@@ -349,7 +349,7 @@ export default class LinkedList extends Algorithm {
 		if (this.addValueField.value !== '') {
 			const addVal = parseInt(this.addValueField.value);
 			this.addValueField.value = '';
-			this.implementAction(this.add.bind(this), addVal, this.size, 'back');
+			this.implementAction(this.add.bind(this), addVal, this.size, 'back', false);
 		} else {
 			this.implementAction(this.setInfoText.bind(this), 'Missing input data.');
 			this.shake(this.addBackButton);
@@ -412,7 +412,7 @@ export default class LinkedList extends Algorithm {
 				i--;
 			} else {
 				set.add(val);
-				this.implementAction(this.add.bind(this), val, 0, 'random');
+				this.implementAction(this.add.bind(this), val, 0, 'random', true);
 			}
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();
@@ -425,16 +425,16 @@ export default class LinkedList extends Algorithm {
 
 	traverse(startIndex, endIndex) {
 		for (let i = startIndex; i <= endIndex; i++) {
-			this.cmd(act.step);
+			this.cmd(act.step, null, null);
 			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 			if (i > 0) {
 				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 			}
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, null, null);
 	}
 
-	add(elemToAdd, index, where) {
+	add(elemToAdd, index, where, rand) {
 		this.commands = [];
 		this.setInfoText('');
 
@@ -450,9 +450,10 @@ export default class LinkedList extends Algorithm {
 
 		this.cmd(act.setText, this.leftoverLabelID, '');
 
-			this.traverse(0, index - 1);
-
-
+		// this.traverse(0, index - 1);
+		
+		if (where === 'front') {
+		this.cmd(act.step, 17, rand);
 		this.cmd(
 			act.createLinkedListNode,
 			this.linkedListElemID[index],
@@ -469,11 +470,11 @@ export default class LinkedList extends Algorithm {
 		this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(act.createLabel, labPushValID, elemToAdd, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 18, rand);
 
 		this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 19, rand);
 		this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
 		this.cmd(act.delete, labPushValID);
 
@@ -493,23 +494,6 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index],
 					this.linkedListElemID[index + 1],
 				);
-
-				if (where !== 'random'){
-					if (where === 'index') {
-						highlight(41, 600);
-						sleep(600).then(() => {highlight(46, 600)});
-						sleep(600*2).then(() => {highlight(47, 600)});
-						sleep(600*3).then(() => {highlight(17, 600)});
-						sleep(600*4).then(() => {highlight(18, 600)});
-						sleep(600*5).then(() => {highlight(19, 600)});
-						sleep(600*6).then(() => {highlight(20, 600)});
-					} else {
-						highlight(17, 600);
-						sleep(600).then(() => {highlight(18, 600)});
-						sleep(600*2).then(() => {highlight(19, 600)});
-						sleep(600*3).then(() => {highlight(20, 600)});
-					}
-				}
 			} else if (index === this.size) {
 				this.cmd(act.setNull, this.linkedListElemID[index - 1], 0);
 				this.cmd(
@@ -517,36 +501,6 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index],
 				);
-				if (where === 'back') {
-					highlight(24, 600);
-					sleep(600).then(() => {highlight(25, 600)});
-					sleep(600*2).then(() => {highlight(27, 600)});
-					sleep(600*3).then(() => {highlight(32, 600)});
-					sleep(600*4).then(() => {highlight(33, 600)});
-					let x = -2;
-					for (let i = 0; i < this.size - 1; i++) {
-						sleep(600*(5+(2*i))).then(() => {highlight(34, 600)});
-						sleep(600*(6+(2*i))).then(() => {highlight(33, 600)});
-						x +=2;
-					}
-					sleep(600*(7 + x)).then(() => {highlight(37, 600)});
-				} else {
-					highlight(41, 600);
-					sleep(600).then(() => {highlight(46, 600)});
-					sleep(600*2).then(() => {highlight(48, 600)});
-					sleep(600*3).then(() => {highlight(49, 600)});
-					let x = -2;
-					for (let i = 0; i < index - 1; i++) {
-						sleep(600*(4+(2*i))).then(() => {highlight(63, 600)});
-						sleep(600*(5+(2*i))).then(() => {highlight(49, 600)});
-						x +=2;
-					}
-					sleep(600*(6 + x)).then(() => {highlight(50, 600)});
-					sleep(600*(7 + x)).then(() => {highlight(52, 600)});
-					sleep(600*(8 + x)).then(() => {highlight(56, 600)});
-					sleep(600*(9 + x)).then(() => {highlight(60, 600)});
-					sleep(600*(10 + x)).then(() => {highlight(61, 600)});
-				}
 			} else {
 				this.cmd(
 					act.disconnect,
@@ -563,57 +517,234 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index],
 					this.linkedListElemID[index + 1],
 				);
-
-				highlight(41, 600);
-				sleep(600).then(() => {highlight(46, 600)});
-				sleep(600*2).then(() => {highlight(48, 600)});
-				sleep(600*3).then(() => {highlight(49, 600)});
-				let x = -2;
-				for (let i = 0; i < index - 1; i++) {
-					sleep(600*(4+(2*i))).then(() => {highlight(63, 600)});
-					sleep(600*(5+(2*i))).then(() => {highlight(49, 600)});
-					x +=2;
-				}
-				sleep(600*(6 + x)).then(() => {highlight(50, 600)});
-				sleep(600*(7 + x)).then(() => {highlight(52, 600)});
-				sleep(600*(8 + x)).then(() => {highlight(56, 600)});
-				sleep(600*(9 + x)).then(() => {highlight(60, 600)});
-				sleep(600*(10 + x)).then(() => {highlight(61, 600)});
 			}
 		} else {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
-			if (index === 0) {
-				if (where === 'front') {
-					highlight(17, 600);
-					sleep(600).then(() => {highlight(18, 600)});
-					sleep(600*2).then(() => {highlight(19, 600)});
-					sleep(600*3).then(() => {highlight(20, 600)});
-				} else if (where === 'back') {
-					highlight(24, 600);
-					sleep(600).then(() => {highlight(25, 600)});
-					sleep(600*2).then(() => {highlight(27, 600)});
-					sleep(600*3).then(() => {highlight(28, 600)});
-					sleep(600*4).then(() => {highlight(29, 600)});
-				} else if (where === 'index') {
-					highlight(41, 600);
-					sleep(600).then(() => {highlight(46, 600)});
-					sleep(600*2).then(() => {highlight(47, 600)});
-					sleep(600*3).then(() => {highlight(17, 600)});
-					sleep(600*4).then(() => {highlight(18, 600)});
-					sleep(600*5).then(() => {highlight(19, 600)});
-					sleep(600*6).then(() => {highlight(20, 600)});
-				}
-			}
 		}
+		this.cmd(act.step, 20, rand);
+	} else if (where === 'back') {
+
+		this.cmd(act.step, 24, rand);
+		this.cmd(
+			act.createLinkedListNode,
+			this.linkedListElemID[index],
+			'',
+			LINKED_LIST_ELEM_WIDTH,
+			LINKED_LIST_ELEM_HEIGHT,
+			LINKED_LIST_INSERT_X,
+			LINKED_LIST_INSERT_Y,
+			0.25,
+			0,
+			1,
+		);
+
+		this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+		this.cmd(act.createLabel, labPushValID, elemToAdd, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+		this.cmd(act.step, 25, rand);
+		this.cmd(act.step, 27, rand);
+
+		if (this.size === 0) {
+			this.cmd(act.step, 28, rand);
+
+			this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
+
+			this.cmd(act.step, 29, rand);
+			this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
+			this.cmd(act.delete, labPushValID);
+		} else {
+			this.cmd(act.step, 32, rand);
+
+			this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
+
+			this.cmd(act.step, 33, rand);
+			this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
+			this.cmd(act.delete, labPushValID);
+		}
+
+		if (index === this.size) {
+			this.cmd(act.setNull, this.linkedListElemID[index], 1);
+			this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index - 1]);
+			this.cmd(act.connect, this.tailID, this.linkedListElemID[index]);
+		}
+
+		for (let i = 0; i <= index - 1; i++) {
+			
+			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
+			this.cmd(act.step, 34, rand);
+			if (i > 0) {
+				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
+			}
+			this.cmd(act.step, 33, rand);
+		}
+		this.cmd(act.step, null, rand);
+
+		if (this.size !== 0) {
+			if (index === 0) {
+				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index + 1]);
+				this.cmd(act.connect, this.topID, this.linkedListElemID[index]);
+
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index],
+					this.linkedListElemID[index + 1],
+				);
+			} else if (index === this.size) {
+				this.cmd(act.setNull, this.linkedListElemID[index - 1], 0);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index],
+				);
+			} else {
+				this.cmd(
+					act.disconnect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index + 1],
+				);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index],
+				);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index],
+					this.linkedListElemID[index + 1],
+				);
+			}
+			this.cmd(act.step, 37, null);
+		} else {
+			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
+			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
+		}
+	} else {
+
+		this.cmd(act.step, 41, rand);
+		this.cmd(act.step, 46, rand);
+		if (index === 0) {
+			this.cmd(act.step, 47, rand);
+			this.cmd(act.step, 17, rand);
+			this.cmd(
+				act.createLinkedListNode,
+				this.linkedListElemID[index],
+				'',
+				LINKED_LIST_ELEM_WIDTH,
+				LINKED_LIST_ELEM_HEIGHT,
+				LINKED_LIST_INSERT_X,
+				LINKED_LIST_INSERT_Y,
+				0.25,
+				0,
+				1,
+			);
+	
+			this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+			this.cmd(act.createLabel, labPushValID, elemToAdd, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+	
+			this.cmd(act.step, 18, rand);
+	
+			this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
+	
+			this.cmd(act.step, 19, rand);
+			this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
+			this.cmd(act.delete, labPushValID);
+			this.cmd(act.step, 20, rand);
+		} else {
+			this.cmd(act.step, 48, rand);
+			this.cmd(
+				act.createLinkedListNode,
+				this.linkedListElemID[index],
+				'',
+				LINKED_LIST_ELEM_WIDTH,
+				LINKED_LIST_ELEM_HEIGHT,
+				LINKED_LIST_INSERT_X,
+				LINKED_LIST_INSERT_Y,
+				0.25,
+				0,
+				1,
+			);
+	
+			this.cmd(act.createLabel, labPushID, 'Adding Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+			this.cmd(act.createLabel, labPushValID, elemToAdd, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+	
+			this.cmd(act.step, 49, rand);
+	
+			this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
+	
+			this.cmd(act.step, null, rand);
+			this.cmd(act.setText, this.linkedListElemID[index], elemToAdd);
+			this.cmd(act.delete, labPushValID);
+		}
+
+		if (index === this.size) {
+			this.cmd(act.setNull, this.linkedListElemID[index], 1);
+			this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index - 1]);
+			this.cmd(act.connect, this.tailID, this.linkedListElemID[index]);
+		}
+
+		for (let i = 0; i <= index - 1; i++) {
+			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
+			this.cmd(act.step, 50, rand);
+			if (i > 0) {
+				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
+			}
+			this.cmd(act.step, 63, rand);
+			this.cmd(act.step, 49, rand);
+		}
+
+		if (this.size !== 0) {
+			this.cmd(act.step, null, rand);
+			this.cmd(act.step, 50, rand);
+			this.cmd(act.step, 52, rand);
+			this.cmd(act.step, 56, rand);
+			if (index === 0) {
+				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index + 1]);
+				this.cmd(act.connect, this.topID, this.linkedListElemID[index]);
+
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index],
+					this.linkedListElemID[index + 1],
+				);
+			} else if (index === this.size) {
+				this.cmd(act.setNull, this.linkedListElemID[index - 1], 0);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index],
+				);
+			} else {
+				this.cmd(
+					act.disconnect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index + 1],
+				);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index],
+				);
+				this.cmd(
+					act.connect,
+					this.linkedListElemID[index],
+					this.linkedListElemID[index + 1],
+				);	
+			}
+			this.cmd(act.step, 60, rand);
+			this.cmd(act.step, 61, rand);
+		} else {
+			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
+			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
+		}
+	}
 
 		this.cmd(act.setHighlight, this.linkedListElemID[index - 1], 0);
 
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 		this.size = this.size + 1;
 		this.resetNodePositions();
 		this.cmd(act.delete, labPushID);
-		this.cmd(act.step);
+		this.cmd(act.step, null, rand);
 
 		return this.commands;
 	}

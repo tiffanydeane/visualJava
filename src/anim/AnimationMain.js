@@ -810,7 +810,7 @@ export default class AnimationManager extends EventListener {
 export const act = {
 	step(params) {
 		this.foundBreak = true;
-		if (!params[1])
+		if (!params[1] && params[0] != null)
 			this.highlight(params[0]);
 	},
 	move(params) {
