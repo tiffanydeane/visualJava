@@ -204,9 +204,9 @@ export default class BFS extends Graph {
 
 		this.rebuildEdges();
 
-		this.cmd(act.step, 22, null);
-		this.cmd(act.step, 26, null);
-		this.cmd(act.step, 29, null);
+		this.cmd(act.step, 22, false);
+		this.cmd(act.step, 26, false);
+		this.cmd(act.step, 29, false);
 
 		this.cmd(
 			act.setText,
@@ -222,7 +222,7 @@ export default class BFS extends Graph {
 			VISITED_START_X,
 			VISITED_START_Y,
 		);
-		this.cmd(act.step, 32, null);
+		this.cmd(act.step, 32, false);
 		this.cmd(act.setBackgroundColor, this.circleID[vertex], VISITED_COLOR);
 		this.queue.push(vertex);
 		this.queueID.push(this.nextIndex);
@@ -233,12 +233,12 @@ export default class BFS extends Graph {
 			QUEUE_START_X,
 			QUEUE_START_Y,
 		);
-		this.cmd(act.step, 33, null);
+		this.cmd(act.step, 33, false);
 		// this.highlight(1, 0);
 		// this.highlight(2, 0);
 		// this.highlight(3, 0);
 		// this.highlight(4, 0);
-		this.cmd(act.step, 35, null);
+		this.cmd(act.step, 35, false);
 		// this.unhighlight(1, 0);
 		// this.unhighlight(2, 0);
 		// this.unhighlight(3, 0);
@@ -254,7 +254,7 @@ export default class BFS extends Graph {
 				this.infoLabelID,
 				'Dequeueing ' + this.toStr(vertex) + ' and adding to list',
 			);
-			this.cmd(act.step, 38, null);
+			this.cmd(act.step, 38, false);
 
 			this.cmd(act.setTextColor, this.queueID[0], BFS_QUEUE_HEAD_COLOR);
 			this.cmd(act.move, this.queueID[0], CURRENT_VERTEX_X, CURRENT_VERTEX_Y);
@@ -277,8 +277,8 @@ export default class BFS extends Graph {
 			);
 
 			this.visitVertex(vertex);
-			this.cmd(act.step, 44, null);
-			this.cmd(act.step, 45, null);
+			this.cmd(act.step, 44, false);
+			this.cmd(act.step, 45, false);
 			// this.unhighlight(6, 0);
 			// this.unhighlight(7, 0);
 			// this.highlight(8, 0);
@@ -287,8 +287,8 @@ export default class BFS extends Graph {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
 					this.highlightEdge(vertex, neighbor, 1);
 					// this.highlight(9, 0);
-					this.cmd(act.step, 46, null);
-					this.cmd(act.step, 47, null);
+					this.cmd(act.step, 46, false);
+					this.cmd(act.step, 47, false);
 					if (!this.visited[neighbor]) {
 						console.log(neighbor);
 						// this.unhighlight(9, 0);
@@ -309,7 +309,7 @@ export default class BFS extends Graph {
 							VISITED_START_X + (this.visitedID.length - 1) * LIST_SPACING,
 							VISITED_START_Y,
 						);
-						this.cmd(act.step, 48, null);
+						this.cmd(act.step, 48, false);
 						this.cmd(act.setBackgroundColor, this.circleID[neighbor], VISITED_COLOR);
 						this.queue.push(neighbor);
 						this.queueID.push(this.nextIndex);
@@ -320,7 +320,7 @@ export default class BFS extends Graph {
 							QUEUE_START_X + (this.queue.length - 1) * QUEUE_SPACING,
 							QUEUE_START_Y,
 						);
-						this.cmd(act.step, 49, null);
+						this.cmd(act.step, 49, false);
 					} else {
 						// this.unhighlight(9, 0);
 						this.cmd(
@@ -329,7 +329,7 @@ export default class BFS extends Graph {
 							this.toStr(neighbor) + ' has already been visited, skipping',
 						);
 					}
-					this.cmd(act.step, 45, null);
+					this.cmd(act.step, 45, false);
 					// this.unhighlight(10, 0);
 					// this.unhighlight(11, 0);
 					this.highlightEdge(vertex, neighbor, 0);
@@ -338,7 +338,7 @@ export default class BFS extends Graph {
 			// this.unhighlight(8, 0);
 
 			this.cmd(act.delete, this.queueID.shift());
-			this.cmd(act.step, 35, null);
+			this.cmd(act.step, 35, false);
 
 			this.leaveVertex();
 			

@@ -366,12 +366,12 @@ export default class SelectionSort extends Algorithm {
 			ARRAY_START_X + circleShift,
 			ARRAY_START_Y,
 		);
-		this.cmd(act.step, 3, null);
-		this.cmd(act.step, 5, null);
+		this.cmd(act.step, 3, false);
+		this.cmd(act.step, 5, false);
 		this.unhighlight(0, 0);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
 		this.highlight(2, 0);
-		this.cmd(act.step, 8, null);
+		this.cmd(act.step, 8, false);
 		this.unhighlight(2, 0);
 		let x = 0;
 		for (let i = 0; i < this.arrayData.length - 1; i++) {
@@ -382,10 +382,10 @@ export default class SelectionSort extends Algorithm {
 
 			let toSwap = k;
 			this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFF00');
-			this.cmd(act.step, 11, null);
+			this.cmd(act.step, 11, false);
 			this.unhighlight(3, 0);
 			this.highlight(4, 0);
-			this.cmd(act.step, 12, null);
+			this.cmd(act.step, 12, false);
 			for (let j = i + 1; j < this.arrayData.length; j++) {
 				let w = j;
 				if (!this.isMin) {
@@ -396,26 +396,26 @@ export default class SelectionSort extends Algorithm {
 				if (this.compare(this.arrayData[w], this.arrayData[toSwap])) {
 					this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
 					this.highlight(6, 0);
-					this.cmd(act.step, 14, null);
+					this.cmd(act.step, 14, false);
 					toSwap = w;
 					this.movePointers(toSwap, w);
 					this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFF00');
-					this.cmd(act.step, null, null);
+					this.cmd(act.step, null, false);
 					this.unhighlight(6, 0);
 				}
-				this.cmd(act.step, 12, null);
+				this.cmd(act.step, 12, false);
 			}
 			this.swap(k, toSwap);
 			this.cmd(act.setBackgroundColor, this.arrayID[toSwap], '#FFFFFF');
-			this.cmd(act.step, 20, null);
+			this.cmd(act.step, 20, false);
 			this.cmd(act.setBackgroundColor, this.arrayID[k], '#2ECC71');
-			this.cmd(act.step, 21, null);
-			this.cmd(act.step, 8, null);
+			this.cmd(act.step, 21, false);
+			this.cmd(act.step, 8, false);
 		}
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);
-		this.cmd(act.step, null, null);
+		this.cmd(act.step, null, false);
 
 		let lastIndex = this.arrayID.length - 1;
 		if (!this.isMin) {
@@ -429,7 +429,7 @@ export default class SelectionSort extends Algorithm {
 	compare(i, j) {
 		this.highlight(5, 0);
 		this.cmd(act.setText, this.comparisonCountID, 'Comparison Count: ' + ++this.compCount);
-		this.cmd(act.step, 13, null);
+		this.cmd(act.step, 13, false);
 		this.unhighlight(5, 0);
 		if (this.isMin) {
 			return i < j;
@@ -445,7 +445,7 @@ export default class SelectionSort extends Algorithm {
 		const jXPos = j * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		const jYPos = ARRAY_START_Y;
 		this.cmd(act.move, this.jPointerID, jXPos, jYPos);
-		this.cmd(act.step, null, null);
+		this.cmd(act.step, null, false);
 	}
 
 	swap(i, j) {
@@ -463,7 +463,7 @@ export default class SelectionSort extends Algorithm {
 		this.cmd(act.move, iLabelID, jXPos, jYPos);
 		this.cmd(act.move, jLabelID, iXPos, iYPos);
 		this.cmd(act.setText, this.swapCountID, 'Swap Count: ' + ++this.swapCount);
-		this.cmd(act.step, 19, null);
+		this.cmd(act.step, 19, false);
 		this.cmd(act.setText, this.arrayID[i], this.displayData[j]);
 		this.cmd(act.setText, this.arrayID[j], this.displayData[i]);
 		this.cmd(act.delete, iLabelID);

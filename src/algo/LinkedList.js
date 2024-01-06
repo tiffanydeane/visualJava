@@ -425,13 +425,13 @@ export default class LinkedList extends Algorithm {
 
 	traverse(startIndex, endIndex) {
 		for (let i = startIndex; i <= endIndex; i++) {
-			this.cmd(act.step, null, null);
+			this.cmd(act.step, null, false);
 			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 			if (i > 0) {
 				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 			}
 		}
-		this.cmd(act.step, null, null);
+		this.cmd(act.step, null, false);
 	}
 
 	add(elemToAdd, index, where, rand) {
@@ -612,7 +612,7 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index + 1],
 				);
 			}
-			this.cmd(act.step, 37, null);
+			this.cmd(act.step, 37, rand);
 		} else {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
@@ -763,41 +763,143 @@ export default class LinkedList extends Algorithm {
 
 		this.cmd(act.setText, this.leftoverLabelID, '');
 
-		this.traverse(0, index - 1);
+		// this.traverse(0, index - 1);
 
+		if (where === 'front') {
+		this.cmd(act.step, 68, false);
 		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
 		const nodePosY = LINKED_LIST_START_Y;
 		this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
 		this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
 		this.cmd(act.setTextColor, this.linkedListElemID[index], '#FF0000');
-		this.cmd(act.step);
+		this.cmd(act.step, 69, false);
 
 		if (this.size !== 1) {
 			if (index === 0) {
 				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.topID, this.linkedListElemID[index + 1]);
-				this.cmd(act.step);
+				this.cmd(act.step, 70, false);
+				this.cmd(act.disconnect, this.linkedListElemID[0], this.linkedListElemID[1]);
+				this.cmd(act.setNull, this.linkedListElemID[0], 1);
+			} 
+		}} else if(where === 'back') {
+		this.cmd(act.step, 73, false);	
+		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
+		const nodePosY = LINKED_LIST_START_Y;
+
+		this.cmd(act.step, 74, false);
+		this.cmd(act.step, 75, false);
+		this.cmd(act.step, 77, false);
+
+		if (this.size !== 1) {
+			for (let i = 0; i <= index - 1; i++) {
+				this.cmd(act.step, 78, false);
+				this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
+				if (i > 0) {
+					this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
+				}
+				this.cmd(act.step, 79, false);
+				this.cmd(act.step, 77, false);
+			}
+			this.cmd(act.step, null, false);
+			this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+			this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
+			this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+			this.cmd(act.setTextColor, this.linkedListElemID[index], '#FF0000');
+			if (index === 0) {
+				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index]);
+				this.cmd(act.connect, this.topID, this.linkedListElemID[index + 1]);
+				this.cmd(act.step, 82, false);
 				this.cmd(act.disconnect, this.linkedListElemID[0], this.linkedListElemID[1]);
 				this.cmd(act.setNull, this.linkedListElemID[0], 1);
 			} else if (index === this.size - 1) {
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.tailID, this.linkedListElemID[index - 1]);
-				this.cmd(act.step);
+				this.cmd(act.step, 82, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index],
 				);
 				this.cmd(act.setNull, this.linkedListElemID[index - 1], 1);
-				this.cmd(act.step);
+				this.cmd(act.step, null, false);
+			} 
+		}} else {
+		this.cmd(act.step, 88, false);	
+		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
+		const nodePosY = LINKED_LIST_START_Y;
+		this.cmd(act.step, 91, false);
+		
+		if (this.size !== 1) {
+			if (index === 0) {
+				this.cmd(act.step, 92, false);
+				this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+				this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
+				this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+				this.cmd(act.setTextColor, this.linkedListElemID[index], '#FF0000');
+				this.cmd(act.step, 68, false);
+				this.cmd(act.step, 69, false);	
+				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index]);
+				this.cmd(act.connect, this.topID, this.linkedListElemID[index + 1]);
+				this.cmd(act.step, 70, false);
+				this.cmd(act.disconnect, this.linkedListElemID[0], this.linkedListElemID[1]);
+				this.cmd(act.setNull, this.linkedListElemID[0], 1);
+			} else if (index === this.size - 1) {
+				this.cmd(act.step, 96, false);
+				this.cmd(act.step, 99, false);
+
+				for (let i = 0; i <= index - 1; i++) {
+					this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
+					if (i > 0) {
+						this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
+					}
+					this.cmd(act.step, 100, false);
+					this.cmd(act.step, 99, false);
+				}
+				this.cmd(act.step, null, false);
+
+				this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+				this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
+				this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+				this.cmd(act.setTextColor, this.linkedListElemID[index], '#FF0000');
+				this.cmd(act.step, null, false);
+
+				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
+				this.cmd(act.connect, this.tailID, this.linkedListElemID[index - 1]);
+				this.cmd(act.step, 104, false);
+				this.cmd(
+					act.disconnect,
+					this.linkedListElemID[index - 1],
+					this.linkedListElemID[index],
+				);
+				this.cmd(act.setNull, this.linkedListElemID[index - 1], 1);
+				this.cmd(act.step, 106, false);
 			} else {
+				this.cmd(act.step, 96, false);
+				this.cmd(act.step, 99, false);
+
+				for (let i = 0; i <= index - 1; i++) {
+					this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
+					if (i > 0) {
+						this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
+					}
+					this.cmd(act.step, 100, false);
+					this.cmd(act.step, 99, false);
+				}
+				this.cmd(act.step, null, false);
+				this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
+				this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
+				this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
+				this.cmd(act.setTextColor, this.linkedListElemID[index], '#FF0000');
+				this.cmd(act.step, null, false);
+
 				const xPos =
 					(index % LINKED_LIST_ELEMS_PER_LINE) * LINKED_LIST_ELEM_SPACING +
 					LINKED_LIST_START_X;
 				const yPos = LINKED_LIST_START_Y - LINKED_LIST_ELEM_HEIGHT * 2;
 				this.cmd(act.move, this.linkedListElemID[index], xPos, yPos);
-				this.cmd(act.step);
+				this.cmd(act.step, 104, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
@@ -808,84 +910,16 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index + 1],
 				);
-				this.cmd(act.step);
+				this.cmd(act.step, 106, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index],
 					this.linkedListElemID[index + 1],
 				);
 			}
-		}
+		}}
 
-		if (index === 0) {
-			if (where === 'index') {
-				highlight(88, 600);
-				sleep(600).then(() => {highlight(91, 600)});
-				sleep(600*2).then(() => {highlight(92, 600)});
-				sleep(600*3).then(() => {highlight(68, 600)});
-				sleep(600*4).then(() => {highlight(69, 600)});
-				sleep(600*5).then(() => {highlight(70, 600)});
-			} else if (where === 'front') {
-				highlight(68, 600);
-				sleep(600).then(() => {highlight(69, 600)});
-				sleep(600*2).then(() => {highlight(70, 600)});
-			} else {
-				highlight(73, 600);
-				sleep(600).then(() => {highlight(74, 600)});
-				sleep(600*2).then(() => {highlight(75, 600)});
-				sleep(600*3).then(() => {highlight(77, 600)});
-				let x = -3;
-				for (let i = 0; i < this.size - 1; i++) {
-					sleep(600*(4+(3*i))).then(() => {highlight(78, 600)});
-					sleep(600*(5+(3*i))).then(() => {highlight(79, 600)});
-					sleep(600*(6+(3*i))).then(() => {highlight(77, 600)});
-					x += 3;
-				}
-				sleep(600*(7 + x)).then(() => {highlight(82, 600)});
-			}
-		} else if (index === this.size - 1) {
-			if (where === 'back') {
-				highlight(73, 600);
-				sleep(600).then(() => {highlight(74, 600)});
-				sleep(600*2).then(() => {highlight(75, 600)});
-				sleep(600*3).then(() => {highlight(77, 600)});
-				let x = -3;
-				for (let i = 0; i < this.size - 1; i++) {
-					sleep(600*(4+(3*i))).then(() => {highlight(78, 600)});
-					sleep(600*(5+(3*i))).then(() => {highlight(79, 600)});
-					sleep(600*(6+(3*i))).then(() => {highlight(77, 600)});
-					x += 3;
-				}
-				sleep(600*(7 + x)).then(() => {highlight(82, 600)});
-			} else {
-				highlight(88, 600);
-				sleep(600).then(() => {highlight(91, 600)});
-				sleep(600*2).then(() => {highlight(96, 600)});
-				sleep(600*3).then(() => {highlight(99, 600)});
-				let x = -2;
-				for (let i = 0; i < index - 1; i++) {
-					sleep(600*(4+(2*i))).then(() => {highlight(100, 600)});
-					sleep(600*(5+(2*i))).then(() => {highlight(99, 600)});
-					x += 2;
-				}
-				sleep(600*(6 + x)).then(() => {highlight(104, 600)});
-				sleep(600*(7 + x)).then(() => {highlight(106, 600)});
-			}
-		} else {
-			highlight(88, 600);
-			sleep(600).then(() => {highlight(91, 600)});
-			sleep(600*2).then(() => {highlight(96, 600)});
-			sleep(600*3).then(() => {highlight(99, 600)});
-			let x = -2;
-			for (let i = 0; i < index - 1; i++) {
-				sleep(600*(4+(2*i))).then(() => {highlight(100, 600)});
-				sleep(600*(5+(2*i))).then(() => {highlight(99, 600)});
-				x += 2;
-			}
-			sleep(600*(6 + x)).then(() => {highlight(104, 600)});
-			sleep(600*(7 + x)).then(() => {highlight(106, 600)});
-		}
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 		this.cmd(act.delete, this.linkedListElemID[index]);
 
 		this.cmd(act.setHighlight, this.linkedListElemID[index - 1], 0);
