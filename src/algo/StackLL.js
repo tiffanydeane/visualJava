@@ -184,12 +184,7 @@ export default class StackLL extends Algorithm {
 		if (this.top < SIZE && this.pushField.value !== '') {
 			const pushVal = this.pushField.value;
 			this.pushField.value = '';
-			this.implementAction(this.push.bind(this), pushVal);
-			highlight(12, 500);
-			sleep(500).then(() => {highlight(13, 500)});
-			sleep(500*2).then(() => {highlight(14, 500)});
-			sleep(500*3).then(() => {highlight(15, 500)});
-			sleep(500*4).then(() => {highlight(16, 500)});
+			this.implementAction(this.push.bind(this), pushVal, false);
 		} else {
 			this.shake(this.pushButton);
 		}
@@ -198,12 +193,6 @@ export default class StackLL extends Algorithm {
 	popCallback() {
 		if (this.top > 0) {
 			this.implementAction(this.pop.bind(this));
-			highlight(19, 500);
-			sleep(500).then(() => {highlight(20, 500)});
-			sleep(500*2).then(() => {highlight(10, 500)});
-			sleep(500*3).then(() => {highlight(23, 500)});
-			sleep(500*4).then(() => {highlight(24, 500)});
-			sleep(500*5).then(() => {highlight(25, 500)});
 		} else {
 			this.shake(this.popButton);
 		}
@@ -225,7 +214,7 @@ export default class StackLL extends Algorithm {
 				i--;
 			} else {
 				set.add(val);
-				this.implementAction(this.push.bind(this), val);
+				this.implementAction(this.push.bind(this), val, true);
 			}
 			this.animationManager.skipForward();
 			this.animationManager.clearHistory();
@@ -236,7 +225,7 @@ export default class StackLL extends Algorithm {
 		this.implementAction(this.clearAll.bind(this));
 	}
 
-	push(elemToPush) {
+	push(elemToPush, rand) {
 		this.commands = [];
 
 		const labPushID = this.nextIndex++;
@@ -263,11 +252,11 @@ export default class StackLL extends Algorithm {
 		this.cmd(act.createLabel, labPushID, 'Pushing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(act.createLabel, labPushValID, elemToPush, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 12, rand);
 
 		this.cmd(act.move, labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 13, rand);
 		this.cmd(act.setText, this.linkedListElemID[this.top], elemToPush);
 		this.cmd(act.delete, labPushValID);
 
@@ -280,16 +269,16 @@ export default class StackLL extends Algorithm {
 				this.linkedListElemID[this.top],
 				this.linkedListElemID[this.top - 1],
 			);
-			this.cmd(act.step);
+			this.cmd(act.step, 14, rand);
 			this.cmd(act.disconnect, this.topID, this.linkedListElemID[this.top - 1]);
 		}
 		this.cmd(act.connect, this.topID, this.linkedListElemID[this.top]);
 
-		this.cmd(act.step);
+		this.cmd(act.step, 15, rand);
 		this.top = this.top + 1;
 		this.resetLinkedListPositions();
 		this.cmd(act.delete, labPushID);
-		this.cmd(act.step);
+		this.cmd(act.step, 16, rand);
 		this.unhighlight(1, 0);
 
 		return this.commands;
@@ -303,6 +292,9 @@ export default class StackLL extends Algorithm {
 
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
+		this.cmd(act.step, 19, false);
+		this.cmd(act.step, 20, false);
+		this.cmd(act.step, 10, false);
 
 		this.cmd(act.createLabel, labPopID, 'Popped Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(
@@ -315,7 +307,7 @@ export default class StackLL extends Algorithm {
 
 		this.highlight(5, 0);
 		this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, 23, false);
 		this.cmd(act.disconnect, this.topID, this.linkedListElemID[this.top - 1]);
 		this.unhighlight(5, 0);
 
@@ -325,7 +317,7 @@ export default class StackLL extends Algorithm {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[this.top - 2]);
 		}
 		this.highlight(6, 0);
-		this.cmd(act.step);
+		this.cmd(act.step, 24, false);
 		this.unhighlight(6, 0);
 		this.cmd(act.delete, this.linkedListElemID[this.top - 1]);
 		this.highlight(7, 0);
@@ -337,6 +329,7 @@ export default class StackLL extends Algorithm {
 		this.cmd(act.delete, labPopID);
 		this.cmd(act.setText, this.leftoverLabelID, 'Popped Value: ');
 		this.cmd(act.setText, this.leftoverValID, this.arrayData[this.top]);
+		this.cmd(act.step, 25, false);
 
 		return this.commands;
 	}
