@@ -569,12 +569,11 @@ export default class LinkedList extends Algorithm {
 		}
 
 		for (let i = 0; i <= index - 1; i++) {
-			
 			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
-			this.cmd(act.step, 34, rand);
 			if (i > 0) {
 				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 			}
+			this.cmd(act.step, 34, rand);
 			this.cmd(act.step, 33, rand);
 		}
 		this.cmd(act.step, null, rand);
@@ -683,20 +682,17 @@ export default class LinkedList extends Algorithm {
 		}
 
 		for (let i = 0; i <= index - 1; i++) {
-			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 			this.cmd(act.step, 50, rand);
+			this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 			if (i > 0) {
 				this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 			}
 			this.cmd(act.step, 63, rand);
 			this.cmd(act.step, 49, rand);
 		}
+		this.cmd(act.step, null, rand);
 
 		if (this.size !== 0) {
-			this.cmd(act.step, null, rand);
-			this.cmd(act.step, 50, rand);
-			this.cmd(act.step, 52, rand);
-			this.cmd(act.step, 56, rand);
 			if (index === 0) {
 				this.cmd(act.disconnect, this.topID, this.linkedListElemID[index + 1]);
 				this.cmd(act.connect, this.topID, this.linkedListElemID[index]);
@@ -707,18 +703,26 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index + 1],
 				);
 			} else if (index === this.size) {
+				this.cmd(act.step, 50, rand);
+				this.cmd(act.step, 52, rand);
+				this.cmd(act.step, 56, rand);
 				this.cmd(act.setNull, this.linkedListElemID[index - 1], 0);
 				this.cmd(
 					act.connect,
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index],
 				);
+				this.cmd(act.step, 60, rand);
+				this.cmd(act.step, 61, rand);
 			} else {
+				this.cmd(act.step, 50, rand);
+				this.cmd(act.step, 52, rand);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index + 1],
 				);
+				this.cmd(act.step, 56, rand);
 				this.cmd(
 					act.connect,
 					this.linkedListElemID[index - 1],
@@ -729,9 +733,9 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index],
 					this.linkedListElemID[index + 1],
 				);	
+				this.cmd(act.step, 60, rand);
+				this.cmd(act.step, 61, rand);
 			}
-			this.cmd(act.step, 60, rand);
-			this.cmd(act.step, 61, rand);
 		} else {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[0]);
 			this.cmd(act.connect, this.tailID, this.linkedListElemID[0]);
