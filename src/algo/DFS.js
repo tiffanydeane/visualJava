@@ -264,7 +264,7 @@ export default class DFS extends Graph {
 		this.stack.push(vertex);
 		this.stackID.push(vertexID);
 		this.cmd(act.createLabel, vertexID, this.toStr(vertex), STACK_START_X, this.stackStartY);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		// this.unhighlight(2, 0);
 		// this.highlight(3, 0);
@@ -295,7 +295,7 @@ export default class DFS extends Graph {
 
 			this.visitVertex(vertex);
 
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 
 			// this.unhighlight(4, 0);
 			// this.unhighlight(5, 0);
@@ -305,7 +305,7 @@ export default class DFS extends Graph {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
 					this.highlightEdge(vertex, neighbor, 1);
 					// this.highlight(7, 0);
-					this.cmd(act.step);
+					this.cmd(act.step, null, false);
 					if (!this.visited[neighbor]) {
 						// this.unhighlight(7, 0);
 						// this.highlight(8, 0);
@@ -342,7 +342,7 @@ export default class DFS extends Graph {
 							this.toStr(neighbor) + ' has already been visited, skipping',
 						);
 					}
-					this.cmd(act.step);
+					this.cmd(act.step, null, false);
 					// this.unhighlight(8, 0);
 					// this.highlightEdge(vertex, neighbor, 0);
 				}
@@ -398,15 +398,11 @@ export default class DFS extends Graph {
 		this.cmd(act.setTextColor, this.currentID, DFS_STACK_TOP_COLOR);
 
 		this.cmd(act.setText, this.infoLabelID, 'About to recurse to ' + this.toStr(startValue));
-		this.cmd(act.step);
+		this.cmd(act.step, 39, false);
+		this.cmd(act.step, 44, false);
+		this.cmd(act.step, 49, false);
 
 		this.visitVertex(vertex);
-		sleep(400*this.x).then(() => {highlight(39, 400)});
-		this.x++;
-		sleep(400*this.x).then(() => {highlight(44, 400)});
-		this.x++;
-		sleep(400*this.x).then(() => {highlight(49, 400)});
-		this.x++;
 
 		this.dfsVisit(vertex, RECURSION_START_X);
 
@@ -418,6 +414,7 @@ export default class DFS extends Graph {
 	}
 
 	dfsVisit(currVertex, messageX) {
+		this.cmd(act.step, 22, false);
 		this.cmd(
 			act.setText,
 			this.infoLabelID,
@@ -464,56 +461,37 @@ export default class DFS extends Graph {
 			VISITED_START_Y,
 		);
 		this.cmd(act.setBackgroundColor, this.circleID[currVertex], VISITED_COLOR);
-		// this.highlight(1, 0);
-		this.cmd(act.step);
-		// this.unhighlight(1, 0);
-		// this.highlight(2, 0);
-		sleep(400*this.x).then(() => {highlight(22, 400)});
-		this.x++;
-		sleep(400*this.x).then(() => {highlight(25, 400)});
-		this.x++;
-		sleep(400*this.x).then(() => {highlight(29, 400)});
-		this.x++;
-		sleep(400*this.x).then(() => {highlight(30, 400)});
-		this.x++;
+
+		this.cmd(act.step, 25, false);
+		this.cmd(act.step, 29, false);
+		this.cmd(act.step, 30, false);
+
 		for (let neighbor = 0; neighbor < this.size; neighbor++) {
 			if (this.adj_matrix[currVertex][neighbor] > 0) {
-				// this.highlight(3, 0);
-				this.cmd(act.step);
-				sleep(400*this.x).then(() => {highlight(31, 400)});
-				this.x++;
-				sleep(400*this.x).then(() => {highlight(32, 400)});
-				this.x++;
+				this.cmd(act.step, 31, false);
+				this.cmd(act.step, 32, false);
 				if (this.visited[neighbor]) {
-					// this.unhighlight(3, 0);
-					// this.highlightEdge(currVertex, neighbor, 1, 'blue');
+					this.highlightEdge(currVertex, neighbor, 1, 'blue');
 					this.cmd(
 						act.setText,
 						this.infoLabelID,
 						'Vertex ' + this.toStr(neighbor) + ' already visited, skipping',
 					);
-					this.cmd(act.step);
-					// this.highlightEdge(currVertex, neighbor, 0);
+					this.cmd(act.step, null, false);
+					this.highlightEdge(currVertex, neighbor, 0);
 				} else {
-					// this.unhighlight(3, 0);
-					// this.highlight(4, 0);
 					this.highlightEdge(currVertex, neighbor, 1, 'red');
 					this.cmd(
 						act.setText,
 						this.infoLabelID,
 						'About to recurse to ' + this.toStr(neighbor),
 					);
-					this.cmd(act.step);
-					// this.unhighlight(4, 0);
-					// this.unhighlight(2, 0);
+					this.cmd(act.step, 33, false);
 
 					this.leaveVertex();
 					this.visitVertex(neighbor);
-					// this.highlightEdge(currVertex, neighbor, 0);
-					sleep(400*this.x).then(() => {highlight(33, 400)});
-					this.x++;
+					this.highlightEdge(currVertex, neighbor, 0);
 					this.dfsVisit(neighbor, messageX + this.recursionSpacingX);
-					// this.highlight(2, 0);
 
 					this.leaveVertex();
 					this.visitVertex(currVertex);
@@ -522,13 +500,11 @@ export default class DFS extends Graph {
 						this.infoLabelID,
 						'Returned from ' + this.toStr(neighbor) + ' to ' + this.toStr(currVertex),
 					);
-					this.cmd(act.step);
+					this.cmd(act.step, null, false);
 				}
-				sleep(400*this.x).then(() => {highlight(30, 400)});
-				this.x++;
+				this.cmd(act.step, 30, false);
 			}
 		}
-		// this.unhighlight(2, 0);
 
 		this.cmd(act.delete, this.stackID.pop());
 	}

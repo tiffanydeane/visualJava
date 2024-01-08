@@ -497,46 +497,42 @@ export const codeMap = {
 }`],
 	QuickSort: [`public class QuickSort {
 
-	// This function takes first element as pivot,
-	// places the pivot element at its correct position
-	// in sorted array, and places all smaller to left
-	// of pivot and all greater elements to right of pivot
-	int partition(int arr[], int low, int high)
+	int partition(int arr[], int low, int high) 
 	{
-		int pivot = arr[low];
-		int st = low; // st points to the starting of array
-		int end = high; // end points to the ending of the array
-		int k = high;
+		int pivot = arr[low]; // selecting first element as pivot element
+		int i = low;
+		int j = high;
+		int temp; // temporary variable for swapping
 
-		for (int i = high; i > low; i--) {
-			if (arr[i] > pivot)
-				swap(arr, i, k--);
+		while (i < j) {
+
+			while (arr[i] <= pivot) {
+				i++;
+			}
+
+			while (arr[j] > pivot) {
+				j--;
+			}
+			//swapping
+			if (i < j) {
+				temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+
 		}
-		swap(arr, low, k);
+		arr[low] = arr[j];
+		arr[j] = pivot;
 
-		return k;
+		return j;
 	}
-	
-	// Function to swap two elements
-	public static void swap(int[] arr, int i, int j)
-	{
-		int temp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = temp;
-	}
-	
-	// The main function that implements QuickSort
-	void sort(int arr[], int low, int high)
+
+	void sort(int arr[], int low, int high) 
 	{
 		if (low < high) {
-			// idx is index of pivot element which is at its
-			// sorted position
-			int idx = partition(arr, low, high);
-	
-			// Separately sort elements before
-			// partition and after partition
-			sort(arr, low, idx - 1);
-			sort(arr, idx + 1, high);
+			int locationOfPivot = partition(arr, low, high);
+			quickSort(arr, low, locationOfPivot - 1); // recursive call to left sub-array
+			quickSort(arr, locationOfPivot + 1, high); // recursive call to right sub-array
 		}
 	}
 }`],

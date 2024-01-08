@@ -446,7 +446,7 @@ export default class QueueArray extends Algorithm {
 		this.highlight(3, 0, this.dequeueCodeID);
 		this.cmd(act.setHighlight, this.frontID, 1);
 		this.cmd(act.setHighlight, this.frontPointerID, 1);
-		this.cmd(act.step, null, false);
+		this.cmd(act.step, 28, false);
 
 		this.front = (this.front + 1) % this.arraySize;
 		const frontxpos = (this.front % ARRAY_ELEMS_PER_LINE) * ARRAY_ELEM_WIDTH + ARRAY_START_X;
@@ -456,7 +456,7 @@ export default class QueueArray extends Algorithm {
 			FRONT_LABEL_OFFSET;
 		this.cmd(act.move, this.frontPointerID, frontxpos, frontypos);
 		this.cmd(act.setText, this.frontID, this.front);
-		this.cmd(act.step, 28, false);
+		this.cmd(act.step, null, false);
 
 		this.cmd(act.setHighlight, this.frontID, 0);
 		this.cmd(act.setHighlight, this.frontPointerID, 0);
@@ -573,7 +573,7 @@ export default class QueueArray extends Algorithm {
 				yposinit,
 			);
 			this.cmd(act.move, this.arrayMoveID[i], xpos, ypos);
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 		}
 		this.cmd(act.step, 33, false);
 		this.cmd(act.step, 34, false);

@@ -295,29 +295,20 @@ export default class InsertionSort extends Algorithm {
 			ARRAY_START_Y,
 		);
 		this.cmd(act.setHighlight, this.jPointerID, 1);
-		this.cmd(act.step);
-
-		highlight(4, 750);
-		sleep(750).then(() => {highlight(6, 750)});
-		sleep(750*2).then(() => {highlight(7, 750)});
-		let x = 0;
+		this.cmd(act.step, 4, false);
+		this.cmd(act.step, 6, false);
+		this.cmd(act.step, 7, false);
 
 		for (let i = 1; i < this.arrayData.length; i++) {
-			this.cmd(act.step);
-			this.cmd(act.step);
-			sleep(750*(3+x)).then(() => {highlight(8, 750)});
-			x++;
-			sleep(750*(3+x)).then(() => {highlight(9, 750)});
-			x++;
-			sleep(750*(3+x)).then(() => {highlight(14, 750)});
-			x++;
+			this.cmd(act.step, 8, false);
+			this.cmd(act.step, 9, false);
 			for (let j = i; j >= 1; j--) {
 				this.movePointers(j - 1, j);
 				this.unhighlight(3, 0);
 				this.unhighlight(4, 0);
 				this.unhighlight(6, 0);
 				this.highlight(4, 1);
-				this.cmd(act.step);
+				this.cmd(act.step, null, false);
 				this.unhighlight(4, 1);
 				this.highlight(4, 2);
 				this.cmd(
@@ -325,42 +316,33 @@ export default class InsertionSort extends Algorithm {
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
-				this.cmd(act.step);
+				this.cmd(act.step, 14, false);
 				this.unhighlight(4, 2);
 				if (this.arrayData[j] < this.arrayData[j - 1]) {
 					this.highlight(5, 0);
 					this.swap(j, j - 1);
-					this.cmd(act.step);
+					this.cmd(act.step, null, false);
 					this.unhighlight(5, 0);
 					this.highlight(6, 0);
-					this.cmd(act.step);
-					sleep(750*(3+x)).then(() => {highlight(15, 750)});
-					x++;
-					sleep(750*(3+x)).then(() => {highlight(16, 750)});
-					x++;
-					sleep(750*(3+x)).then(() => {highlight(14, 750)});
-					x++;
+					this.cmd(act.step, 16, false);
 				} else {
-					sleep(750*(3+x)).then(() => {highlight(18, 750)});
-					x++;
 					break;
 				}
 			}
-			sleep(750*(3+x)).then(() => {highlight(7, 750)});
-			x++;
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 			this.unhighlight(3, 0);
 			this.unhighlight(4, 0);
 			this.unhighlight(6, 0);
 			if (i === 1) this.cmd(act.setBackgroundColor, this.arrayID[0], '#2ECC71');
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
-			this.cmd(act.step);
+			this.cmd(act.step, 18, false);
+			this.cmd(act.step, 7, false);
 		}
 		this.unhighlight(2, 0);
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		return this.commands;
 	}
@@ -372,7 +354,7 @@ export default class InsertionSort extends Algorithm {
 		const jXPos = j * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		const jYPos = ARRAY_START_Y;
 		this.cmd(act.move, this.jPointerID, jXPos, jYPos);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 	}
 
 	swap(i, j) {
@@ -391,7 +373,7 @@ export default class InsertionSort extends Algorithm {
 		this.cmd(act.move, iLabelID, jXPos, jYPos);
 		this.cmd(act.move, jLabelID, iXPos, iYPos);
 		this.cmd(act.setText, this.swapCountID, 'Swap Count: ' + ++this.swapCount);
-		this.cmd(act.step);
+		this.cmd(act.step, 15, false);
 		this.cmd(act.setText, this.arrayID[i], this.displayData[j]);
 		this.cmd(act.setText, this.arrayID[j], this.displayData[i]);
 		this.cmd(act.delete, iLabelID);
@@ -409,7 +391,7 @@ export default class InsertionSort extends Algorithm {
 
 		this.cmd(act.setForegroundColor, this.iPointerID, '#0000FF');
 		this.cmd(act.setForegroundColor, this.jPointerID, '#0000FF');
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 	}
 
 	disableUI() {

@@ -330,45 +330,30 @@ export default class QuickSort extends Algorithm {
 	}
 
 	helper(left, right) {
-		sleep(500*this.x).then(() => {highlight(32, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(34, 500)});
-		this.x++;
 		if (left > right) return;
 
 		// Hightlight cells in the current sub-array
 		for (let i = left; i <= right; i++) {
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#99CCFF');
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, 33, false);
+		this.cmd(act.step, 35, false);
 		this.unhighlight(0, 0);
 
 		if (left === right) {
 			this.cmd(act.setBackgroundColor, this.arrayID[left], '#2ECC71');
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 			this.unhighlight(0, 0);
 			return;
 		}
+		this.cmd(act.step, 36, false);
+		this.cmd(act.step, 3, false);
 
 		// Create pivot pointer and swap with left-most element
 		// To make things more interesting (and clearer), we don't pick the left-most element as pivot
 		let pivot;
 		this.highlight(1, 0);
 		this.highlight(2, 0);
-		sleep(500*this.x).then(() => {highlight(37, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(7, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(9, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(10, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(11, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(12, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(14, 500)});
-		this.x++;
 		if (this.pivotType === 'min') {
 			let min = left;
 			for (let i = left + 1; i <= right; i++) {
@@ -389,12 +374,12 @@ export default class QuickSort extends Algorithm {
 		}
 		const pXPos = pivot * ARRAY_ELEM_WIDTH + ARRAY_START_X;
 		this.cmd(act.createHighlightCircle, this.pPointerID, '#FFFF00', pXPos, ARRAY_START_Y);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 		this.unhighlight(1, 0);
 		this.unhighlight(2, 0);
 		this.highlight(3, 0);
 		this.swapPivot(pivot, left);
-		this.cmd(act.step);
+		this.cmd(act.step, 5, false);
 		this.unhighlight(3, 0);
 		this.highlight(4, 0);
 		// Partition
@@ -414,6 +399,7 @@ export default class QuickSort extends Algorithm {
 			false,
 			true,
 		);
+		this.cmd(act.step, 6, false);
 		this.cmd(
 			act.createLabel,
 			this.jLabel,
@@ -424,6 +410,7 @@ export default class QuickSort extends Algorithm {
 			false,
 			true,
 		);
+		this.cmd(act.step, 7, false);
 		if (i === j) {
 			this.cmd(act.setText, this.iLabel, '');
 			this.cmd(act.setText, this.jLabel, 'i, j');
@@ -431,20 +418,21 @@ export default class QuickSort extends Algorithm {
 			this.cmd(act.setText, this.iLabel, 'i');
 			this.cmd(act.setText, this.jLabel, 'j');
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, 8, false);
 		this.unhighlight(4, 0);
 		this.highlight(5, 0);
+		this.cmd(act.step, 10, false);
 
 		while (i <= j) {
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 			this.highlight(6, 0);
 			this.unhighlight(5, 0);
 			this.highlight(6, 1);
-			this.cmd(act.step);
+			this.cmd(act.step, null, false);
 			this.unhighlight(6, 0);
 			this.unhighlight(6, 1);
 			this.highlight(6, 3);
-			this.cmd(act.step);
+			this.cmd(act.step, 12, false);
 			while (i <= j && this.arrayData[left] >= this.arrayData[i]) {
 				this.unhighlight(6, 3);
 				this.highlight(7, 0);
@@ -454,15 +442,16 @@ export default class QuickSort extends Algorithm {
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
+				this.cmd(act.step, 13, false);
 				this.movePointers(i, j);
 				this.unhighlight(7, 0);
 				this.highlight(6, 1);
-				if (i <= j) {
-					this.cmd(act.step);
-					this.unhighlight(6, 1);
-					this.highlight(6, 3);
-				}
-				this.cmd(act.step);
+				// if (i <= j) {
+				// 	this.cmd(act.step);
+				// 	this.unhighlight(6, 1);
+				// 	this.highlight(6, 3);
+				// }
+				this.cmd(act.step, 12, false);
 			}
 			this.unhighlight(6, 1);
 			this.unhighlight(6, 3);
@@ -476,17 +465,7 @@ export default class QuickSort extends Algorithm {
 				);
 			}
 
-			this.highlight(9, 0);
-			this.cmd(act.step);
-			this.unhighlight(9, 0);
-			this.highlight(9, 1);
-			if (i <= j) {
-				this.cmd(act.step);
-				this.unhighlight(9, 1);
-				this.highlight(9, 3);
-			}
-
-			this.cmd(act.step);
+			this.cmd(act.step, 16, false);
 			while (i <= j && this.arrayData[left] <= this.arrayData[j]) {
 				this.unhighlight(9, 3);
 				this.highlight(10, 0);
@@ -496,15 +475,11 @@ export default class QuickSort extends Algorithm {
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
+				this.cmd(act.step, 17, false);
 				this.movePointers(i, j);
 				this.unhighlight(10, 0);
 				this.highlight(9, 1);
-				if (i <= j) {
-					this.cmd(act.step);
-					this.unhighlight(9, 1);
-					this.highlight(9, 3);
-				}
-				this.cmd(act.step);
+				this.cmd(act.step, 16, false);
 			}
 			this.unhighlight(9, 1);
 			this.unhighlight(9, 3);
@@ -515,10 +490,9 @@ export default class QuickSort extends Algorithm {
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
-				this.cmd(act.step);
 			}
-			sleep(500*this.x).then(() => {highlight(15, 500)});
-			this.x++;
+
+			this.cmd(act.step, 20, false);
 			if (i <= j) {
 				this.highlight(13, 0);
 				this.swap(i, j);
@@ -528,67 +502,39 @@ export default class QuickSort extends Algorithm {
 				j--;
 				this.movePointers(i, j);
 				this.unhighlight(14, 0);
-				sleep(500*this.x).then(() => {highlight(16, 500)});
-				this.x++;
-				sleep(500*this.x).then(() => {highlight(24, 500)});
-				this.x++;
-				sleep(500*this.x).then(() => {highlight(26, 500)});
-				this.x++;
-				sleep(500*this.x).then(() => {highlight(27, 500)});
-				this.x++;
-				sleep(500*this.x).then(() => {highlight(28, 500)});
-				this.x++;
 			}
-			sleep(500*this.x).then(() => {highlight(14, 500)});
-			this.x++;
+			this.cmd(act.step, 10, false);
 		}
 
 		this.highlight(17, 0);
 		// Move pivot back and delete pivot pointer
+		this.cmd(act.step, 27, false);
+		this.cmd(act.step, 28, false);
 		this.swapPivot(left, j, true);
 		
-		sleep(500*this.x).then(() => {highlight(18, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(24, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(26, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(27, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(28, 500)});
-		this.x++;
-		sleep(500*this.x).then(() => {highlight(20, 500)});
-		this.x++;
-
 		// Delete i and j pointers
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);
 		this.cmd(act.delete, this.pPointerID);
 		this.cmd(act.delete, this.iLabel);
 		this.cmd(act.delete, this.jLabel);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 
 		// Un-hightlight cells in sub-array and set pivot cell to green
 		for (let i = left; i <= right; i++) {
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#FFFFFF');
 		}
 		this.cmd(act.setBackgroundColor, this.arrayID[j], '#2ECC71');
-		this.cmd(act.step);
+		this.cmd(act.step, 30, false);
 
 		this.highlight(18, 0);
-		this.cmd(act.step);
+		this.cmd(act.step, 37, false);
 		this.unhighlight(18, 0);
-
-		sleep(500*this.x).then(() => {highlight(41, 500)});
-		this.x++;
 		this.helper(left, j - 1);
 
 		this.highlight(19, 0);
-		this.cmd(act.step);
+		this.cmd(act.step, 38, false);
 		this.unhighlight(19, 0);
-
-		sleep(500*this.x).then(() => {highlight(42, 500)});
-		this.x++;
 		this.helper(j + 1, right);
 	}
 
@@ -606,7 +552,7 @@ export default class QuickSort extends Algorithm {
 			this.cmd(act.setText, this.iLabel, 'i');
 			this.cmd(act.setText, this.jLabel, 'j');
 		}
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 	}
 
 	swapPivot(pivot, other, moveJ) {
@@ -626,7 +572,7 @@ export default class QuickSort extends Algorithm {
 		this.cmd(act.move, lLabelID, pXPos, ARRAY_START_Y);
 		moveJ && this.cmd(act.move, this.jPointerID, pXPos, ARRAY_START_Y);
 		this.cmd(act.setText, this.swapCountID, 'Swap Count: ' + ++this.swapCount);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 		// Set text in array, and delete temporary labels and pointer
 		this.cmd(act.setText, this.arrayID[other], this.displayData[pivot]);
 		this.cmd(act.setText, this.arrayID[pivot], this.displayData[other]);
@@ -653,10 +599,13 @@ export default class QuickSort extends Algorithm {
 		this.cmd(act.setText, this.arrayID[i], '');
 		this.cmd(act.setText, this.arrayID[j], '');
 		// Move labels
+		this.cmd(act.step, 21, false);
 		this.cmd(act.move, iLabelID, jXPos, ARRAY_START_Y);
+		this.cmd(act.step, 22, false);
 		this.cmd(act.move, jLabelID, iXPos, ARRAY_START_Y);
+		this.cmd(act.step, 23, false);
 		this.cmd(act.setText, this.swapCountID, 'Swap Count: ' + ++this.swapCount);
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 		// Set text in array and delete temporary labels
 		this.cmd(act.setText, this.arrayID[i], this.displayData[j]);
 		this.cmd(act.setText, this.arrayID[j], this.displayData[i]);
@@ -673,7 +622,7 @@ export default class QuickSort extends Algorithm {
 		// Reset pointer colors back to blue
 		this.cmd(act.setForegroundColor, this.iPointerID, '#0000FF');
 		this.cmd(act.setForegroundColor, this.jPointerID, '#0000FF');
-		this.cmd(act.step);
+		this.cmd(act.step, null, false);
 	}
 
 	// toggleWorstPivot() {
