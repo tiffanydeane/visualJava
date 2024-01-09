@@ -59,8 +59,7 @@ class AlgoScreen extends React.Component {
 	render() {
 		const algoName = this.state.algoName;
 
-		// check for verbose name in algoMap
-		const header = algoMap[algoName][3] ? algoMap[algoName][3] : algoMap[algoName][0];
+		const header = algoMap[algoName][0];
 		const proOptions = { hideAttribution: true };
 
 		const styles = {

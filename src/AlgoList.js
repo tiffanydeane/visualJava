@@ -1,22 +1,22 @@
 import * as algos from './algo';
 
 // After adding the export in algos/index.js, add new algorithms in the following format:
-// AlgorithmName: ['Menu Display Name', algos.ClassName, hasPseudoCode, 'Verbose Display Name (optional)']
+// AlgorithmName: ['Menu Display Name', algos.ClassName]
 export const algoMap = {
 	LinkedList: ['Singly LinkedList', algos.LinkedList],
-	StackArray: ['Stack (Array)', algos.StackArray, true],
-	StackLL: ['Stack (LinkedList)', algos.StackLL, true],
-	QueueArray: ['Queue (Array)', algos.QueueArray, true],
-	QueueLL: ['Queue (LinkedList)', algos.QueueLL, true],
-	BST: ['Binary Search Tree', algos.BST, true],
-	BubbleSort: ['Bubble Sort', algos.BubbleSort, true],
-	InsertionSort: ['Insertion Sort', algos.InsertionSort, true],
-	SelectionSort: ['Selection Sort', algos.SelectionSort, true],
-	QuickSort: ['QuickSort', algos.QuickSort, true],
-	MergeSort: ['MergeSort', algos.MergeSort, true],
-	BFS: ['Breadth-First Search', algos.BFS, true],
-	DFS: ['Depth-First Search', algos.DFS, true],
-	Dijkstra: ["Dijkstra's", algos.Dijkstras, true],
+	StackArray: ['Stack (Array)', algos.StackArray],
+	StackLL: ['Stack (LinkedList)', algos.StackLL],
+	QueueArray: ['Queue (Array)', algos.QueueArray],
+	QueueLL: ['Queue (LinkedList)', algos.QueueLL],
+	BST: ['Binary Search Tree', algos.BST],
+	BubbleSort: ['Bubble Sort', algos.BubbleSort],
+	InsertionSort: ['Insertion Sort', algos.InsertionSort],
+	SelectionSort: ['Selection Sort', algos.SelectionSort],
+	QuickSort: ['QuickSort', algos.QuickSort],
+	MergeSort: ['MergeSort', algos.MergeSort],
+	BFS: ['Breadth-First Search', algos.BFS],
+	DFS: ['Depth-First Search', algos.DFS],
+	Dijkstra: ["Dijkstra's", algos.Dijkstras],
 };
 
 export const dataList = [
