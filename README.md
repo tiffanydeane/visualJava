@@ -8,7 +8,7 @@ taught in classes like Princeton University's Algorithms and Data Structures cou
 
 *src/screens* contains the frontend code for the Home and About pages - *AlgoScreen.js* connects the frontend to the backend
 
-*src/AlgoList.js* lists all the available DSA and maps each one to its file in *src/algo* and its associated code.
+*src/AlgoList.js* lists all the available DSA and maps each one to its class in *src/algo* and its associated code.
 
 ### Acknowledgements
 The algorithm and animation logic is based on source code from the [Data Structure Visualization Website](https://www.cs.usfca.edu/~galles/visualization) created by David Galles.
