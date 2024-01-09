@@ -12,5 +12,6 @@ taught in classes like Princeton University's Algorithms and Data Structures cou
 
 ### Acknowledgements
 The algorithm and animation logic is based on source code from the [Data Structure Visualization Website](https://www.cs.usfca.edu/~galles/visualization) created by David Galles.
-<br>Frontend logic is based on source code from the [CS1332 Visualization Tool](https://github.com/RodrigoDLPontes/visualization-tool) created by Rodrigo Pontes, which adapted and expanded Galle's tool into a React app.
-<br>Special thanks to Dr. Robert Fish and Drew Curran for their advisement and support.
+<br>The overall application structure is based on source code from the [CS1332 Visualization Tool](https://github.com/RodrigoDLPontes/visualization-tool) created by Rodrigo Pontes, which adapted and expanded Galle's tool into a React app.
+
+Special thanks to Dr. Robert Fish and Drew Curran for their advisement and support.
