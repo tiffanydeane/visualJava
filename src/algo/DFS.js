@@ -29,9 +29,6 @@ import {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
-	addRadioButtonGroupToAlgorithmBar,
-	highlight,
-	sleep
 } from './Algorithm.js';
 import { BFS_DFS_ADJ_LIST } from './util/GraphValues';
 import Graph from './Graph.js';
@@ -70,9 +67,6 @@ const SMALL_RECURSION_SPACING_X = 20;
 const LARGE_RECURSION_SPACING_X = 10;
 const SMALL_RECURSION_SPACING_Y = 20;
 const LARGE_RECURSION_SPACING_Y = 15;
-
-const CODE_START_X = 1000;
-const CODE_START_Y = 50;
 
 export default class DFS extends Graph {
 	constructor(am, w, h) {
@@ -157,32 +151,6 @@ export default class DFS extends Graph {
 			0,
 		);
 
-		this.recCode = [
-			['Procedure DFS(Vertex s, Set VS, List L):'],
-			['  add s to VS, L'],
-			['  for all v adjacent to s'],
-			['    if v not in VS'],
-			['      do DFS(v, VS, L)'],
-		];
-
-		this.itCode = [
-			['Procedure DFS(Vertex s, Set VS, List L):'],
-			['  Initialize Stack K'],
-			['  add s to K, VS'],
-			['  while K not empty'],
-			['    v ← remove from K'],
-			['    add v to L'],
-			['    for all w adjacent to v'],
-			['      if w not in VS'],
-			['        add w to K, VS'],
-		];
-
-		// if (this.physicalStack) {
-		// 	this.codeID = this.addCodeToCanvasBase(this.itCode, CODE_START_X, CODE_START_Y);
-		// } else {
-		// 	this.codeID = this.addCodeToCanvasBase(this.recCode, CODE_START_X, CODE_START_Y);
-		// }
-
 		this.animationManager.setAllLayers([0, 32, this.currentLayer]);
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
@@ -249,7 +217,6 @@ export default class DFS extends Graph {
 			this.infoLabelID,
 			'Pushing ' + this.toStr(vertex) + ' and adding to visited set',
 		);
-		// this.highlight(2, 0);
 		let vertexID = this.nextIndex++;
 		this.visited[vertex] = true;
 		this.visitedID.push(this.nextIndex);
@@ -265,15 +232,9 @@ export default class DFS extends Graph {
 		this.stackID.push(vertexID);
 		this.cmd(act.createLabel, vertexID, this.toStr(vertex), STACK_START_X, this.stackStartY);
 		this.cmd(act.step, null, false);
-
-		// this.unhighlight(2, 0);
-		// this.highlight(3, 0);
 		while (this.stack.length > 0 && this.listID.length < this.size) {
 			vertex = this.stack.pop();
 			vertexID = this.stackID.pop();
-
-			// this.highlight(4, 0);
-			// this.highlight(5, 0);
 
 			this.cmd(
 				act.setText,
@@ -297,18 +258,11 @@ export default class DFS extends Graph {
 
 			this.cmd(act.step, null, false);
 
-			// this.unhighlight(4, 0);
-			// this.unhighlight(5, 0);
-
-			// this.highlight(6, 0);
 			for (let neighbor = 0; neighbor < this.size; neighbor++) {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
 					this.highlightEdge(vertex, neighbor, 1);
-					// this.highlight(7, 0);
 					this.cmd(act.step, null, false);
 					if (!this.visited[neighbor]) {
-						// this.unhighlight(7, 0);
-						// this.highlight(8, 0);
 						this.visited[neighbor] = true;
 						this.visitedID.push(this.nextIndex);
 						this.cmd(
@@ -335,7 +289,6 @@ export default class DFS extends Graph {
 							this.stackStartY - (this.stack.length - 1) * this.stackSpacing,
 						);
 					} else {
-						// this.unhighlight(7, 0);
 						this.cmd(
 							act.setText,
 							this.infoLabelID,
@@ -343,17 +296,13 @@ export default class DFS extends Graph {
 						);
 					}
 					this.cmd(act.step, null, false);
-					// this.unhighlight(8, 0);
-					// this.highlightEdge(vertex, neighbor, 0);
+					this.highlightEdge(vertex, neighbor, 0);
 				}
 			}
-			// this.unhighlight(6, 0);
-
 			this.cmd(act.delete, vertexID);
 
 			this.leaveVertex();
 		}
-		// this.unhighlight(3, 0);
 
 		if (this.stack.length > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');

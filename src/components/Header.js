@@ -1,34 +1,33 @@
 import { React, useState } from "react";
 import logo from "../img/iw design.png";
-
-export const navLinks = [
-  {
-    id: "home",
-    title: "Home",
-  },
-];
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState();
 
   return (
     <nav className="header w-full flex py-4 pl-5 justify-between items-center navbar">
-      {/* Logo */}
-      <img src={logo} alt="logo" width={100}/>
+      <Link to="/"><img src={logo} alt="logo" width={100}/></Link>
       
-      {/* Desktop Navigation */}
       <ul className="list-none sm:flex hidden pl-10 justify-start items-center flex-1">
-        {navLinks.map((nav, index) => (
           <li
-            key={nav.id}
-            className={`font-bold cursor-pointer text-[16px] ${
-              active === nav.title ? "text-white" : "text-dimWhite"
-            } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
-            onClick={() => setActive(nav.title)}
+            key={"home"}
+            className={`font-bold cursor-pointer text-[16px] mr-0 ${
+              active === "Home" ? "text-white" : "text-gray-200"
+            }`}
+            onClick={() => setActive("Home")}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            <Link to="/">Home</Link>
           </li>
-        ))}
+          <li
+            key={"about"}
+            className={`font-bold cursor-pointer text-[16px] ml-10 ${
+              active === "About" ? "text-white" : "text-gray-200"
+            }`}
+            onClick={() => setActive("About")}
+          >
+            <Link to="/about">About</Link>
+          </li>
       </ul>
     </nav>
   );

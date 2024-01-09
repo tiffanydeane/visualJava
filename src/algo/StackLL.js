@@ -24,7 +24,7 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar, highlight, sleep } from './Algorithm.js';
+import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
 const LINKED_LIST_START_X = 100;
@@ -51,9 +51,6 @@ const PUSH_LABEL_X = 50;
 const PUSH_LABEL_Y = 30;
 const PUSH_ELEMENT_X = 120;
 const PUSH_ELEMENT_Y = 30;
-
-const CODE_START_X = 400;
-const CODE_START_Y = 25;
 
 const SIZE = 32;
 
@@ -143,20 +140,6 @@ export default class StackLL extends Algorithm {
 		this.cmd(act.createLabel, this.leftoverLabelID, '', PUSH_LABEL_X, PUSH_LABEL_Y);
 		this.cmd(act.createLabel, this.leftoverValID, '', PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
 
-		this.code = [
-			['procedure push(data)'],
-			['  head ← new Node(data, head)'],
-			['end procedure'],
-			[],
-			['procedure pop()'],
-			['  T data ← head.data'],
-			['  head ← head.next'],
-			['  return data'],
-			['end procedure'],
-		];
-
-		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
-
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
 		this.animationManager.clearHistory();
@@ -234,7 +217,6 @@ export default class StackLL extends Algorithm {
 
 		this.cmd(act.setText, this.leftoverLabelID, '');
 		this.cmd(act.setText, this.leftoverValID, '');
-		this.highlight(1, 0);
 
 		this.cmd(
 			act.createLinkedListNode,
@@ -279,7 +261,6 @@ export default class StackLL extends Algorithm {
 		this.resetLinkedListPositions();
 		this.cmd(act.delete, labPushID);
 		this.cmd(act.step, 16, rand);
-		this.unhighlight(1, 0);
 
 		return this.commands;
 	}
@@ -305,25 +286,19 @@ export default class StackLL extends Algorithm {
 			LINKED_LIST_START_Y,
 		);
 
-		this.highlight(5, 0);
 		this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
 		this.cmd(act.step, 23, false);
 		this.cmd(act.disconnect, this.topID, this.linkedListElemID[this.top - 1]);
-		this.unhighlight(5, 0);
 
 		if (this.top === 1) {
 			this.cmd(act.setNull, this.topID, 1);
 		} else {
 			this.cmd(act.connect, this.topID, this.linkedListElemID[this.top - 2]);
 		}
-		this.highlight(6, 0);
 		this.cmd(act.step, 24, false);
-		this.unhighlight(6, 0);
 		this.cmd(act.delete, this.linkedListElemID[this.top - 1]);
-		this.highlight(7, 0);
 		this.top = this.top - 1;
 		this.resetLinkedListPositions();
-		this.unhighlight(7, 0);
 
 		this.cmd(act.delete, labPopValID);
 		this.cmd(act.delete, labPopID);

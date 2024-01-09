@@ -30,8 +30,6 @@ import {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
-	highlight,
-	sleep
 } from './Algorithm.js';
 import { DIJKSTRAS_ADJ_LIST } from './util/GraphValues';
 import PriorityQueue from './util/PriorityQueue';
@@ -66,9 +64,6 @@ const SMALL_TABLE_ENTRY_HEIGHT = 20;
 const LARGE_TABLE_ENTRY_HEIGHT = 17;
 const TABLE_START_X = 50;
 const TABLE_START_Y = 180;
-
-const CODE_START_X = 1015;
-const CODE_START_Y = 190;
 
 export default class Dijkstras extends Graph {
 	constructor(am, w, h) {
@@ -117,23 +112,6 @@ export default class Dijkstras extends Graph {
 		this.x = 0;
 
 		this.pq = new PriorityQueue();
-
-		this.code = [
-			['initialize VisitedSet, VS'],
-			['initialize distanceMap, DM'],
-			['initialize PriorityQueue, PQ'],
-			['for all v in G, initialize distance of v to INF'],
-			['PQ.enqueue((s, 0)), DM.put(s, 0)'],
-			['while PQ is not empty and VS is not full'],
-			['  (u, d1) ← PQ.dequeue()'],
-			['  if u is not visited in VS'],
-			['    mark u as visited in VS'],
-			['    for all (w, d2) adjacent to u and not visited'],
-			['      update DM for w'],
-			['      PQ.enqueue((w, d1 + d2))'],
-		];
-
-		// this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		this.tableEntryHeight = this.isLarge ? LARGE_TABLE_ENTRY_HEIGHT : SMALL_TABLE_ENTRY_HEIGHT;
 		for (let i = 0; i < this.size; i++) {

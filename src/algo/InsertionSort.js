@@ -29,8 +29,6 @@ import Algorithm, {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
-	highlight,
-	sleep
 } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
@@ -46,9 +44,6 @@ const ARRAY_ELEM_HEIGHT = 50;
 
 const COMP_COUNT_X = 100;
 const COMP_COUNT_Y = 50;
-
-const CODE_START_X = 50;
-const CODE_START_Y = 200;
 
 export default class InsertionSort extends Algorithm {
 	constructor(am, w, h) {
@@ -133,21 +128,6 @@ export default class InsertionSort extends Algorithm {
 			COMP_COUNT_Y,
 		);
 
-		this.code = [
-			['procedure InsertionSort(array):'],
-			['  length ← length of array'],
-			['  for i ← 1, length - 1 do'],
-			['    j ← i'],
-			['    while ', 'j > 0, ', 'array[j - 1] > array[j]', ' do'],
-			['      swap array[j-1], array[j] '],
-			['      j ← j - 1'],
-			['    end while'],
-			['  end for'],
-			['end procedure'],
-		];
-
-		this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
-
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
 		this.animationManager.clearHistory();
@@ -158,7 +138,6 @@ export default class InsertionSort extends Algorithm {
 		this.arrayData = [];
 		this.arrayID = [];
 		this.displayData = [];
-		this.removeCode(this.codeID);
 		this.iPointerID = this.nextIndex++;
 		this.jPointerID = this.nextIndex++;
 		this.comparisonCountID = this.nextIndex++;
@@ -166,7 +145,6 @@ export default class InsertionSort extends Algorithm {
 		this.swapCountID = this.nextIndex++;
 		this.compCount = 0;
 		this.swapCount = 0;
-		this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 	}
 
 	randomCallback() {
@@ -304,41 +282,27 @@ export default class InsertionSort extends Algorithm {
 			this.cmd(act.step, 9, false);
 			for (let j = i; j >= 1; j--) {
 				this.movePointers(j - 1, j);
-				this.unhighlight(3, 0);
-				this.unhighlight(4, 0);
-				this.unhighlight(6, 0);
-				this.highlight(4, 1);
 				this.cmd(act.step, null, false);
-				this.unhighlight(4, 1);
-				this.highlight(4, 2);
 				this.cmd(
 					act.setText,
 					this.comparisonCountID,
 					'Comparison Count: ' + ++this.compCount,
 				);
 				this.cmd(act.step, 14, false);
-				this.unhighlight(4, 2);
 				if (this.arrayData[j] < this.arrayData[j - 1]) {
-					this.highlight(5, 0);
 					this.swap(j, j - 1);
 					this.cmd(act.step, null, false);
-					this.unhighlight(5, 0);
-					this.highlight(6, 0);
 					this.cmd(act.step, 16, false);
 				} else {
 					break;
 				}
 			}
 			this.cmd(act.step, null, false);
-			this.unhighlight(3, 0);
-			this.unhighlight(4, 0);
-			this.unhighlight(6, 0);
 			if (i === 1) this.cmd(act.setBackgroundColor, this.arrayID[0], '#2ECC71');
 			this.cmd(act.setBackgroundColor, this.arrayID[i], '#2ECC71');
 			this.cmd(act.step, 18, false);
 			this.cmd(act.step, 7, false);
 		}
-		this.unhighlight(2, 0);
 
 		this.cmd(act.delete, this.iPointerID);
 		this.cmd(act.delete, this.jPointerID);

@@ -13,11 +13,6 @@
 	-moz-appearance: none;
 }
 
-.VisualizationMainPage body {
-	/* font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif; */
-}
-
-
 .VisualizationMainPage #toggle {
 	margin-top: 8px;
 	margin-right: 24px;
@@ -39,7 +34,7 @@
 	border-bottom: var(--border) 2px solid;
 	transition: all 0.4s ease 0s;
 	padding: 5px 5px;
-	height: 22.5%;
+	height: 23%;
 }
 
 .VisualizationMainPage #toggles * {

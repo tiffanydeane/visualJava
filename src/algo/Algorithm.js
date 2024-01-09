@@ -202,22 +202,11 @@ export function addGroupToAlgorithmBar(horizontal, parentGroup) {
 export function highlight(line, time) {
 	const editor = ace.edit("editor");
 	editor.scrollToLine(line, true, true, function () {});
-	// const prevMarkers = editor.session.getMarkers();
-	// if (prevMarkers) {
-	// 	const prevMarkersArr = Object.keys(prevMarkers);
-	// 	for (const item of prevMarkersArr) {
-	// 		editor.session.removeMarker(prevMarkers[item].id);
-	// 	}
-	// }
 	const Range = ace.require('ace/range').Range;
 	const highlighted = editor.session.addMarker(new Range(line - 1, 0, line - 1, 1), "myMarker", "fullLine");
 	setTimeout(() => {
 		editor.getSession().removeMarker(highlighted);
 	  }, time)
-}
-
-export function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const CODE_LINE_HEIGHT = 15;

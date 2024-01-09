@@ -13,9 +13,7 @@ export const algoMap = {
 	InsertionSort: ['Insertion Sort', algos.InsertionSort, true],
 	SelectionSort: ['Selection Sort', algos.SelectionSort, true],
 	QuickSort: ['QuickSort', algos.QuickSort, true],
-	QuickSelect: ['Quick / kᵗʰ Select', algos.QuickSelect, true],
 	MergeSort: ['MergeSort', algos.MergeSort, true],
-	HeapSort: ['HeapSort', algos.HeapSort, true],
 	BFS: ['Breadth-First Search', algos.BFS, true],
 	DFS: ['Depth-First Search', algos.DFS, true],
 	Dijkstra: ["Dijkstra's", algos.Dijkstras, true],
@@ -312,8 +310,6 @@ export const codeMap = {
 		return item;
 	}
 }`],
-	DequeArray: [``],
-	DequeLL: [``],
 	BST: [`public class BST {
 	Node root;
 
@@ -606,7 +602,6 @@ export const codeMap = {
 		}
 	}
 }`],
-	HeapSort: [``],
 	BFS: [`public class Graph {
  
 	// No. of vertices

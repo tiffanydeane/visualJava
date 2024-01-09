@@ -29,8 +29,6 @@ import {
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
 	addLabelToAlgorithmBar,
-	highlight,
-	sleep
 } from './Algorithm.js';
 import { BFS_DFS_ADJ_LIST } from './util/GraphValues';
 import Graph from './Graph.js';
@@ -57,9 +55,6 @@ const CURRENT_VERTEX_Y = 146;
 const QUEUE_START_X = 30;
 const QUEUE_START_Y = 190;
 const QUEUE_SPACING = 20;
-
-const CODE_START_X = 25;
-const CODE_START_Y = 250;
 
 export default class BFS extends Graph {
 	constructor(am, w, h) {
@@ -108,21 +103,6 @@ export default class BFS extends Graph {
 		this.infoLabelID = this.nextIndex++;
 		this.cmd(act.createLabel, this.infoLabelID, '', INFO_MSG_X, INFO_MSG_Y, 0);
 
-		this.code = [
-			['procedure BFS(Vertex S)'],
-			['initialize VisitedSet VS'],
-			['initialize Queue Q'],
-			['initialize List L'],
-			['add S to Q and VS'],
-			['while Q is not empty'],
-			['  v ← remove from Q'],
-			['  add v to L'],
-			['  for all w adjacent to v'],
-			['    if w not in VS'],
-			['      add w to Q'],
-			['      mark w as visited in VS'],
-		];
-
 		this.cmd(
 			act.createLabel,
 			this.nextIndex++,
@@ -155,8 +135,6 @@ export default class BFS extends Graph {
 			QUEUE_START_Y - 25,
 			0,
 		);
-
-		// this.codeID = this.addCodeToCanvasBase(this.code, CODE_START_X, CODE_START_Y);
 
 		this.animationManager.setAllLayers([0, 32, this.currentLayer]);
 		this.animationManager.startNewAnimation(this.commands);
@@ -234,21 +212,10 @@ export default class BFS extends Graph {
 			QUEUE_START_Y,
 		);
 		this.cmd(act.step, 33, false);
-		// this.highlight(1, 0);
-		// this.highlight(2, 0);
-		// this.highlight(3, 0);
-		// this.highlight(4, 0);
 		this.cmd(act.step, 35, false);
-		// this.unhighlight(1, 0);
-		// this.unhighlight(2, 0);
-		// this.unhighlight(3, 0);
-		// this.unhighlight(4, 0);
-		// this.highlight(5, 0);
 		while (this.queue.length > 0 && this.listID.length < this.size) {
 			this.x++;
 			vertex = this.queue.shift();
-			// this.highlight(6, 0);
-			// this.highlight(7, 0);
 			this.cmd(
 				act.setText,
 				this.infoLabelID,
@@ -279,21 +246,14 @@ export default class BFS extends Graph {
 			this.visitVertex(vertex);
 			this.cmd(act.step, 44, false);
 			this.cmd(act.step, 45, false);
-			// this.unhighlight(6, 0);
-			// this.unhighlight(7, 0);
-			// this.highlight(8, 0);
 
 			for (let neighbor = 0; neighbor < this.size; neighbor++) {
 				if (this.adj_matrix[vertex][neighbor] > 0) {
 					this.highlightEdge(vertex, neighbor, 1);
-					// this.highlight(9, 0);
 					this.cmd(act.step, 46, false);
 					this.cmd(act.step, 47, false);
 					if (!this.visited[neighbor]) {
 						console.log(neighbor);
-						// this.unhighlight(9, 0);
-						// this.highlight(10, 0);
-						// this.highlight(11, 0);
 						this.visited[neighbor] = true;
 						this.visitedID.push(this.nextIndex);
 						this.cmd(
@@ -322,7 +282,6 @@ export default class BFS extends Graph {
 						);
 						this.cmd(act.step, 49, false);
 					} else {
-						// this.unhighlight(9, 0);
 						this.cmd(
 							act.setText,
 							this.infoLabelID,
@@ -330,12 +289,9 @@ export default class BFS extends Graph {
 						);
 					}
 					this.cmd(act.step, 45, false);
-					// this.unhighlight(10, 0);
-					// this.unhighlight(11, 0);
 					this.highlightEdge(vertex, neighbor, 0);
 				}
 			}
-			// this.unhighlight(8, 0);
 
 			this.cmd(act.delete, this.queueID.shift());
 			this.cmd(act.step, 35, false);
@@ -343,7 +299,6 @@ export default class BFS extends Graph {
 			this.leaveVertex();
 			
 		}
-		// this.unhighlight(5, 0);
 
 		if (this.queue.length > 0) {
 			this.cmd(act.setText, this.infoLabelID, 'All vertices have been visited, done');

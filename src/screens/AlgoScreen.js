@@ -1,16 +1,10 @@
 /* eslint-disable sort-imports */
 import '../css/AlgoScreen.css';
 import '../css/App.css';
-import { BsBookHalf, BsFileEarmarkCodeFill, BsFillSunFill, BsMoonFill } from 'react-icons/bs';
 import AnimationManager from '../anim/AnimationMain';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactGA from 'react-ga4';
 import { algoMap, citeMap, codeMap } from '../AlgoList';
-import modals from '../examples/ExampleModals';
 import ReactFlow, { Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import AceEditor from "react-ace";
@@ -65,26 +59,6 @@ class AlgoScreen extends React.Component {
 	render() {
 		const algoName = this.state.algoName;
 
-		if (!algoMap[algoName]) {
-			return (
-				<div className="container">
-					<Header />
-					<div className="content">
-						<div className="four-o-four">
-							<h1>404!</h1>
-							<h3>
-								Algorithm not found! Click <Link to="/">here</Link> to return to the
-								home screen and choose another algorithm.
-							</h3>
-						</div>
-					</div>
-					<Footer />
-				</div>
-			);
-		}
-
-		const isQuickSelect = algoMap[algoName][0] === 'QuickSelect / kᵗʰ Select';
-
 		// check for verbose name in algoMap
 		const header = algoMap[algoName][3] ? algoMap[algoName][3] : algoMap[algoName][0];
 		const proOptions = { hideAttribution: true };
@@ -101,14 +75,7 @@ class AlgoScreen extends React.Component {
 				<div id="container" className='h-full flex-col'>
 					<div id="header" className='mb-2'>
 						<h1>
-							{/* <Link to="/">&#x3008;</Link>&nbsp;&nbsp; */}
-							{isQuickSelect ? (
-								<>
-									QuickSelect / k<sup>th</sup> Select
-								</>
-							) : (
 								<>{header}</>
-							)}
 						</h1>
 					</div>
 
@@ -133,11 +100,6 @@ class AlgoScreen extends React.Component {
 					<div id="mainContent">
 						<div id="algoControlSection">
 							<table id="AlgorithmSpecificControls"></table>
-
-						</div>
-
-						<div id="generalAnimationControlSection">
-							<table id="GeneralAnimationControls" ref={this.animBarRef}></table>
 						</div>
 					</div>
 				</div>

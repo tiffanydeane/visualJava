@@ -25,14 +25,10 @@
 // or implied, of the University of San Francisco
 
 import Algorithm, {
-	addCheckboxToAlgorithmBar,
 	addControlToAlgorithmBar,
 	addDivisorToAlgorithmBar,
 	addGroupToAlgorithmBar,
-	addHDivisorToAlgorithmBar,
 	addLabelToAlgorithmBar,
-	highlight,
-	sleep
 	
 } from './Algorithm';
 import { act } from '../anim/AnimationMain';

@@ -24,8 +24,7 @@
 // authors and should not be interpreted as representing official policies, either expressed
 // or implied, of the University of San Francisco
 
-import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar,
-highlight, sleep } from './Algorithm.js';
+import Algorithm, { addControlToAlgorithmBar, addDivisorToAlgorithmBar, addGroupToAlgorithmBar } from './Algorithm.js';
 import { act } from '../anim/AnimationMain';
 
 const ARRAY_START_X = 100;
@@ -49,9 +48,6 @@ const PUSH_ELEMENT_X = 120;
 const PUSH_ELEMENT_Y = 30;
 const PUSH_RESIZE_LABEL_X = 60;
 const PUSH_RESIZE_LABEL_Y = 60;
-
-const CODE_START_X = 300;
-const CODE_START_Y = 25;
 
 const SIZE = 7;
 const MAX_SIZE = 30;
@@ -165,30 +161,6 @@ export default class StackArray extends Algorithm {
 
 		this.highlight1ID = this.nextIndex++;
 		this.highlight2ID = this.nextIndex++;
-
-		this.pushCode = [
-			['procedure push(data)'],
-			['  if size == array.length'],
-			['    T[] newArray ← new array[2 * size]'],
-			['    for i ← 0 to size - 1, i++:'],
-			['      newArray[i] ← array[i]'],
-			['    array ← newArray'],
-			['  array[size] ← data'],
-			['  size++'],
-			['end procedure'],
-		];
-
-		this.popCode = [
-			['procedure pop()'],
-			['  size--'],
-			['  T data ← array[size]'],
-			['  array[size] ← null'],
-			['  return data'],
-			['end procedure'],
-		];
-
-		this.pushCodeID = this.addCodeToCanvasBase(this.pushCode, CODE_START_X, CODE_START_Y);
-		this.popCodeID = this.addCodeToCanvasBase(this.popCode, CODE_START_X + 325, CODE_START_Y);
 
 		this.animationManager.startNewAnimation(this.commands);
 		this.animationManager.skipForward();
