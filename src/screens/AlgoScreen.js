@@ -20,7 +20,6 @@ class AlgoScreen extends React.Component {
 
 		const algoName = this.props.name;
 		this.canvasRef = React.createRef();
-		this.animBarRef = React.createRef();
 
 		this.state = {
 			algoName: algoName,
@@ -35,7 +34,7 @@ class AlgoScreen extends React.Component {
 
 	componentDidMount() {
 		if (algoMap[this.state.algoName]) {
-			this.animManag = new AnimationManager(this.canvasRef, this.animBarRef);
+			this.animManag = new AnimationManager(this.canvasRef);
 
 			this.currentAlg = new algoMap[this.state.algoName][1](
 				this.animManag,

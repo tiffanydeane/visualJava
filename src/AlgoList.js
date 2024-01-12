@@ -145,8 +145,7 @@ export const codeMap = {
 		previous.next = null;
 	}
 
-	/* Given a reference (pointer to pointer) to the head of
-	a list and a position, deletes the node at the given
+	/* Deletes the node at the given
 	position */
 	public void removePos(int position) {
 

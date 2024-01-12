@@ -165,7 +165,7 @@ function addDivisorToAnimationBar(animBarRef) {
 
 export default class AnimationManager extends EventListener {
 
-	constructor(canvasRef, animBarRef) {
+	constructor(canvasRef) {
 		super();
 
 		this.objectManager = new ObjectManager(canvasRef);
@@ -240,8 +240,6 @@ export default class AnimationManager extends EventListener {
 		// 	() => this.skipForward(),
 		// );
 
-		addDivisorToAnimationBar(animBarRef);
-
 		const element = document.createElement('div');
 		element.setAttribute('display', 'inline-block');
 		element.setAttribute('float', 'left');
@@ -300,7 +298,6 @@ export default class AnimationManager extends EventListener {
 
 		element.setAttribute('style', 'width:200px');
 
-		addDivisorToAnimationBar(animBarRef);
 
 		let width = getCookie('VisualizationWidth');
 
@@ -504,18 +501,12 @@ export default class AnimationManager extends EventListener {
 	highlight(line) {
 		const editor = ace.edit("editor");
 		editor.scrollToLine(line, true, true, function () {});
-		// const prevMarkers = editor.session.getMarkers();
-		// if (prevMarkers) {
-		// 	const prevMarkersArr = Object.keys(prevMarkers);
-		// 	for (const item of prevMarkersArr) {
-		// 		editor.session.removeMarker(prevMarkers[item].id);
-		// 	}
-		// }
 		const Range = ace.require('ace/range').Range;
 		const highlighted = editor.session.addMarker(new Range(line - 1, 0, line - 1, 1), "myMarker", "fullLine");
+		
 		setTimeout(() => {
 			editor.getSession().removeMarker(highlighted);
-		  }, this.animationBlockLength*30)
+		  }, this.animationBlockLength * 30)
 	}
 
 	/// WARNING:  Could be dangerous to call while an animation is running ...

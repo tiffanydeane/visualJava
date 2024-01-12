@@ -822,14 +822,14 @@ export default class LinkedList extends Algorithm {
 				this.cmd(act.step, null, false);
 			} 
 		}} else {
-		this.cmd(act.step, 88, false);	
+		this.cmd(act.step, 87, false);	
 		const nodePosX = LINKED_LIST_START_X + LINKED_LIST_ELEM_SPACING * index;
 		const nodePosY = LINKED_LIST_START_Y;
-		this.cmd(act.step, 91, false);
+		this.cmd(act.step, 90, false);
 		
 		if (this.size !== 1) {
 			if (index === 0) {
-				this.cmd(act.step, 92, false);
+				this.cmd(act.step, 91, false);
 				this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
 				this.cmd(act.createLabel, labPopValID, this.arrayData[index], nodePosX, nodePosY);
 				this.cmd(act.move, labPopValID, PUSH_ELEMENT_X, PUSH_ELEMENT_Y);
@@ -842,16 +842,16 @@ export default class LinkedList extends Algorithm {
 				this.cmd(act.disconnect, this.linkedListElemID[0], this.linkedListElemID[1]);
 				this.cmd(act.setNull, this.linkedListElemID[0], 1);
 			} else if (index === this.size - 1) {
-				this.cmd(act.step, 96, false);
-				this.cmd(act.step, 99, false);
+				this.cmd(act.step, 95, false);
+				this.cmd(act.step, 98, false);
 
 				for (let i = 0; i <= index - 1; i++) {
 					this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 					if (i > 0) {
 						this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 					}
-					this.cmd(act.step, 100, false);
 					this.cmd(act.step, 99, false);
+					this.cmd(act.step, 98, false);
 				}
 				this.cmd(act.step, null, false);
 
@@ -863,25 +863,25 @@ export default class LinkedList extends Algorithm {
 
 				this.cmd(act.disconnect, this.tailID, this.linkedListElemID[index]);
 				this.cmd(act.connect, this.tailID, this.linkedListElemID[index - 1]);
-				this.cmd(act.step, 104, false);
+				this.cmd(act.step, 103, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index],
 				);
 				this.cmd(act.setNull, this.linkedListElemID[index - 1], 1);
-				this.cmd(act.step, 106, false);
+				this.cmd(act.step, 105, false);
 			} else {
-				this.cmd(act.step, 96, false);
-				this.cmd(act.step, 99, false);
+				this.cmd(act.step, 95, false);
+				this.cmd(act.step, 98, false);
 
 				for (let i = 0; i <= index - 1; i++) {
 					this.cmd(act.setHighlight, this.linkedListElemID[i], 1);
 					if (i > 0) {
 						this.cmd(act.setHighlight, this.linkedListElemID[i - 1], 0);
 					}
-					this.cmd(act.step, 100, false);
 					this.cmd(act.step, 99, false);
+					this.cmd(act.step, 98, false);
 				}
 				this.cmd(act.step, null, false);
 				this.cmd(act.createLabel, labPopID, 'Removing Value: ', PUSH_LABEL_X, PUSH_LABEL_Y);
@@ -895,7 +895,7 @@ export default class LinkedList extends Algorithm {
 					LINKED_LIST_START_X;
 				const yPos = LINKED_LIST_START_Y - LINKED_LIST_ELEM_HEIGHT * 2;
 				this.cmd(act.move, this.linkedListElemID[index], xPos, yPos);
-				this.cmd(act.step, 104, false);
+				this.cmd(act.step, 103, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index - 1],
@@ -906,7 +906,7 @@ export default class LinkedList extends Algorithm {
 					this.linkedListElemID[index - 1],
 					this.linkedListElemID[index + 1],
 				);
-				this.cmd(act.step, 106, false);
+				this.cmd(act.step, 105, false);
 				this.cmd(
 					act.disconnect,
 					this.linkedListElemID[index],
